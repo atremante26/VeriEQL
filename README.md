@@ -23,7 +23,7 @@ This framework provides systematic testing of VeriEQL's SQL equivalence verifica
 #### `extension_test.py`
 Main test runner that evaluates SQL equivalence for different categories of SQL extensions:
 
-- **Real**: Standard SQL queries with complex joins and aggregations
+- **Real**: Standard SQL queries `REAL` data type
 - **Datetime**: Queries using `STRFTIME()` and date/time functions  
 - **Substring**: Queries using `SUBSTR()` function
 - **Subquery**: Queries with subqueries in FROM/SELECT clauses
