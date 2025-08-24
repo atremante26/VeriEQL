@@ -12,6 +12,50 @@ A SQL pair refuted by VeriEQL.
 
 ![An example checked by VeriEQL.](__figures__/example.png)
 
+## Extension Testing
+
+------------------
+
+This framework provides systematic testing of VeriEQL's SQL equivalence verification across different SQL language extensions and features.
+
+### Files
+
+#### `extension_test.py`
+Main test runner that evaluates SQL equivalence for different categories of SQL extensions:
+
+- **Real**: Standard SQL queries with complex joins and aggregations
+- **Datetime**: Queries using `STRFTIME()` and date/time functions  
+- **Substring**: Queries using `SUBSTR()` function
+- **Subquery**: Queries with subqueries in FROM/SELECT clauses
+- **LIKE**: Queries using pattern matching with `LIKE` operator
+- **IIF**: Queries using conditional `IIF()` function
+
+#### `table_definitions.json`
+Complete schema definitions with column names and data types for all supported databases from BIRD-SQL benchmark, including:
+- `california_schools`, `debit_card_specializing`, `financial`, `formula_1`
+- `card_games`, `european_football_2`, `thrombosis_prediction`, `toxicology`
+- `student_club`, `superhero`, `codebase_community`
+
+#### `dev_constraints.json`
+Database constraints including primary keys, foreign keys, and referential integrity rules for BIRD-SQL databases. Used by VeriEQL to understand table relationships during equivalence checking.
+
+### Usage
+
+Run tests for a specific SQL extension category:
+
+```bash
+# Test datetime functions
+python extension_test.py --extension_type datetime
+
+# Test substring operations  
+python extension_test.py --extension_type substring
+
+# Test subquery handling
+python extension_test.py --extension_type subquery
+
+# Other available types: real, like, iif
+```
+
 ## 🛠️ Installation
 
 ------------------
@@ -123,7 +167,6 @@ Experimental results on the **ALL** benchmarks.
 |       XData       |    1     |    1     |
 
 For more details, please read our paper.
-
 
 ## 🔧 Other tools
 
