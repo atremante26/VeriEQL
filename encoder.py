@@ -48,6 +48,14 @@ def is_literal(query):
     return isinstance(query, dict) and len(query) == 1 and 'literal' in query
 
 
+def is_strftime(expr):
+    return isinstance(expr, dict) and 'strftime' in expr and is_literal(expr['strftime'][0])
+
+
+def get_strftime_args(expr):
+    return [expr['strftime'][0]['literal'], expr['strftime'][1]]
+
+
 def eval_operation(operator: FOperator, operands: list):
     if all(isinstance(opd, ExcutableType) for opd in operands):
         out = operator(*operands)
@@ -943,11 +951,19 @@ class Encoder:
                 case 'between':
                     attribute = expr['between'][0]
                     lower_bound, upper_bound = expr['between'][1:]
+                    # special case: STRFTIME('%Y', CLOSEDDATE) BETWEEN '1980' AND '1989'
+                    if is_strftime(attribute):
+                        format, attribute = get_strftime_args(attribute)
+                        lower_bound, upper_bound = utils.strftime_handler(format, lower_bound, upper_bound)
                     expr = {'and': [{'lte': [lower_bound, attribute]}, {'lte': [attribute, upper_bound]}]}
                     return self.parse_expression(expr, ctx, **kwargs)
                 case 'not_between':
                     attribute = expr['not_between'][0]
                     lower_bound, upper_bound = expr['not_between'][1:]
+                    # special case: STRFTIME('%Y', CLOSEDDATE) NOT BETWEEN '1980' AND '1989'
+                    if is_strftime(attribute):
+                        format, attribute = get_strftime_args(attribute)
+                        lower_bound, upper_bound = utils.strftime_handler(format, lower_bound, upper_bound)
                     expr = {'or': [{'lt': [attribute, lower_bound]}, {'gt': [attribute, upper_bound]}]}
                     return self.parse_expression(expr, ctx, **kwargs)
                 case 'case':
@@ -1145,6 +1161,23 @@ class Encoder:
                                                       [eval_operation(FOperator('not'), [e]) for e in new_expr])
                         return new_expr
                 case 'lt' | 'lte' | 'gt' | 'gte':
+                    # special case: STRFTIME('%Y', BIRTHDAY) > '1930'
+                    if is_strftime(operands[0]):
+                        format, attribute = get_strftime_args(operands[0])
+                        if operator in 'lt':  # < '1930'  <=>  < '1930-01-01'
+                            arg, _ = utils.strftime_handler(format, operands[1], None)
+                        elif operator in 'lte':  # <= '1930'  <=>  <= '1930-12-31'
+                            _, arg = utils.strftime_handler(format, None, operands[1])
+                        elif operator in 'gt':  # > '1930'  <=>  > '1930-12-31'
+                            _, arg = utils.strftime_handler(format, None, operands[1])
+                        elif operator in 'gte':  # >= '1930'  <=>  >= '1930-01-01'
+                            arg, _ = utils.strftime_handler(format, operands[1], None)
+                        else:
+                            raise NotImplementedError(f"Unknown operator: {operator}")
+
+                        expr = {operator: [self.parse_expression(attribute, ctx, **kwargs), arg]}
+                        return self.parse_expression(expr, ctx, **kwargs)
+
                     # A (<|<=, >|>=) expr (<|<=, >|>=) B
                     expr = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     if isinstance(operands[0], Dict) and len(operands[0]) > 0:
@@ -1295,6 +1328,14 @@ class Encoder:
                     if isinstance(operands, str | NumericType) or \
                             (isinstance(operands, dict) and len(operands) == 1):
                         operands = [operands]
+
+                    # special case: STRFTIME('%Y', DOB) = '1980'
+                    if is_strftime(operands[0]):
+                        format, attribute = get_strftime_args(operands[0])
+                        lb, ub = utils.strftime_handler(format, operands[1], operands[1])
+                        expr = {'and': [{'lte': [lb, attribute]}, {'lte': [attribute, ub]}]}
+                        return self.parse_expression(expr, ctx, **kwargs)
+
                     # lhs_nested_query, rhs_nested_query = [self.is_nested_query(opd, **kwargs) for opd in operands]
                     operands = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     # if lhs_nested_query:

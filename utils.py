@@ -2,6 +2,7 @@
 
 import ctypes
 import datetime
+import calendar
 import functools
 import math
 import os
@@ -259,6 +260,44 @@ def sort_key(file):
     base_file = base_file[:base_file.index('.')]
     base_file = ''.join(char for char in base_file if str.isdigit(char))
     return int(base_file)
+
+
+def strftime_handler(format, lb=None, ub=None):
+    format = re.sub(r"\s+", " ", format.strip())
+    if format == '%Y':
+        lb = None if lb is None else strptime_to_int(f"{lb}-01-01")
+        ub = None if ub is None else strptime_to_int(f"{ub}-12-31")
+    else:
+        raise NotImplementedError(f"Unknown date formate: {format}")
+    return lb, ub
+
+
+def date_pattern_to_int(date: str):
+    def _f(year, month, day):
+        try:
+            time = datetime.datetime(int(year), int(month), int(day))
+        except Exception as err:
+            from errors import NotSupportedError
+            raise NotSupportedError(err)
+        interval = time - MIN_DATE
+        return interval.days + 1  # avoid bool('1970-01-01') == 0
+
+    date = [unit for unit in re.split(r'-|_|:|/|\s+', date.strip())]
+    if len(date) > 3:
+        # print("We only consider date in the YYYY-MM-dd, and drop timestamp inoperands[0] hour/min/sec.")
+        date = date[:3]
+    year = date[0]
+    year = '20'[:4 - len(year)] + year
+    if len(date) == 1:
+        lb, ub = _f(year, "01", "01"), _f(year, "12", "31")
+    elif len(date) == 2:
+        month = date[1]
+        _, last_day = calendar.monthrange(year, month)
+        lb, ub = _f(year, month, "01"), _f(year, month, last_day)
+    else:
+        month, day = date[1:]
+        lb = ub = _f(year, month, day)
+    return lb, ub
 
 
 if __name__ == '__main__':

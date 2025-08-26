@@ -2322,7 +2322,12 @@ And(
     def visit(self, formulas: FToRealPredicate, **kwargs):
         def _f(*args, **kwargs):
             expr = self.visit(formulas[0])(*args, **kwargs)
-            return FExpressionTuple(expr.NULL, ToReal(expr.VALUE))
+            if is_int(expr.VALUE):
+                return FExpressionTuple(expr.NULL, ToReal(expr.VALUE))
+            elif isinstance(expr.VALUE, ArithRef):
+                return expr
+            else:
+                raise NotImplementedError(f"Unknown type {expr.sort()} of CAST(*, REAL)")
 
         return _f
 
