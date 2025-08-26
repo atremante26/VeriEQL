@@ -21,13 +21,14 @@ from .mod_predicate import FModPredicate
 from .not_in_condition import FNotInPredicate
 from .nullif_predicate import FNullIfPredicate
 from .power_predicate import FPowerPredicate
+from .to_real_predicate import FToRealPredicate
 
 PredicateType = FBasePredicate | \
                 FInPredicate | FNotInPredicate | FIsNullPredicate | FIsNotNullPredicate | FCasePredicate | \
                 FCoalescePredicate | FIfPredicate | FAbsPredicate | FPowerPredicate | FExistsPredicate | \
                 FAnyValuePredicate | FFirstValuePredicate | FLastValuePredicate | FModPredicate | \
                 FIsTruePredicate | FIsFalsePredicate | FIsNotTruePredicate | FIsNotFalsePredicate | \
-                FIsNullOrHoldPredicate | FNullIfPredicate
+                FIsNullOrHoldPredicate | FNullIfPredicate | FToRealPredicate
 
 __all__ = [
     'FInPredicate',
@@ -49,6 +50,7 @@ __all__ = [
     'FIsNotTruePredicate',
     'FIsNotFalsePredicate',
     'is_null_or_hold_predicate',
+    'FToRealPredicate',
     'FNullIfPredicate',
 
     'PredicateType',

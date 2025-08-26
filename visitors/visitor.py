@@ -2318,6 +2318,14 @@ And(
 
         return _f
 
+    @visitor(FToRealPredicate)
+    def visit(self, formulas: FToRealPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            return FExpressionTuple(expr.NULL, ToReal(expr.VALUE))
+
+        return _f
+
     @visitor(FCasePredicate)
     def visit(self, formulas: FCasePredicate, **kwargs):
         def _f(*args, **kwargs):

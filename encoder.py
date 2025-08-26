@@ -1174,6 +1174,9 @@ class Encoder:
                         return FNull()
                     elif operands[1] == {'date': {}}:
                         return self.parse_expression(operands[0], ctx, **kwargs)
+                    elif operands[1] == {'real': {}}:
+                        expression = self.parse_expression(operands[0], ctx, **kwargs)
+                        return FToRealPredicate(expression)
                     else:
                         if isinstance(operands[0], dict) and len(operands[0]) == 2 and \
                                 'filter' in operands[0] and 'value' in operands[0]:

@@ -566,7 +566,7 @@ class Environment:
                                 DATE_LOWER_BOUND <= attribute.VALUE(tuple_sort),
                                 attribute.VALUE(tuple_sort) <= DATE_UPPER_BOUND,
                             ])
-                        case 'INT':
+                        case 'INT' | 'INTEGER':
                             type_constraints.extend([
                                 INT_LOWER_BOUND <= attribute.VALUE(tuple_sort),
                                 attribute.VALUE(tuple_sort) <= INT_UPPER_BOUND,
