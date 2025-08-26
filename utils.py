@@ -300,6 +300,12 @@ def date_pattern_to_int(date: str):
     return lb, ub
 
 
+def decode_unicode_braces(match):
+    # decode into unicode, e.g., \\u{165} -> ť
+    codepoint = int(match.group(1), 16)
+    return chr(codepoint)
+
+
 if __name__ == '__main__':
     print(int_to_strptime(1))
     # print(strptime_to_int('1970-01-01'))

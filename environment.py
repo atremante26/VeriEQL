@@ -8,6 +8,7 @@ import random
 from collections import defaultdict
 from time import time
 from typing import *
+import re
 
 from ordered_set import OrderedSet
 from z3 import (
@@ -20,6 +21,9 @@ from z3 import (
     Solver,
 
     Function,
+    Length,
+    SubString,
+    is_seq,
 
     sat,
     unknown,
@@ -87,7 +91,7 @@ class Environment:
     SUM_FUNCTION = Function('SUM', TupleSort, StringSort, VarSort)
 
     def __init__(self, generate_code=False, semantics=None, timer=False, show_counterexample=False,
-                 dialect=DIALECT.ALL,
+                 dialect=DIALECT.ALL, encode_string=False,
                  **kwargs):
         if generate_code:
             self._script_writer = Script()
@@ -112,6 +116,7 @@ class Environment:
         self.visitor = Visitor(self)
         self.symbolic_count = 1
         self.dialect = dialect
+        self.encode_string = encode_string
         LOGGER.debug(f"SQL dialect: {self.dialect}")
 
         self.attributes = {}
@@ -290,7 +295,8 @@ class Environment:
         if register:
             # to register literal variable,
             # e.g., CLERK__Int = Const('CLERK__Int', __Int) and CLERK__Int == hash("CLERK")
-            self.DBMS_facts.append(value == IntVal(str(utils.__pos_hash__(attribute))))
+            if sort != self.StringSort:
+                self.DBMS_facts.append(value == IntVal(str(utils.__pos_hash__(attribute))))
         if self._script_writer is not None:
             self._script_writer.variable_declaration.append(
                 CodeSnippet(
@@ -427,7 +433,7 @@ class Environment:
             )
         return value
 
-    def declare_attribute(self, name: str, literal: str, _uuid=None):
+    def declare_attribute(self, name: str, literal: str, attr_type: str = "INTEGER", _uuid=None):
         """
         declare a attribute/column of databases
         """
@@ -438,23 +444,31 @@ class Environment:
             z3_function=lambda x, **kwargs: self.NULL(x, attribute.__STRING_SORT__),
             description=f'{self.NULL}(?, {attribute.__STRING_SORT__})',
         )
-        self._declare_function(attribute)
+        self._declare_function(attribute, attr_type=attr_type)
         return attribute
 
-    def _declare_function(self, attribute: FAttribute, input_sorts: Sequence = None):
+    def _declare_function(self, attribute: FAttribute, attr_type: str = "INTEGER", input_sorts: Sequence = None):
         """
         declare a function to call symbolic values
         Example: EMP_id = Function('EMP.id', T, IntSort())
         """
         if input_sorts is None:
             input_sorts = [self.TupleSort]
-        function = Function(str(attribute), *input_sorts, self.VarSort)
+        if attr_type == "VARCHAR" and self.encode_string:
+            out_sort = self.StringSort  # encode string
+        else:
+            out_sort = self.VarSort  # encode string as int
+        function = Function(str(attribute), *input_sorts, out_sort)
         self.register_function(utils.__pos_hash__(attribute), function)
         attribute.VALUE = function
         if self._script_writer is not None:
+            if attr_type == "VARCHAR" and self.encode_string:
+                out_sort = "__String"
+            else:
+                out_sort = "__Int"
             self._script_writer.function_declaration.append(
                 CodeSnippet(
-                    code=f"{attribute} = Function('{attribute}', __TupleSort, __Int)",
+                    code=f"{attribute} = Function('{attribute}', __TupleSort, {out_sort})",
                     docstring=f'define `{attribute}` function to retrieve columns of tuples',
                 )
             )
@@ -493,14 +507,19 @@ class Environment:
             name: str = None,
             test_dbs: Dict = None,
     ):
+        DEFAULT_STRING_LENGTH = VARCHAR_LENGTH
         if self.sql_code is not None:
             self.sql_code['tables'][name] = {}
             for attr, attr_type in attributes.items():
                 if attr_type is None:
                     attr_type = 'INTEGER'
-                attr_type = str.upper(attr_type)
+                attr_type = str.upper(attr_type).strip()
                 if attr_type == 'VARCHAR' or attr_type.startswith('ENUM'):
                     attr_type = 'VARCHAR(20)'
+                    DEFAULT_STRING_LENGTH = 20
+                elif str.startswith(attr_type, 'VARCHAR'):
+                    DEFAULT_STRING_LENGTH = attr_type[attr_type.find('(') + 1:attr_type.find(')')].strip()
+                    DEFAULT_STRING_LENGTH = int(DEFAULT_STRING_LENGTH)
                 elif attr_type == 'DATE':
                     pass
                 else:
@@ -523,7 +542,7 @@ class Environment:
                 if attr in saved_attributes:
                     attribute = saved_attributes[attr]
                 else:
-                    attribute = self.declare_attribute(name, literal=attr)
+                    attribute = self.declare_attribute(name, literal=attr, attr_type=attr_type)
                     saved_attributes[attr] = attribute
 
                 if test_dbs is not None:
@@ -550,7 +569,10 @@ class Environment:
                     else:
                         value = FSymbol(f'{symbol}{self.symbolic_count}')
                         self.symbolic_count += 1
-                    value = self._declare_value(str(value))
+                    value = self._declare_value(
+                        str(value),
+                        sort=self.StringSort if attr_type == 'VARCHAR' and self.encode_string else None
+                    )
 
                 if attr_type is not None:
                     upper_type = str.upper(attr_type)
@@ -572,7 +594,12 @@ class Environment:
                                 attribute.VALUE(tuple_sort) <= INT_UPPER_BOUND,
                             ])
                         case 'VARCHAR':
-                            type_constraints.append(INT_UPPER_BOUND < attribute.VALUE(tuple_sort))
+                            if self.encode_string:  # encode string to z3 builtin String
+                                type_constraints.append(
+                                    Length(attribute.VALUE(tuple_sort)) <= IntVal(str(DEFAULT_STRING_LENGTH))
+                                )
+                            else:  # encode string to int that > 2147483647
+                                type_constraints.append(INT_UPPER_BOUND < attribute.VALUE(tuple_sort))
                         case _:
                             # 'INT' | 'VARCHAR' | 'TEXT' | ...
                             pass
@@ -647,6 +674,11 @@ class Environment:
                         lhs_attrs, rhs_attrs = [_f(e) for e in operands]
                         out = []
                         for lhs_attr in lhs_attrs:
+                            for rhs_attr in rhs_attrs:
+                                try:
+                                    utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
+                                except:
+                                    utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
                             tmp = [
                                 utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
                                 for rhs_attr in rhs_attrs
@@ -965,7 +997,13 @@ class Environment:
                     value = 99999
                 else:
                     if not isinstance(value, int | float):
-                        value = eval(str(model.eval(value, model_completion=False)))
+                        if self.encode_string:
+                            value = str(model.eval(value, model_completion=False)).strip('"')
+                            value = re.sub(r'\\u\{([0-9a-fA-F]+)\}', utils.decode_unicode_braces, value) \
+                                .replace('\n', ' ')  # replace \n with space
+                            value
+                        else:
+                            value = eval(str(model.eval(value, model_completion=False)))
 
                 if value == 99999:
                     return 'NULL'

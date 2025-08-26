@@ -7,9 +7,11 @@ from z3 import (
     Context,
     ArithRef,
     Int as Z3_Int,
+    String as Z3_String,
     BoolVal as Z3_BoolVal,
     IntVal as Z3_IntVal,
     RealVal as Z3_RealVal,
+    StringVal as Z3_StringVal,
     And as Z3_And,
     Or as Z3_Or,
     Not as Z3_Not,
@@ -26,6 +28,7 @@ Z3_CONTEXT = Context()
 IntVal = lambda arg: Z3_IntVal(arg, ctx=Z3_CONTEXT)
 RealVal = lambda arg: Z3_RealVal(arg, ctx=Z3_CONTEXT)
 BoolVal = lambda arg: Z3_BoolVal(arg, ctx=Z3_CONTEXT)
+StringVal = lambda arg: Z3_StringVal(arg, ctx=Z3_CONTEXT)
 Int = lambda arg: Z3_Int(arg, ctx=Z3_CONTEXT)
 Not = lambda *args: Z3_Not(*args, ctx=Z3_CONTEXT)
 If = lambda a, b, c: Z3_If(a, b, c, ctx=Z3_CONTEXT)
@@ -41,6 +44,7 @@ Z3_FALSE = BoolVal(False)
 Z3_1 = IntVal('1')
 Z3_0 = IntVal('0')
 Z3_NULL_VALUE = IntVal('-10')
+Z3_EMPTY_STRING = StringVal("")
 
 ################################################################
 # constants
@@ -63,6 +67,7 @@ SPACE_STRING = "__SPACE_STRING__"
 IS_FALSE = "__IS_FALSE__"
 IS_TRUE = "__IS_TRUE__"
 
+VARCHAR_LENGTH = 20
 TIMEOUT = 600  # 10 min
 
 

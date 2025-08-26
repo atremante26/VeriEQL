@@ -28,6 +28,8 @@ from .predicates import (
     FIsNullOrHoldPredicate,
     FNullIfPredicate,
     FToRealPredicate,
+    FSubstrPredicate,
+    FLikePredicate,
     PredicateType,
 )
 from .sym_func import FSymbolicFunc
@@ -91,6 +93,8 @@ __all__ = [
     'FIsNullOrHoldPredicate',
     'FNullIfPredicate',
     'FToRealPredicate',
+    'FSubstrPredicate',
+    'FLikePredicate',
     'PredicateType',
 
     'FSymbol',

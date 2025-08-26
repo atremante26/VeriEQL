@@ -28,6 +28,7 @@ from constants import (
     Z3_FALSE,
     Z3_TRUE,
     DIALECT,
+    StringVal,
 )
 from context import Context, GroupbyContext
 from errors import *
@@ -889,14 +890,17 @@ class Encoder:
                                 symbol = int(symbol)
                         except:
                             # operands = operands.replace(':', '_').replace('-', '_').replace('/', '_')
-                            symbol = self.scope._declare_value(FSymbol(operands), register=True)
+                            if self.scope.encode_string:
+                                symbol = StringVal(operands)
+                            else:
+                                if len(operands) == 0:
+                                    operands = SPACE_STRING
+                                symbol = self.scope._declare_value(FSymbol(operands), register=True)
                         return symbol  # string
 
                     if isinstance(operands, list):
                         operands = [_f(opd) for opd in operands]
                     elif isinstance(operands, str):
-                        if len(operands) == 0:
-                            operands = SPACE_STRING
                         operands = _f(operands)
                     else:
                         raise NotImplementedError(expr)
@@ -1446,6 +1450,57 @@ class Encoder:
                     operands = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     return FSymbolicFunc(operator, operands)
                 # -------------- Literature benchmark's symbolic predicates -------------- #
+
+                # -------------- z3's String theory -------------- #
+                case 'substr':
+                    # SUBSTR(ATOM.ATOM_ID, 7, 2) BETWEEN '21' AND '25'
+                    opd = self.parse_expression(operands[0], ctx, **kwargs)
+                    args = operands[1:]
+                    if len(args) == 1:
+                        offset, length = args[0], -1
+                    elif len(args) == 2:
+                        offset, length = args
+                    else:
+                        raise NotImplementedError(f"Unknown #arguments {args} for SUBSTR")
+                    offset, length = IntVal(str(offset)), IntVal(str(length))
+                    return FSubstrPredicate(opd, offset, length)
+                case 'like':
+                    # only support 'ABC', 'ABC%', '%ABC', 'ABC%DEF', 'date%'
+                    # e.g., FULL_NAME LIKE 'JOHN%', LABORATORY.DATE LIKE '1991%'
+
+                    if is_literal(operands[1]):
+                        pattern = operands[1]['literal'].strip()
+
+                        num = re.findall("\%", pattern)
+                        assert len(num) <= 1, NotImplementedError(
+                            f"VeriEQL only supports 4 like-cases: 'ABC', 'ABC%', '%ABC', 'ABC%DEF', but yours is {pattern}")
+
+                        if operands[0][-6:] == "__DATE":  # LABORATORY.DATE LIKE '1991%'
+                            assert pattern[-1] == "%", ValueError(
+                                f"LIKE for dates must ends with %, but your format is {operands[0]}")
+                            lb, ub = utils.date_pattern_to_int(pattern[:-1])
+                            if lb == ub:  # LIKE '1991-01-01%' => date='1991-01-01'
+                                return self.parse_expression({'eq': [operands[0], lb]}, ctx, **kwargs)
+                            else:
+                                expr = {'and': [{'lte': [lb, operands[0]]}, {'lte': [operands[0], ub]}]}
+                                return self.parse_expression(expr, ctx, **kwargs)
+
+                        opd = self.parse_expression(operands[0], ctx, **kwargs)
+                        no_pattern = False
+                        if len(num) == 0:  # 'ABC'
+                            prefix, suffix, no_pattern = pattern, "", True
+                        elif pattern[0] == "%":
+                            prefix, suffix = "", pattern[1:]
+                        elif pattern[-1] == "%":
+                            prefix, suffix = pattern[:-1], ""
+                        else:
+                            prefix, suffix = pattern.split("%")
+                        return FLikePredicate(opd, prefix, suffix, no_pattern)
+                    else:
+                        raise NotImplementedError(f"Incorrect string pattern: {operands[1]}")
+                case 'not_like':
+                    return self.parse_expression({'not': {'like': operands}}, ctx, **kwargs)
+                # -------------- z3's String theory -------------- #
                 case _:
                     raise NotImplementedError(expr)
         elif isinstance(expr, Sequence):

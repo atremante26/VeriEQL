@@ -15,11 +15,19 @@ from z3 import (
     BoolRef,
     ToReal,
     AstRef,
+    SeqRef,
     Function,
     is_bool,
     is_true,
     is_false,
     is_int,
+    is_seq,
+    Length,
+    SubString,
+    StrToInt,
+    IntToStr,
+    PrefixOf,
+    SuffixOf,
     eq as Z3_EQ,
 )
 
@@ -39,6 +47,8 @@ from constants import (
     IntVal,
     BoolVal,
     RealVal,
+    Z3_EMPTY_STRING,
+    StringVal,
 )
 from errors import NotSupportedError
 from formulas.columns import *
@@ -63,6 +73,12 @@ from visitors.dump_tuple import DumpTuple
 from visitors.interm_function import IntermFunc
 
 ExcutableType = NumericType | FDigits | bool
+StringPreds = FSubstrPredicate
+
+
+def is_string_arith(lhs, rhs):
+    return (isinstance(lhs, ExcutableType) and isinstance(rhs, StringPreds)) or (
+            isinstance(lhs, StringPreds) and isinstance(rhs, ExcutableType))
 
 
 class Visitor:
@@ -71,6 +87,12 @@ class Visitor:
         self.scope = scope
         self._DEL = scope.DELETED_FUNCTION
         self.correlated_table_indices = {}
+
+    def arithmetic_type_align(self, operands):  # convert any string to int for arithmetic, e.g., SUBSTR(s, 0, 1) = '1'
+        for idx, opd in enumerate(operands):
+            if is_seq(opd.VALUE):
+                opd.VALUE = StrToInt(opd.VALUE)
+        return operands
 
     @visitor(FExpression)
     def visit(self, formulas: FExpression, **outer_kwargs):
@@ -123,12 +145,24 @@ class Visitor:
                                 [opd.NULL for opd in operands], [opd.VALUE for opd in operands]
                             )
                     case '=' | '!=':  # EQ, NEQ
+                        def _align_string(lhs, rhs):
+                            # lhs is string
+                            lhs.VALUE = StrToInt(lhs.VALUE)
+                            if isinstance(rhs, BoolRef | bool):
+                                rhs.VALUE = If(rhs.VALUE, Z3_1, Z3_0)
+                            return FExpressionTuple(
+                                NULL=simplify([lhs.NULL, rhs.NULL], operator=Or),
+                                VALUE=encode_func(*[lhs.NULL, rhs.NULL],
+                                                  *[lhs.VALUE, rhs.VALUE], ),
+                            )
+
                         if formulas.operator == '=':
                             encode_func = encode_equality
                         else:
                             encode_func = encode_inequality
                         if all(isinstance(opd.VALUE, ArithRef | NumericType) for opd in operands) \
-                                or all(isinstance(opd.VALUE, BoolRef | bool) for opd in operands):
+                                or all(isinstance(opd.VALUE, BoolRef | bool) for opd in operands) \
+                                or all(isinstance(opd.VALUE, SeqRef) for opd in operands):
                             # all operands are 1) numeric or 2) boolean
                             value_formula = encode_func(*[opd.NULL for opd in operands],
                                                         *[opd.VALUE for opd in operands])
@@ -136,6 +170,14 @@ class Visitor:
                                 NULL=simplify([opd.NULL for opd in operands], operator=Or),
                                 VALUE=value_formula,
                             )
+                        elif isinstance(operands[0].VALUE, SeqRef):
+                            # otherwise, mixture of String and numeric/boolean
+                            # SUBSTR(T2.ATOM_ID, 7, 2) = '45'
+                            return _align_string(*operands)
+                        elif isinstance(operands[1].VALUE, SeqRef):
+                            # otherwise, mixture of String and numeric/boolean
+                            # SUBSTR(T2.ATOM_ID, 7, 2) = '45'
+                            return _align_string(*operands[::-1])
                         else:
                             # otherwise, mixture of numeric and boolean
                             for idx, opd in enumerate(operands):
@@ -149,6 +191,8 @@ class Visitor:
                     case '<' | '<=' | '>' | '>=':
                         # boolean operation: opd1 op opd2
                         assert len(operands) == 2, NotImplementedError(formulas.operator, operands)
+                        operands = self.arithmetic_type_align(operands)  # SUBSTR(ATOM.ATOM_ID, 7, 2) < '21'
+
                         opd1, opd2 = operands
                         if isinstance(opd1, FExpressionTuple) and isinstance(opd2, FExpressionTuple):
                             NULL = Or(opd1.NULL, opd2.NULL)
@@ -164,6 +208,7 @@ class Visitor:
                             VALUE = formulas.operator(opd1, opd2)
                         return FExpressionTuple(NULL=NULL, VALUE=VALUE)
                     case '+' | '-' | '*' | '/':
+                        operands = self.arithmetic_type_align(operands)  # SUBSTR(ATOM.ATOM_ID, 7, 2) + '21'
                         # numeric operation: (op, opd1, opd2, ...), if one of opds is NULL, then expr is NULL
                         values = [opd.VALUE for opd in operands]
                         if formulas.operator == '/':
@@ -2328,6 +2373,57 @@ And(
                 return expr
             else:
                 raise NotImplementedError(f"Unknown type {expr.sort()} of CAST(*, REAL)")
+
+        return _f
+
+    @visitor(FSubstrPredicate)
+    def visit(self, formulas: FSubstrPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            offset, length = formulas[1:]
+            # for offset
+            # 1) offset=0 or offset<-strlen or offset>strlen => substring = ""
+            # 2) -strlen <= offset <0 => substring = string[strlen+offset:]
+            # 3) 0 < offset <= strlen => substring = string[offset-1:]
+            # for length
+            # 4) length >= strlen-offset => substring = string[offset:]
+            # 5) 1 <= length < strlen-offset => substring = string[offset:offset+length]
+            # 6) length <= 0 => substring = ""
+            strlen = Length(expr.VALUE)
+            offset = If(
+                # case 2
+                And(-strlen <= offset, offset < Z3_0), strlen + offset,
+                # case 3
+                If(And(Z3_0 < offset, offset <= strlen), offset - Z3_1,
+                   # case1: set offset = strlen+1 s.t. offset>strlen => substring = "" holds
+                   strlen + Z3_1
+                   ))
+            value = If(
+                # case (1) and (6)
+                Or(offset == Z3_0, offset < -strlen, offset > strlen, length <= Z3_0), Z3_EMPTY_STRING,
+                # case (4)
+                If(length >= strlen - offset, SubString(expr.VALUE, offset, strlen - offset),
+                   # case (5)
+                   SubString(expr.VALUE, offset, offset + length)
+                   ))
+            return FExpressionTuple(expr.NULL, value)
+
+        return _f
+
+    @visitor(FLikePredicate)
+    def visit(self, formulas: FLikePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            prefix, suffix, no_pattern = formulas[1:]
+            if no_pattern:
+                return FExpressionTuple(expr.NULL, expr.VALUE == StringVal(prefix))
+            else:
+                conds = []
+                if len(prefix) != 0:
+                    conds.append(PrefixOf(StringVal(prefix), expr.VALUE))
+                if len(suffix) != 0:
+                    conds.append(SuffixOf(StringVal(suffix), expr.VALUE))
+                return FExpressionTuple(expr.NULL, simplify(conds, operator=And))
 
         return _f
 
