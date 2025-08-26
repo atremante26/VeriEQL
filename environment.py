@@ -9,7 +9,6 @@ from collections import defaultdict
 from time import time
 from typing import *
 import re
-
 from ordered_set import OrderedSet
 from z3 import (
     DeclareSort,
@@ -22,8 +21,6 @@ from z3 import (
 
     Function,
     Length,
-    SubString,
-    is_seq,
 
     sat,
     unknown,
@@ -91,7 +88,7 @@ class Environment:
     SUM_FUNCTION = Function('SUM', TupleSort, StringSort, VarSort)
 
     def __init__(self, generate_code=False, semantics=None, timer=False, show_counterexample=False,
-                 dialect=DIALECT.ALL, encode_string=False,
+                 dialect=DIALECT.ALL, encode_string=False, ascii_only=False,
                  **kwargs):
         if generate_code:
             self._script_writer = Script()
@@ -117,6 +114,7 @@ class Environment:
         self.symbolic_count = 1
         self.dialect = dialect
         self.encode_string = encode_string
+        self.ascii_only = ascii_only  # z3 Strings only consider ASCII chars. This slows the solving process.
         LOGGER.debug(f"SQL dialect: {self.dialect}")
 
         self.attributes = {}
@@ -598,6 +596,8 @@ class Environment:
                                 type_constraints.append(
                                     Length(attribute.VALUE(tuple_sort)) <= IntVal(str(DEFAULT_STRING_LENGTH))
                                 )
+                                if self.ascii_only:
+                                    type_constraints.append(utils.ascii_constraint(attribute.VALUE(tuple_sort)))
                             else:  # encode string to int that > 2147483647
                                 type_constraints.append(INT_UPPER_BOUND < attribute.VALUE(tuple_sort))
                         case _:
@@ -675,10 +675,7 @@ class Environment:
                         out = []
                         for lhs_attr in lhs_attrs:
                             for rhs_attr in rhs_attrs:
-                                try:
-                                    utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
-                                except:
-                                    utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
+                                utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
                             tmp = [
                                 utils.encode_equality(lhs_attr.NULL, rhs_attr.NULL, lhs_attr.VALUE, rhs_attr.VALUE)
                                 for rhs_attr in rhs_attrs
@@ -998,10 +995,10 @@ class Environment:
                 else:
                     if not isinstance(value, int | float):
                         if self.encode_string:
-                            value = str(model.eval(value, model_completion=False)).strip('"')
-                            value = re.sub(r'\\u\{([0-9a-fA-F]+)\}', utils.decode_unicode_braces, value) \
+                            value = str(model.eval(value, model_completion=False)).strip('"') \
                                 .replace('\n', ' ')  # replace \n with space
-                            value
+                            if self.ascii_only:
+                                value = re.sub(r'\\u\{([0-9a-fA-F]+)\}', utils.decode_unicode_braces, value)
                         else:
                             value = eval(str(model.eval(value, model_completion=False)))
 

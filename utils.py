@@ -20,6 +20,17 @@ from constants import (
     MIN_DATE,
     Z3_TRUE,
     Z3_FALSE,
+    Int,
+    IntVal,
+    Implies,
+    Z3_0,
+    Z3_1,
+)
+from z3 import (
+    ForAll,
+    StrToCode,
+    SubString,
+    Length,
 )
 
 
@@ -304,6 +315,18 @@ def decode_unicode_braces(match):
     # decode into unicode, e.g., \\u{165} -> ť
     codepoint = int(match.group(1), 16)
     return chr(codepoint)
+
+
+def ascii_constraint(z3str):
+    i = Int('i')
+    return ForAll(
+        i,
+        Implies(
+            And(i >= Z3_0, i < Length(z3str)),
+            And(StrToCode(SubString(z3str, i, Z3_1)) >= Z3_0,
+                StrToCode(SubString(z3str, i, Z3_1)) <= IntVal("127"))
+        )
+    )
 
 
 if __name__ == '__main__':

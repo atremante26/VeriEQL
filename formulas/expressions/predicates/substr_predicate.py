@@ -7,10 +7,10 @@ from formulas.expressions.predicates.base_predicate import FBasePredicate
 
 @register_formula('substr_predicate')
 class FSubstrPredicate(FBasePredicate):
-    def __init__(self, expression: FBaseExpression, offset: FBaseExpression | int, length: FBaseExpression | int):
+    def __init__(self, expression: FBaseExpression, offset: FBaseExpression | int, shift: FBaseExpression | int):
         super(FSubstrPredicate, self).__init__(
             operator=None,
-            operands=[expression, offset, length],  # must be strings
+            operands=[expression, offset, shift],  # must be strings
         )
 
     def __str__(self):

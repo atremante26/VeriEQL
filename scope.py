@@ -24,6 +24,7 @@ class Scope:
         self.base_databases = self.environment.base_databases
         self.bound_constraints = self.environment.bound_constraints
         self.encode_string = self.environment.encode_string
+        self.ascii_only = self.environment.ascii_only
         self._display_datasets = set(self.databases.keys())
 
         # function

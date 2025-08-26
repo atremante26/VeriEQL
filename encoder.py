@@ -1457,13 +1457,14 @@ class Encoder:
                     opd = self.parse_expression(operands[0], ctx, **kwargs)
                     args = operands[1:]
                     if len(args) == 1:
-                        offset, length = args[0], -1
+                        offset, shift = args[0], None
                     elif len(args) == 2:
-                        offset, length = args
+                        offset, shift = args
+                        shift = IntVal(str(shift))
                     else:
                         raise NotImplementedError(f"Unknown #arguments {args} for SUBSTR")
-                    offset, length = IntVal(str(offset)), IntVal(str(length))
-                    return FSubstrPredicate(opd, offset, length)
+                    offset = IntVal(str(offset))
+                    return FSubstrPredicate(opd, offset, shift)
                 case 'like':
                     # only support 'ABC', 'ABC%', '%ABC', 'ABC%DEF', 'date%'
                     # e.g., FULL_NAME LIKE 'JOHN%', LABORATORY.DATE LIKE '1991%'

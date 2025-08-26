@@ -2380,15 +2380,15 @@ And(
     def visit(self, formulas: FSubstrPredicate, **kwargs):
         def _f(*args, **kwargs):
             expr = self.visit(formulas[0])(*args, **kwargs)
-            offset, length = formulas[1:]
+            offset, shift = formulas[1:]
             # for offset
             # 1) offset=0 or offset<-strlen or offset>strlen => substring = ""
             # 2) -strlen <= offset <0 => substring = string[strlen+offset:]
             # 3) 0 < offset <= strlen => substring = string[offset-1:]
-            # for length
-            # 4) length >= strlen-offset => substring = string[offset:]
-            # 5) 1 <= length < strlen-offset => substring = string[offset:offset+length]
-            # 6) length <= 0 => substring = ""
+            # for shift
+            # 4) shift >= strlen-offset => substring = string[offset:]
+            # 5) 1 <= shift < strlen-offset => substring = string[offset:offset+shift]
+            # 6) shift <= 0 => substring = ""
             strlen = Length(expr.VALUE)
             offset = If(
                 # case 2
@@ -2398,13 +2398,15 @@ And(
                    # case1: set offset = strlen+1 s.t. offset>strlen => substring = "" holds
                    strlen + Z3_1
                    ))
+            if shift is None:
+                shift = strlen - offset
             value = If(
                 # case (1) and (6)
-                Or(offset == Z3_0, offset < -strlen, offset > strlen, length <= Z3_0), Z3_EMPTY_STRING,
+                Or(offset == Z3_0, offset < -strlen, offset > strlen, shift <= Z3_0), Z3_EMPTY_STRING,
                 # case (4)
-                If(length >= strlen - offset, SubString(expr.VALUE, offset, strlen - offset),
+                If(shift >= strlen - offset, SubString(expr.VALUE, offset, strlen - offset),
                    # case (5)
-                   SubString(expr.VALUE, offset, offset + length)
+                   SubString(expr.VALUE, offset, offset + shift)
                    ))
             return FExpressionTuple(expr.NULL, value)
 
