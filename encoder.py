@@ -971,7 +971,7 @@ class Encoder:
                         return self.parse_expression(clauses[0], ctx, **kwargs)
                     else:
                         return FCasePredicate(clauses)
-                case 'if':
+                case 'if' | 'iif':
                     expr = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     return FCasePredicate(expr)
                 case 'ifnull':
