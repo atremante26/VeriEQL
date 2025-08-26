@@ -15,6 +15,7 @@ def load_constraints():
         print("Warning: dev_constraints.json not found. Using empty constraints.")
         return {}
 
+
 def load_schemas():
     """Load table definitions from table_definitions.json"""
     try:
@@ -24,7 +25,11 @@ def load_schemas():
         print("Warning: table_definitions.json not found. Using empty schemas.")
         return {}
 
+
 def eval(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
+    STRING_KEYS = [" LIKE ", "SUBSTR"]
+    kwargs["encode_string"] = kwargs.get("encode_string", False) or any(
+        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in STRING_KEYS)
     with Environment(**kwargs) as env:
         for k, v in schema.items():
             env.create_database(attributes=v, bound_size=ROW_NUM, name=k)
@@ -46,9 +51,9 @@ def eval(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
 if __name__ == '__main__':
     args_parser = argparse.ArgumentParser(description="Testing for VeriEQL extensions")
     args_parser.add_argument('--extension_type', type=str, required=True,
-                           help='Evaluate sample questions for different extension types')
+                             help='Evaluate sample questions for different extension types')
     args = args_parser.parse_args()
-    
+
     if args.extension_type == 'real':
         questions = {
             62: [
@@ -156,35 +161,37 @@ if __name__ == '__main__':
         print(f"Unknown extension type: {args.extension_type}")
         print("Available types: real, datetime, substring, subquery, like, iif")
         exit(1)
-    
+
     # Load constraints and schemas
     all_constraints = load_constraints()
     all_schemas = load_schemas()
-    
+
     # Configuration for VeriEQL analysis
     config = {
-        'generate_code': True, 
-        'timer': True, 
-        'show_counterexample': True, 
-        "dialect": DIALECT.MYSQL, 
-        "semantics": "list"
+        'generate_code': False,
+        'timer': True,
+        'show_counterexample': True,
+        "dialect": DIALECT.MYSQL,
+        # "encode_string": True, # True: must encode strings as Z3 builtin strings; False: only follow this encoding if queries involve SUBSTR, LIKE
+        # "ascii_only": True, # restrict unicode to ascii, this will slow verification
+        # "ROW_NUM": 1
     }
-    
+
     # Run evaluation for all questions in the selected extension type
     for question_id, (sql1, sql2, schema_name) in questions.items():
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Question ID: {question_id} ({args.extension_type})")
         print(f"Schema: {schema_name}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"SQL1: {sql1}")
         print(f"SQL2: {sql2}")
-        print(f"{'='*60}")
-        
+        print(f"{'=' * 60}")
+
         # Get the specific schema and constraints for this database
         schema = all_schemas.get(schema_name, {})
-        constraints = all_constraints.get(schema_name, [])
-        
+        constraints = all_constraints.get(schema_name, [])[0]
+
         if not schema:
             print(f"Warning: No schema found for database '{schema_name}'")
-        
+
         eval(sql1, sql2, schema, constraints=constraints, **config)
