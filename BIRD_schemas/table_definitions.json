@@ -785,7 +785,7 @@
         "ATTRIBUTE_VALUE": "INTEGER"
       },
       "SUPERPOWER": {
-        "ID": "VARCHAR",
+        "ID": "INTEGER",
         "POWER_NAME": "VARCHAR"
       },
       "HERO_POWER": {
