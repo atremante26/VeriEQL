@@ -69,6 +69,7 @@ IS_TRUE = "__IS_TRUE__"
 
 VARCHAR_LENGTH = 20
 TIMEOUT = 600  # 10 min
+JULIANDATE_OFFSET = 2440586.5  # julianday('1970-01-01')=2440587.5, -1 because '1970-01-01' -> 1
 
 
 class DIALECT:

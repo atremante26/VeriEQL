@@ -28,7 +28,7 @@ from constants import (
     Z3_FALSE,
     Z3_TRUE,
     DIALECT,
-    StringVal,
+    StringVal, JULIANDATE_OFFSET, MIN_DATE,
 )
 from context import Context, GroupbyContext
 from errors import *
@@ -47,6 +47,17 @@ ExcutableType = NumericType | FDigits | bool
 
 def is_literal(query):
     return isinstance(query, dict) and len(query) == 1 and 'literal' in query
+
+
+def is_date(query):
+    return isinstance(query, dict) and len(query) == 1 and 'date' in query
+
+
+def get_juliandate_now(date):
+    if str.lower(date) == "now":
+        return FDigits(utils.strptime_to_int(utils.now()) + JULIANDATE_OFFSET)
+    else:
+        raise NotImplementedError("Only support `JULIANDAY('now')`.")
 
 
 def is_strftime(expr):
@@ -1442,6 +1453,16 @@ class Encoder:
                         return self.parse_expression(operands[0], ctx, **kwargs)
                     else:
                         raise NotSupportedError("we only support the DAY interval.")
+                case 'julianday':
+                    if isinstance(operands, str):  # JULIANDAY('T1.A')
+                        attr = self.parse_expression(operands, ctx, **kwargs)
+                        return FExpression(FOperator('add'), [attr, JULIANDATE_OFFSET])
+                    elif is_date(operands):  # JULIANDAY('2025-08-29')
+                        return self.parse_expression(operands, ctx, **kwargs) + JULIANDATE_OFFSET
+                    elif is_literal(operands):  # only JULIANDAY('now')
+                        return get_juliandate_now(operands['literal'])
+                    else:  # JULIANDAY('now', 'start of month', '+1 month', '-1 day')
+                        raise NotImplementedError(f"Cannot support JULIANDAY with >1 arguments.")
                 # -------------- Literature benchmark's symbolic predicates -------------- #
                 case 'b' | 'b0' | 'b1' | 'b2':
                     if isinstance(operands, ExcutableType | str):
@@ -2021,7 +2042,7 @@ class Encoder:
                         clause = ctx.attributes[clause.value - 1]
                     else:
                         clause = ctx.select_clause[clause.value - 1]
-                if isinstance(clause, FAttribute) and clause not in ctx.prev_database:
+                if isinstance(clause, FAttribute) and clause not in ctx.prev_database.attributes:
                     # clause is an alias, e.g.,
                     # SELECT a/b AS c FROM XX ORDER BY c <=> SELECT a/b AS c FROM XX ORDER BY a/b
                     clause = clause.EXPR
