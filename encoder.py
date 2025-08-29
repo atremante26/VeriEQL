@@ -1456,7 +1456,7 @@ class Encoder:
                 case 'julianday':
                     if isinstance(operands, str):  # JULIANDAY('T1.A')
                         attr = self.parse_expression(operands, ctx, **kwargs)
-                        return FExpression(FOperator('add'), [attr, JULIANDATE_OFFSET])
+                        return FExpression(FOperator('add'), [attr, FDigits(JULIANDATE_OFFSET)])
                     elif is_date(operands):  # JULIANDAY('2025-08-29')
                         return self.parse_expression(operands, ctx, **kwargs) + JULIANDATE_OFFSET
                     elif is_literal(operands):  # only JULIANDAY('now')
