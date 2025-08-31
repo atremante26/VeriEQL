@@ -83,7 +83,7 @@ class FDigits(FSymbol):
         # assert index == 0
         return self.value
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         from visitors.interm_function import IntermFunc
         attribute = scope.declare_attribute(alias_prefix, alias_name)
         attribute.EXPR = self.value if isinstance(self, FDigits) else self

@@ -925,9 +925,15 @@ class Environment:
 
         # 3) SQL queries equivalence verification
         result = self.compare(tables, result_formulas)
-        if result == -1:
-            self.sql_code = "Different #columns"
-            return result
+        match result:
+            case -1:
+                self.sql_code = "Different #columns"
+                return result
+            # case -2:
+            #     self.sql_code = "Different output types"
+            #     return result
+            case _:
+                pass
 
         # 4) write
         if self._script_writer is not None and out_file is not None:
@@ -948,25 +954,31 @@ class Environment:
     ) -> bool:
         lhs_tuple = list(tables[0].values())[0]
         rhs_tuple = list(tables[1].values())[0]
-        if lhs_tuple.name != 'DELETED_TUPLE' and rhs_tuple.name != 'DELETED_TUPLE' and \
-                len(lhs_tuple.attributes) != len(rhs_tuple.attributes):
-            return -1
-        else:
-            for idx, (lhs_attr, rhs_attr) in enumerate(zip(lhs_tuple.attributes, rhs_tuple.attributes)):
-                lhs_attr_type = lhs_attr[-1] if isinstance(lhs_attr, FCast) else None
-                rhs_attr_type = rhs_attr[-1] if isinstance(rhs_attr, FCast) else None
-                if lhs_attr_type != rhs_attr_type:
-                    if (lhs_attr_type is not None) and (rhs_attr_type is None) \
-                            and isinstance(lhs_attr_type, UN_SUPPORTED_CAST_TYPE):
-                        raise NotSupportedError(f"`CAST` of {lhs_attr_type}")
-                    elif (lhs_attr_type is None) and (rhs_attr_type is not None) \
-                            and isinstance(rhs_attr_type, UN_SUPPORTED_CAST_TYPE):
-                        raise NotSupportedError(f"`CAST` of {rhs_attr_type}")
-                while utils.is_uninterpreted_func(lhs_attr) and utils.is_uninterpreted_func(rhs_attr):
-                    if lhs_attr.uninterpreted_func != rhs_attr.uninterpreted_func:
-                        raise NotEquivalenceError
-                    else:
-                        lhs_attr.uninterpreted_func = rhs_attr.uninterpreted_func = None
+
+        # minor checkers for (1) #columns, (2) same types
+        if lhs_tuple.name != 'DELETED_TUPLE' and rhs_tuple.name != 'DELETED_TUPLE':
+            if len(lhs_tuple.attributes) != len(rhs_tuple.attributes):
+                return -1
+            # elif all(type(lattr) == type(rattr) for (lattr, rattr) in zip(lhs_tuple.attributes, rhs_tuple.attributes)):
+            #     return -2
+            else:
+                pass  # no checkers
+
+        for idx, (lhs_attr, rhs_attr) in enumerate(zip(lhs_tuple.attributes, rhs_tuple.attributes)):
+            lhs_attr_type = lhs_attr[-1] if isinstance(lhs_attr, FCast) else None
+            rhs_attr_type = rhs_attr[-1] if isinstance(rhs_attr, FCast) else None
+            if lhs_attr_type != rhs_attr_type:
+                if (lhs_attr_type is not None) and (rhs_attr_type is None) \
+                        and isinstance(lhs_attr_type, UN_SUPPORTED_CAST_TYPE):
+                    raise NotSupportedError(f"`CAST` of {lhs_attr_type}")
+                elif (lhs_attr_type is None) and (rhs_attr_type is not None) \
+                        and isinstance(rhs_attr_type, UN_SUPPORTED_CAST_TYPE):
+                    raise NotSupportedError(f"`CAST` of {rhs_attr_type}")
+            while utils.is_uninterpreted_func(lhs_attr) and utils.is_uninterpreted_func(rhs_attr):
+                if lhs_attr.uninterpreted_func != rhs_attr.uninterpreted_func:
+                    raise NotEquivalenceError
+                else:
+                    lhs_attr.uninterpreted_func = rhs_attr.uninterpreted_func = None
 
         equivalence_formulas = self.verifier.run(
             *tables, *result_formulas,

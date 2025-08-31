@@ -1557,7 +1557,7 @@ class Encoder:
             else:
                 dst_attributes = []
                 for idx, (attr, alias_name) in enumerate(zip(src_table.attributes, alias_names)):
-                    dst_attributes.append(attr.update_alias(self.scope, alias_table, alias_name))
+                    dst_attributes.append(attr.update_alias(self.scope, alias_table, alias_name, out_type=attr.out_type))
                 # dst_attributes = deepcopy(src_table.attributes)
                 # for attr, alias_attr in zip(dst_attributes, alias_names):
                 #     attr.prefix = alias_table
@@ -1668,6 +1668,7 @@ class Encoder:
                         self.scope,
                         alias_prefix=ctx.prev_database.name,
                         alias_name=selected_attrs['name'],
+                        out_type=attributes[0].out_type,  # for string
                     )
                 elif isinstance(attributes[0], ArithRef | FDigits):
                     attr = self.scope.declare_attribute(
@@ -1786,6 +1787,7 @@ class Encoder:
                             self.scope,
                             alias_prefix='' if ctx.prev_database is None else ctx.prev_database.name,
                             alias_name=str(attr),
+                            out_type=attr.out_type,  # for string
                         )
                 return attributes
 

@@ -24,13 +24,13 @@ from z3 import (
     is_seq,
     Length,
     SubString,
-    StrToInt,
     IntToStr,
     PrefixOf,
     SuffixOf,
     eq as Z3_EQ,
 )
 
+import utils
 from constants import (
     Z3_NULL_VALUE,
     NumericType,
@@ -91,7 +91,10 @@ class Visitor:
     def arithmetic_type_align(self, operands):  # convert any string to int for arithmetic, e.g., SUBSTR(s, 0, 1) = '1'
         for idx, opd in enumerate(operands):
             if is_seq(opd.VALUE):
-                opd.VALUE = StrToInt(opd.VALUE)
+                opd.VALUE, constraint = utils.str2int(opd.VALUE)
+                self.scope.register_formulas(
+                    CodeSnippet(code=constraint, docstring=f"string -> int", docstring_first=True, )
+                )
         return operands
 
     @visitor(FExpression)
@@ -147,7 +150,10 @@ class Visitor:
                     case '=' | '!=':  # EQ, NEQ
                         def _align_string(lhs, rhs):
                             # lhs is string
-                            lhs.VALUE = StrToInt(lhs.VALUE)
+                            lhs.VALUE, constraint = utils.str2int(lhs.VALUE)
+                            self.scope.register_formulas(
+                                CodeSnippet(code=constraint, docstring=f"string -> int", docstring_first=True, )
+                            )
                             if isinstance(rhs, BoolRef | bool):
                                 rhs.VALUE = If(rhs.VALUE, Z3_1, Z3_0)
                             return FExpressionTuple(

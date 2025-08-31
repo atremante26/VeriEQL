@@ -66,7 +66,7 @@ class FAttribute(FBaseColumn):
         attribute.uninterpreted_func = None
         return attribute
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         attr = self.detach()
         attr.prefix = alias_prefix
         attr.name = alias_name

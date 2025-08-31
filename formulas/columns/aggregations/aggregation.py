@@ -90,7 +90,7 @@ class FAggregation(FBaseColumn):
             # AGG(AGE - 1)/AGG(AGE)
             return self.scope.visitor.visit(self.EXPR)(*args, **kwargs)
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         """
         transform a `FAggregation` into a `FAttribute`,
         declare a new attribute and assign FAggregation info into it

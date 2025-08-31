@@ -25,12 +25,15 @@ from constants import (
     Implies,
     Z3_0,
     Z3_1,
+    SIGN,
 )
 from z3 import (
     ForAll,
     StrToCode,
     SubString,
     Length,
+    StrToInt,
+    IntToStr,
 )
 
 
@@ -327,6 +330,15 @@ def ascii_constraint(z3str):
                 StrToCode(SubString(z3str, i, Z3_1)) <= IntVal("127"))
         )
     )
+
+
+def str2int(s):
+    sign = SubString(s, Z3_0, Z3_1)
+    number = SubString(s, Z3_1, Length(s) - Z3_1)
+    value = StrToInt(s)
+    s_value = If(sign == SIGN, -StrToInt(number), value)
+    constraint = If(s_value < Z3_0, IntToStr(-s_value) == number, IntToStr(s_value) == s)
+    return s_value, constraint
 
 
 if __name__ == '__main__':

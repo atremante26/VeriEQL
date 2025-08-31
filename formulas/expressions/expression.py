@@ -18,11 +18,13 @@ class FExpression(FBaseExpression):
             self,
             operator: FOperator,
             operands: Sequence[FBaseExpression],
+            out_type="INTEGER",
     ):
         self.operator = operator
         self.operands = operands
         super().__init__()
         self.require_tuples = any(getattr(opd, 'require_tuples', False) for opd in self.operands)
+        self.out_type = out_type  # used for string
 
     def __len__(self):
         return len(self.operands)
@@ -51,9 +53,12 @@ class FExpression(FBaseExpression):
     def __hash__(self):
         return utils.__pos_hash__(self.__str__())
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         from visitors.interm_function import IntermFunc
-        attribute = scope.declare_attribute(alias_prefix, alias_name, _uuid=utils.uuid_hash())
+        attribute = scope.declare_attribute(
+            alias_prefix, alias_name,
+            attr_type=kwargs.get("out_type", self.out_type),
+            _uuid=utils.uuid_hash())
         attribute.EXPR = self
         attribute.EXPR_CALL = IntermFunc(scope.visitor.visit(self), str(self))
         if self.uninterpreted_func is not None:

@@ -11,6 +11,7 @@ class FSubstrPredicate(FBasePredicate):
         super(FSubstrPredicate, self).__init__(
             operator=None,
             operands=[expression, offset, shift],  # must be strings
+            out_type="VARCHAR",
         )
 
     def __str__(self):

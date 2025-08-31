@@ -63,6 +63,7 @@ SQL_NULL = {"null": None}
 NumericType = int | float | ArithRef
 BACKUP_SUFFIX = '__BACKUP__'
 SPACE_STRING = "__SPACE_STRING__"
+SIGN = StringVal("-")
 # note that the hash code of string in python is out of the range int32
 IS_FALSE = "__IS_FALSE__"
 IS_TRUE = "__IS_TRUE__"
