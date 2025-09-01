@@ -11,6 +11,7 @@ from constants import (
     IntVal,
     Z3_1,
     Z3_0,
+    INTEGER,
 )
 from errors import SyntaxError
 from formulas import register_formula
@@ -33,6 +34,7 @@ class FAggregation(FBaseColumn):
                  expression: FBaseExpression,
                  distinct=False,
                  _uuid: int = None,
+                 type=INTEGER,
                  **kwargs,
                  ):
         self.scope = scope
@@ -55,6 +57,7 @@ class FAggregation(FBaseColumn):
             self.filter_cond = scope.visitor.visit(self.filter_cond)
         super(FAggregation, self).__init__(scope.DELETED_FUNCTION, _uuid)
         self.require_tuples = True
+        self.type = type  # used for string
 
     def _safe_value(self, formulas):
         if isinstance(formulas, BoolRef):
@@ -90,7 +93,7 @@ class FAggregation(FBaseColumn):
             # AGG(AGE - 1)/AGG(AGE)
             return self.scope.visitor.visit(self.EXPR)(*args, **kwargs)
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         """
         transform a `FAggregation` into a `FAttribute`,
         declare a new attribute and assign FAggregation info into it

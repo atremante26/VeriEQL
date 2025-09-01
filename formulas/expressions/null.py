@@ -10,6 +10,7 @@ from utils import uuid_hash
 class FNull(FSymbol):
     def __init__(self):
         super(FNull, self).__init__('NULL')
+        self.type = None  # used for string
 
     def __eq__(self, other):
         if isinstance(other, FSymbol):
@@ -17,7 +18,7 @@ class FNull(FSymbol):
         else:
             return self.value == other
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         from visitors.interm_function import IntermFunc
         attribute = scope.declare_attribute(alias_prefix, alias_name, _uuid=uuid_hash())
         attribute.NULL = IntermFunc(

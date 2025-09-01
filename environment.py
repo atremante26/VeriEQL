@@ -34,16 +34,17 @@ from errors import (
     NotEquivalenceError,
 )
 from formulas.columns import (
-    FAttribute,
+    FAttribute, FDateAttribute,
 )
 from formulas.expressions import (
     FSymbol,
+    FDate,
     FExpression,
     FCast,
     FVarchar,
     FTime,
     FTimestamp,
-    FExpressionTuple
+    FExpressionTuple,
 )
 from formulas.tables import (
     FBaseTable,
@@ -74,10 +75,11 @@ class Environment:
     Tuple1 = 'tuple1'
     Tuple2 = 'tuple2'
 
-    TupleSort = DeclareSort('TupleSort', ctx=Z3_CONTEXT)
-    BooleanSort = BoolSort(Z3_CONTEXT)
-    VarSort = IntSort(Z3_CONTEXT)
-    StringSort = StringSort(Z3_CONTEXT)
+    TupleSort = TupleSort
+    BooleanSort = BooleanSort
+    VarSort = VarSort
+    StringSort = StringSort
+    DateSort = DateSort
 
     DELETED_FUNCTION = Function('DELETED', TupleSort, BooleanSort)
     NULL = Function('NULL', TupleSort, StringSort, BooleanSort)
@@ -88,7 +90,7 @@ class Environment:
     SUM_FUNCTION = Function('SUM', TupleSort, StringSort, VarSort)
 
     def __init__(self, generate_code=False, semantics=None, timer=False, show_counterexample=False,
-                 dialect=DIALECT.ALL, encode_string=False, ascii_only=False,
+                 dialect=DIALECT.ALL, encode_string=False, ascii_only=False, encode_date=False,
                  **kwargs):
         if generate_code:
             self._script_writer = Script()
@@ -115,6 +117,7 @@ class Environment:
         self.dialect = dialect
         self.encode_string = encode_string
         self.ascii_only = ascii_only  # z3 Strings only consider ASCII chars. This slows the solving process.
+        self.encode_date = encode_date
         LOGGER.debug(f"SQL dialect: {self.dialect}")
 
         self.attributes = {}
@@ -143,6 +146,28 @@ class Environment:
 
         # works for MAX/MIN
         self.bound_constraints = set()
+
+        if self.encode_date:  # for compute datetime diff
+            self.MONTH2DAYS_FUNCTION = MONTH2DAYS_FUNCTION
+            self.DATE2YEAR_FUNCTION = DATE2YEAR_FUNCTION
+            self.DATE2MONTH_FUNCTION = DATE2MONTH_FUNCTION
+            self.DATE2DAY_FUNCTION = DATE2DAY_FUNCTION
+            self.DBMS_facts.append(
+                And(
+                    self.MONTH2DAYS_FUNCTION(Z3_1) == Z3_0,
+                    self.MONTH2DAYS_FUNCTION(Z3_2) == Z3_31,
+                    self.MONTH2DAYS_FUNCTION(Z3_3) == IntVal('59'),
+                    self.MONTH2DAYS_FUNCTION(Z3_4) == IntVal('90'),
+                    self.MONTH2DAYS_FUNCTION(Z3_5) == IntVal('120'),
+                    self.MONTH2DAYS_FUNCTION(Z3_6) == IntVal('151'),
+                    self.MONTH2DAYS_FUNCTION(Z3_7) == IntVal('181'),
+                    self.MONTH2DAYS_FUNCTION(Z3_8) == IntVal('212'),
+                    self.MONTH2DAYS_FUNCTION(Z3_9) == IntVal('243'),
+                    self.MONTH2DAYS_FUNCTION(Z3_10) == IntVal('273'),
+                    self.MONTH2DAYS_FUNCTION(Z3_11) == IntVal('304'),
+                    self.MONTH2DAYS_FUNCTION(Z3_12) == IntVal('334'),
+                )
+            )
 
     def _define_COUNT_ALL(self):
         all_value = Const(f"COUNT_ALL__{self.StringSort}", self.StringSort)
@@ -435,7 +460,15 @@ class Environment:
         """
         declare a attribute/column of databases
         """
-        attribute = FAttribute(self, prefix=str.upper(name), literal=str.upper(literal), _uuid=_uuid)
+
+        if attr_type == DATE and self.encode_date:
+            attribute = FDateAttribute(
+                self, prefix=str.upper(name), literal=str.upper(literal),
+                year_func=self.DATE2YEAR_FUNCTION, month_func=self.DATE2MONTH_FUNCTION, day_func=self.DATE2DAY_FUNCTION,
+                type=attr_type, _uuid=_uuid)
+        else:
+            attribute = FAttribute(self, prefix=str.upper(name), literal=str.upper(literal), type=attr_type,
+                                   _uuid=_uuid)
         # to register a String Sort to verify NULL
         self._declare_variable(attribute)
         attribute.NULL = IntermFunc(
@@ -445,25 +478,39 @@ class Environment:
         self._declare_function(attribute, attr_type=attr_type)
         return attribute
 
-    def _declare_function(self, attribute: FAttribute, attr_type: str = "INTEGER", input_sorts: Sequence = None):
+    def _declare_function(self, attribute: FAttribute | FDateAttribute, attr_type: str = "INTEGER",
+                          input_sorts: Sequence = None):
         """
         declare a function to call symbolic values
         Example: EMP_id = Function('EMP.id', T, IntSort())
         """
         if input_sorts is None:
             input_sorts = [self.TupleSort]
-        if attr_type == "VARCHAR" and self.encode_string:
+        if attr_type == VARCHAR and self.encode_string:
             out_sort = self.StringSort  # encode string
+        elif attr_type == DATE and self.encode_date:
+            out_sort = self.DateSort  # encode date
         else:
             out_sort = self.VarSort  # encode string as int
         function = Function(str(attribute), *input_sorts, out_sort)
+        # print(f"{function}{(str(attribute), *input_sorts, out_sort)}")
         self.register_function(utils.__pos_hash__(attribute), function)
-        attribute.VALUE = function
+        if attr_type == DATE and self.encode_date:
+            def _f(x):
+                d = function(x)
+                return FDate(attribute.year_func(d), attribute.month_func(d), attribute.day_func(d))
+
+            attribute.VALUE = _f
+        else:
+            attribute.VALUE = function
         if self._script_writer is not None:
-            if attr_type == "VARCHAR" and self.encode_string:
-                out_sort = "__String"
-            else:
-                out_sort = "__Int"
+            match out_sort:
+                case self.StringSort:
+                    out_sort = "__String"
+                case self.DateSort:
+                    out_sort = "__Date"
+                case _:
+                    out_sort = "__Int"
             self._script_writer.function_declaration.append(
                 CodeSnippet(
                     code=f"{attribute} = Function('{attribute}', __TupleSort, {out_sort})",
@@ -512,13 +559,13 @@ class Environment:
                 if attr_type is None:
                     attr_type = 'INTEGER'
                 attr_type = str.upper(attr_type).strip()
-                if attr_type == 'VARCHAR' or attr_type.startswith('ENUM'):
+                if attr_type == VARCHAR or attr_type.startswith('ENUM'):
                     attr_type = 'VARCHAR(20)'
                     DEFAULT_STRING_LENGTH = 20
-                elif str.startswith(attr_type, 'VARCHAR'):
+                elif str.startswith(attr_type, VARCHAR):
                     DEFAULT_STRING_LENGTH = attr_type[attr_type.find('(') + 1:attr_type.find(')')].strip()
                     DEFAULT_STRING_LENGTH = int(DEFAULT_STRING_LENGTH)
-                elif attr_type == 'DATE':
+                elif attr_type == DATE:
                     pass
                 else:
                     attr_type = 'INTEGER'
@@ -567,10 +614,15 @@ class Environment:
                     else:
                         value = FSymbol(f'{symbol}{self.symbolic_count}')
                         self.symbolic_count += 1
-                    value = self._declare_value(
-                        str(value),
-                        sort=self.StringSort if attr_type == 'VARCHAR' and self.encode_string else None
-                    )
+                    # declare a attribute symbolic value
+                    if attr_type == VARCHAR and self.encode_string:
+                        value = self._declare_value(str(value), sort=self.StringSort)
+                    elif attr_type == DATE and self.encode_date:
+                        value = [self._declare_value(f"{value}_year"),
+                                 self._declare_value(f"{value}_month"),
+                                 self._declare_value(f"{value}_day")]
+                    else:
+                        value = self._declare_value(str(value))
 
                 if attr_type is not None:
                     upper_type = str.upper(attr_type)
@@ -579,13 +631,17 @@ class Environment:
                             type_constraints.append(Or(
                                 attribute.VALUE(tuple_sort) == Z3_1,
                                 attribute.VALUE(tuple_sort) == Z3_0,
-                            )
-                            )
+                            ))
                         case 'DATE':
-                            type_constraints.extend([
-                                DATE_LOWER_BOUND <= attribute.VALUE(tuple_sort),
-                                attribute.VALUE(tuple_sort) <= DATE_UPPER_BOUND,
-                            ])
+                            if self.encode_date:
+                                # because we use a composition: tuple -> date -> (year, month, day)
+                                fdate = attribute.VALUE(tuple_sort)
+                                type_constraints.extend(self.add_date_constraints(fdate.year, fdate.month, fdate.day))
+                            else:
+                                type_constraints.extend([
+                                    DATE_LOWER_BOUND <= attribute.VALUE(tuple_sort),
+                                    attribute.VALUE(tuple_sort) <= DATE_UPPER_BOUND,
+                                ])
                         case 'INT' | 'INTEGER':
                             type_constraints.extend([
                                 INT_LOWER_BOUND <= attribute.VALUE(tuple_sort),
@@ -611,12 +667,39 @@ class Environment:
             self.DBMS_facts.append(Not(self.DELETED_FUNCTION(base_tuple.SORT)))  # Not(Deleted(tuple))
             for operand in base_tuple:
                 # attr(tuple) == ...
-                self.DBMS_facts.append(operand.operator.value(operand.attribute.VALUE(base_tuple.SORT), operand.value))
+                if attributes[operand.attribute.name] == DATE and self.encode_date:
+                    fdate = operand.attribute.VALUE(base_tuple.SORT)
+                    self.DBMS_facts.extend([operand.operator.value(x, y)
+                                            for x, y in zip([fdate.year, fdate.month, fdate.day], operand.value)])
+                else:
+                    self.DBMS_facts.append(
+                        operand.operator.value(operand.attribute.VALUE(base_tuple.SORT), operand.value))
+
         if len(type_constraints) > 0:
             self.DBMS_facts.extend(type_constraints)
         table = self._declare_table(tuples, name)
         self.register_base_table(table, table.name)
         LOGGER.debug(pprint.pformat(self.databases))
+
+    def get_date_from_datesort(self, var: DateSort):
+        year = self.DATE2YEAR_FUNCTION(var)
+        month = self.DATE2MONTH_FUNCTION(var)
+        day = self.DATE2DAY_FUNCTION(var)
+        return year, month, day
+
+    def add_date_constraints(self, year, month, day):
+        # in SQL: 1000-01-01 <= date <= 9999-12-31
+        is_leap = utils.z3_is_leap_year(year)
+        return [
+            MIN_YEAR <= year, year <= MAX_YEAR,  # 0 <= year
+            Z3_1 <= month, month <= Z3_12,  # 1 <= month <= 12,
+            # day constraints
+            Z3_1 <= day,
+            Implies(Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
+                       month == Z3_12), day <= Z3_31),
+            Implies(month == Z3_2, day <= Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0)),
+            Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), day <= Z3_30),
+        ]
 
     def add_constraints(self, constraints):
         if constraints is None:
@@ -925,9 +1008,15 @@ class Environment:
 
         # 3) SQL queries equivalence verification
         result = self.compare(tables, result_formulas)
-        if result == -1:
-            self.sql_code = "Different #columns"
-            return result
+        match result:
+            case -1:
+                self.sql_code = "Different #columns"
+                return result
+            # case -2:
+            #     self.sql_code = "Different output types"
+            #     return result
+            case _:
+                pass
 
         # 4) write
         if self._script_writer is not None and out_file is not None:
@@ -948,25 +1037,31 @@ class Environment:
     ) -> bool:
         lhs_tuple = list(tables[0].values())[0]
         rhs_tuple = list(tables[1].values())[0]
-        if lhs_tuple.name != 'DELETED_TUPLE' and rhs_tuple.name != 'DELETED_TUPLE' and \
-                len(lhs_tuple.attributes) != len(rhs_tuple.attributes):
-            return -1
-        else:
-            for idx, (lhs_attr, rhs_attr) in enumerate(zip(lhs_tuple.attributes, rhs_tuple.attributes)):
-                lhs_attr_type = lhs_attr[-1] if isinstance(lhs_attr, FCast) else None
-                rhs_attr_type = rhs_attr[-1] if isinstance(rhs_attr, FCast) else None
-                if lhs_attr_type != rhs_attr_type:
-                    if (lhs_attr_type is not None) and (rhs_attr_type is None) \
-                            and isinstance(lhs_attr_type, UN_SUPPORTED_CAST_TYPE):
-                        raise NotSupportedError(f"`CAST` of {lhs_attr_type}")
-                    elif (lhs_attr_type is None) and (rhs_attr_type is not None) \
-                            and isinstance(rhs_attr_type, UN_SUPPORTED_CAST_TYPE):
-                        raise NotSupportedError(f"`CAST` of {rhs_attr_type}")
-                while utils.is_uninterpreted_func(lhs_attr) and utils.is_uninterpreted_func(rhs_attr):
-                    if lhs_attr.uninterpreted_func != rhs_attr.uninterpreted_func:
-                        raise NotEquivalenceError
-                    else:
-                        lhs_attr.uninterpreted_func = rhs_attr.uninterpreted_func = None
+
+        # minor checkers for (1) #columns, (2) same types
+        if lhs_tuple.name != 'DELETED_TUPLE' and rhs_tuple.name != 'DELETED_TUPLE':
+            if len(lhs_tuple.attributes) != len(rhs_tuple.attributes):
+                return -1
+            # elif all(type(lattr) == type(rattr) for (lattr, rattr) in zip(lhs_tuple.attributes, rhs_tuple.attributes)):
+            #     return -2
+            else:
+                pass  # no checkers
+
+        for idx, (lhs_attr, rhs_attr) in enumerate(zip(lhs_tuple.attributes, rhs_tuple.attributes)):
+            lhs_attr_type = lhs_attr[-1] if isinstance(lhs_attr, FCast) else None
+            rhs_attr_type = rhs_attr[-1] if isinstance(rhs_attr, FCast) else None
+            if lhs_attr_type != rhs_attr_type:
+                if (lhs_attr_type is not None) and (rhs_attr_type is None) \
+                        and isinstance(lhs_attr_type, UN_SUPPORTED_CAST_TYPE):
+                    raise NotSupportedError(f"`CAST` of {lhs_attr_type}")
+                elif (lhs_attr_type is None) and (rhs_attr_type is not None) \
+                        and isinstance(rhs_attr_type, UN_SUPPORTED_CAST_TYPE):
+                    raise NotSupportedError(f"`CAST` of {rhs_attr_type}")
+            while utils.is_uninterpreted_func(lhs_attr) and utils.is_uninterpreted_func(rhs_attr):
+                if lhs_attr.uninterpreted_func != rhs_attr.uninterpreted_func:
+                    raise NotEquivalenceError
+                else:
+                    lhs_attr.uninterpreted_func = rhs_attr.uninterpreted_func = None
 
         equivalence_formulas = self.verifier.run(
             *tables, *result_formulas,
@@ -994,7 +1089,11 @@ class Environment:
                     value = 99999
                 else:
                     if not isinstance(value, int | float):
-                        if self.encode_string:
+                        if isinstance(value, FDate):
+                            date = [value.year, value.month, value.day]
+                            date = list(map(lambda x: int(str(model.eval(x))), date))
+                            value = f"{date[0]:04d}-{date[1]:02d}-{date[2]:02d}"
+                        elif self.encode_string:
                             value = str(model.eval(value, model_completion=False)).strip('"') \
                                 .replace('\n', ' ')  # replace \n with space
                             if self.ascii_only:
@@ -1021,7 +1120,7 @@ class Environment:
                         values = []
                         for idx, attr in enumerate(basetable.attributes, start=1):
                             v = _f(attr.NULL(tuple.SORT), attr.VALUE(tuple.SORT))
-                            if str.startswith(self.sql_code['tables'][attr.prefix][attr.name], "VARCHAR"):
+                            if str.startswith(self.sql_code['tables'][attr.prefix][attr.name], VARCHAR):
                                 if v in self.variables:
                                     v = str(self.variables[v])
                                     if v.startswith('String_'):
@@ -1031,7 +1130,8 @@ class Environment:
                                     v = f"\'{v}\'"
                             elif self.sql_code['tables'][attr.prefix][attr.name] == "DATE":
                                 if v != 'NULL':
-                                    v = f"\'{utils.int_to_strptime(v)}\'"
+                                    v = v if self.encode_date else utils.int_to_strptime(v)
+                                    v = f"\'{v}\'"
                             values.append(v)
 
                         self.counterexample_dict[basetable.name].append(

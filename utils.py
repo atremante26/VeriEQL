@@ -12,23 +12,12 @@ import uuid
 
 import ujson
 
-from constants import (
-    If,
-    Or,
-    And,
-    Not,
-    MIN_DATE,
-    Z3_TRUE,
-    Z3_FALSE,
-    Int,
-    IntVal,
-    Implies,
-    Z3_0,
-    Z3_1,
-)
+from constants import *
 from z3 import (
     ForAll,
     StrToCode,
+    StrToInt,
+    IntToStr,
     SubString,
     Length,
 )
@@ -245,10 +234,12 @@ def strptime_to_int(date: str):
     if len(year) < 4:
         year = '20'[:4 - len(year)] + year
     try:
-        time = datetime.datetime(int(year), int(month), int(day))
+        year, month, day = int(year), int(month), int(day)
+        time = datetime.datetime(year, month, day)
     except Exception as err:
         from errors import NotSupportedError
         raise NotSupportedError(err)
+    assert MIN_DATE <= time and time <= MAX_DATE, ValueError(f"{date} is not between {MIN_DATE} and {MAX_DATE}")
     interval = time - MIN_DATE
     return interval.days + 1  # avoid bool('1970-01-01') == 0
 
@@ -256,6 +247,11 @@ def strptime_to_int(date: str):
 def int_to_strptime(date: int):
     date = MIN_DATE + datetime.timedelta(days=date - 1)
     return str(date)[:10]
+
+
+def int_to_date(date: int):
+    date_str = int_to_strptime(date)
+    return strptime_to_fdate(date_str)
 
 
 def __pos_hash__(var):
@@ -278,9 +274,38 @@ def strftime_handler(format, lb=None, ub=None):
     if format == '%Y':
         lb = None if lb is None else strptime_to_int(f"{lb}-01-01")
         ub = None if ub is None else strptime_to_int(f"{ub}-12-31")
+    elif format == '%M':
+        raise NotImplementedError(f"Cannot handle STRFTIME(%m): please set `encode_date = True`.")
     else:
         raise NotImplementedError(f"Unknown date formate: {format}")
     return lb, ub
+
+
+def str2int(s):
+    sign = SubString(s, Z3_0, Z3_1)
+    number = SubString(s, Z3_1, Length(s) - Z3_1)
+    value = StrToInt(s)
+    s_value = If(sign == SIGN, -StrToInt(number), value)
+    constraint = If(s_value < Z3_0, IntToStr(-s_value) == number, IntToStr(s_value) == s)
+    return s_value, constraint
+
+
+def strptime_to_fdate(date: str):
+    from formulas.expressions import FDate
+
+    date = [unit for unit in re.split(r'-|_|:|/|\s+', date.strip())]
+    if len(date) > 3:
+        # print("We only consider date in the YYYY-MM-dd, and drop timestamp inoperands[0] hour/min/sec.")
+        date = date[:3]
+    year = date[0]
+    year = int('20'[:4 - len(year)] + year)
+    if len(date) == 1:
+        month, day = None, None
+    elif len(date) == 2:
+        month, da = int(date[1]), None
+    else:
+        month, day = int(date[1]), int(date[2])
+    return FDate(year, month, day)
 
 
 def date_pattern_to_int(date: str):
@@ -327,6 +352,58 @@ def ascii_constraint(z3str):
                 StrToCode(SubString(z3str, i, Z3_1)) <= IntVal("127"))
         )
     )
+
+
+# ############# datetime #############
+# def is_leap_year(year):
+#     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+#
+#
+# def days_since_0(year, month, day, MONTH_DAYS=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]):
+#     num_days = day
+#     for m in range(1, month):
+#         if m == 2 and is_leap_year(year):
+#             num_days += 29
+#         else:
+#             num_days += MONTH_DAYS[m - 1]
+#     for y in range(0, year):
+#         num_days += 366 if is_leap_year(year) else 365
+#     return num_days
+#
+#
+# def date_diff(date1, date2):
+#     return days_since_0(*date2) - days_since_0(*date1)
+# ############# datetime #############
+
+
+############# z3 datetime #############
+def z3_is_leap_year(year):
+    return And(year % Z3_4 == Z3_0, Or(year % Z3_100 != Z3_0, year % Z3_400 == Z3_0))
+
+
+def z3_month_days(year, month):
+    return MONTH2DAYS_FUNCTION(month) + If(And(month > Z3_2, z3_is_leap_year(year)), Z3_1, Z3_0)
+
+
+def z3_days_since_0(year, month, day):
+    leap_days = year / Z3_4 - year / Z3_100 + year / Z3_400
+    return Z3_365 * year + leap_days + day + z3_month_days(year, month)
+
+
+def z3_date_diff(date1, date2):
+    return z3_days_since_0(*date2) - z3_days_since_0(*date1)
+
+
+############# z3 datetime #############
+
+def align_attrs(lattr, rattr):
+    from formulas.expressions.date import FDate
+    # auto convert (date, int) -> (int, int)
+    if isinstance(lattr, NumericType) and isinstance(rattr, FDate):
+        rattr = rattr.__int__()
+    elif isinstance(lattr, FDate) and isinstance(rattr, NumericType):
+        lattr = lattr.__int__()
+    return lattr, rattr
 
 
 if __name__ == '__main__':

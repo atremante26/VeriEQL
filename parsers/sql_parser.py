@@ -108,19 +108,15 @@ class SQLParser:
                     if k == 'literal':
                         if isinstance(v, str) and len(v) > 0:
                             if str.isdigit(v[0]):
-                                try:
-                                    numeric_v = float(v)
-                                    if numeric_v == int(v):
-                                        numeric_v = int(v)
-                                    v = numeric_v
-                                except:
-                                    if re.match(r'\d+ DAY', v):
-                                        v = ''.join(char for char in v if str.isdigit(char))
-                                        v = int(v)
-                                    # else:
-                                    #     v = re.sub(r'\s|-', '_', v)
-                            # else:
-                            #     v = re.sub(r'\s|-', '_', v)
+                                # try:
+                                #     numeric_v = float(v)
+                                #     if numeric_v == int(v):
+                                #         numeric_v = int(v)
+                                #     v = numeric_v
+                                # except:
+                                if re.match(r'\d+ DAY', v):
+                                    v = ''.join(char for char in v if str.isdigit(char))
+                                    v = int(v)
                         elif isinstance(v, list):
                             new_vs = []
                             for s in v:
@@ -330,6 +326,6 @@ class SQLParser:
 
 if __name__ == '__main__':
     parser = SQLParser()
-    query = "select CLASS,STUDENT,sum(GRADES) from T_STUDENT_GRADES group by rollup(CLASS,STUDENT)"
+    query = "SELECT AVG(T2.COST) FROM EXPENSE AS T2 WHERE SUBSTR(T2.EXPENSE_DATE, 6, 2) = 09"
     out1 = parser.parse(query)
     print(out1)

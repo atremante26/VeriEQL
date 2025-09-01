@@ -14,22 +14,7 @@ from z3 import (
 )
 
 import utils
-from constants import (
-    NumericType,
-    SPACE_STRING,
-    IS_TRUE,
-    IS_FALSE,
-    BACKUP_SUFFIX,
-    SQL_NULL,
-    And,
-    Not,
-    IntVal,
-    RealVal,
-    Z3_FALSE,
-    Z3_TRUE,
-    DIALECT,
-    StringVal, JULIANDATE_OFFSET, MIN_DATE,
-)
+from constants import *
 from context import Context, GroupbyContext
 from errors import *
 from formulas.columns import *
@@ -389,7 +374,7 @@ class Encoder:
             #     attr = self.scope.visitor.visit(operand.attribute)(base_tuple.SORT)
             #     if isinstance(operand.value, FNull):
             #         formulas.append(attr.NULL)
-            #     elif isinstance(operand.value, FDate | FTime | FTimestamp):
+            #     elif isinstance(operand.value, FUDate | FTime | FTimestamp):
             #         formulas.extend([operand.operator.value(attr, operand.value.EXPR), Not(attr.NULL)])
             #     else:
             #         formulas.extend([operand.operator.value(attr.VALUE, operand.value), Not(attr.NULL)])
@@ -397,7 +382,7 @@ class Encoder:
                 attr = operand.attribute(base_tuple.SORT)
                 if isinstance(operand.value, FNull):
                     formulas.append(attr.NULL)
-                elif isinstance(operand.value, Union[FDate, FTime, FTimestamp]):
+                elif isinstance(operand.value, Union[FUDate, FTime, FTimestamp]):
                     formulas.extend([operand.operator.value(attr, operand.value.EXPR), Not(attr.NULL)])
                 else:
                     value_tuple = self.scope.visitor.visit(operand.value)(base_tuple.SORT)
@@ -892,21 +877,13 @@ class Encoder:
                 case 'literal':
                     def _f(operands):
                         if str.startswith(operands, 'Digits_'):
-                            opd = operands[7:]
+                            operands = operands.value
+                        if self.scope.encode_string:
+                            symbol = StringVal(operands)
                         else:
-                            opd = operands
-                        try:
-                            symbol = float(opd)
-                            if symbol == int(symbol):
-                                symbol = int(symbol)
-                        except:
-                            # operands = operands.replace(':', '_').replace('-', '_').replace('/', '_')
-                            if self.scope.encode_string:
-                                symbol = StringVal(operands)
-                            else:
-                                if len(operands) == 0:
-                                    operands = SPACE_STRING
-                                symbol = self.scope._declare_value(FSymbol(operands), register=True)
+                            if len(operands) == 0:
+                                operands = SPACE_STRING
+                            symbol = self.scope._declare_value(FSymbol(operands), register=True)
                         return symbol  # string
 
                     if isinstance(operands, list):
@@ -967,7 +944,7 @@ class Encoder:
                     attribute = expr['between'][0]
                     lower_bound, upper_bound = expr['between'][1:]
                     # special case: STRFTIME('%Y', CLOSEDDATE) BETWEEN '1980' AND '1989'
-                    if is_strftime(attribute):
+                    if not self.scope.encode_date and is_strftime(attribute):
                         format, attribute = get_strftime_args(attribute)
                         lower_bound, upper_bound = utils.strftime_handler(format, lower_bound, upper_bound)
                     expr = {'and': [{'lte': [lower_bound, attribute]}, {'lte': [attribute, upper_bound]}]}
@@ -976,7 +953,7 @@ class Encoder:
                     attribute = expr['not_between'][0]
                     lower_bound, upper_bound = expr['not_between'][1:]
                     # special case: STRFTIME('%Y', CLOSEDDATE) NOT BETWEEN '1980' AND '1989'
-                    if is_strftime(attribute):
+                    if not self.scope.encode_date and is_strftime(attribute):
                         format, attribute = get_strftime_args(attribute)
                         lower_bound, upper_bound = utils.strftime_handler(format, lower_bound, upper_bound)
                     expr = {'or': [{'lt': [attribute, lower_bound]}, {'gt': [attribute, upper_bound]}]}
@@ -1177,7 +1154,7 @@ class Encoder:
                         return new_expr
                 case 'lt' | 'lte' | 'gt' | 'gte':
                     # special case: STRFTIME('%Y', BIRTHDAY) > '1930'
-                    if is_strftime(operands[0]):
+                    if not self.scope.encode_date and is_strftime(operands[0]):
                         format, attribute = get_strftime_args(operands[0])
                         if operator in 'lt':  # < '1930'  <=>  < '1930-01-01'
                             arg, _ = utils.strftime_handler(format, operands[1], None)
@@ -1221,7 +1198,26 @@ class Encoder:
                     elif operands[0] == {'null': None}:
                         return FNull()
                     elif operands[1] == {'date': {}}:
-                        return self.parse_expression(operands[0], ctx, **kwargs)
+                        if is_literal(operands[0]):
+                            try:
+                                date = utils.strptime_to_int(operands[0]['literal'])
+                                return utils.int_to_date(date) if self.scope.encode_date else FDigits(date)
+                            except:
+                                return FNull()
+                        elif isinstance(operands[0], int | float):
+                            date = int(operands[0])
+                            day = date % 100
+                            year = date // 10000
+                            month = date % 10000 // 100
+                            date = f"{year:04d}-{month:02d}-{day:02d}"
+                            try:
+                                date = utils.strptime_to_int(date)
+                                return utils.int_to_date(date) if self.scope.encode_date else FDigits(date)
+                            except:
+                                return FNull()
+                        else:
+                            attr = self.parse_expression(operands[0], ctx, **kwargs)
+                            return FToDatePredicate(attr) if self.scope.encode_date else attr
                     elif operands[1] == {'real': {}}:
                         expression = self.parse_expression(operands[0], ctx, **kwargs)
                         return FToRealPredicate(expression)
@@ -1258,39 +1254,54 @@ class Encoder:
                     if isinstance(operands, dict) and len(operands) == 1:
                         if 'literal' in operands:
                             # PSQL: only support (DATE '2022-01-01')
-                            return FDigits(utils.strptime_to_int(operands['literal']))
+                            try:
+                                cdate = FDigits(utils.strptime_to_int(operands['literal']))
+                            except:
+                                cdate = FNull()
                         elif 'date' in operands:
                             # DATE('2022-01-01')
-                            return FDigits(utils.strptime_to_int(operands['date']))
+                            try:
+                                cdate = FDigits(utils.strptime_to_int(operands['date']))
+                            except:
+                                cdate = FNull()
                         elif 'add' in operands:
                             # DATE(MIN(EVENT_DATE) + 1)
                             operands = self.parse_expression(operands['add'], ctx, **kwargs)
-                            return eval_operation(FOperator('add'), operands)
+                            cdate = eval_operation(FOperator('add'), operands)
                         elif 'sub' in operands:
                             # DATE('2019-07-27' -INTERVAL 29 DAY)
                             operands = self.parse_expression(operands['sub'], ctx, **kwargs)
-                            return eval_operation(FOperator('sub'), operands)
+                            cdate = eval_operation(FOperator('sub'), operands)
                         else:
                             raise NotSupportedError(expr)
                     elif isinstance(operands, str):
                         attributes = self._find_attributes(operands, ctx.attributes)
                         if len(attributes) > 0:
-                            return attributes[0]
-                        else:
-                            return FDigits(utils.strptime_to_int(operands))
+                            if self.scope.encode_date:
+                                return FToDatePredicate(attributes[0])
+                            else:
+                                return attributes[0]
+                        try:
+                            cdate = FDigits(utils.strptime_to_int(operands))
+                        except:
+                            cdate = FNull()
                     else:
                         raise NotSupportedError(expr)
-                case 'str_to_date' | 'date_format':
-                    if isinstance(operands[0], dict) and len(operands[0]) == 1 and 'date' in operands[0]:
-                        format = operands[1]['literal']
-                        format = re.findall(r'[a-zA-Z]', format)
-                        if format == ['Y', 'M', 'D']:
-                            date = self.parse_expression(operands[0], ctx, **kwargs)
-                            return date
-                        else:
-                            raise NotSupportedError(f'Not supported DATE format: {operands[1]["literal"]}')
+                    if self.scope.encode_date and not isinstance(cdate, FNull):
+                        return utils.int_to_date(cdate)
                     else:
-                        raise NotImplementedError(expr)
+                        return cdate
+                # case 'str_to_date' | 'date_format':
+                #     if isinstance(operands[0], dict) and len(operands[0]) == 1 and 'date' in operands[0]:
+                #         format = operands[1]['literal']
+                #         format = re.findall(r'[a-zA-Z]', format)
+                #         if format == ['Y', 'M', 'D']:
+                #             date = self.parse_expression(operands[0], ctx, **kwargs)
+                #             return date
+                #         else:
+                #             raise NotSupportedError(f'Not supported DATE format: {operands[1]["literal"]}')
+                #     else:
+                #         raise NotImplementedError(expr)
                 # case  'timestamp':
                 #     return FTimestamp(operands)
                 # case  'decimal':
@@ -1345,7 +1356,7 @@ class Encoder:
                         operands = [operands]
 
                     # special case: STRFTIME('%Y', DOB) = '1980'
-                    if is_strftime(operands[0]):
+                    if not self.scope.encode_date and is_strftime(operands[0]):
                         format, attribute = get_strftime_args(operands[0])
                         lb, ub = utils.strftime_handler(format, operands[1], operands[1])
                         expr = {'and': [{'lte': [lb, attribute]}, {'lte': [attribute, ub]}]}
@@ -1453,16 +1464,25 @@ class Encoder:
                         return self.parse_expression(operands[0], ctx, **kwargs)
                     else:
                         raise NotSupportedError("we only support the DAY interval.")
+                case 'strftime' | 'str_to_date' | 'date_format':
+                    args, attr = operands
+                    if is_literal(args):
+                        format = str.upper(args['literal'])  # no syntax checking, please check by yourself
+                        opd = self.parse_expression(attr, ctx, **kwargs)
+                        return FStrftimePredicate(opd, "%Y" in format, "%M" in format, "%D" in format,
+                                                  func_name=str.upper(operator))
+                    else:
+                        raise SyntaxError(f"Unknown argument for {str.upper(operator)}")
                 case 'julianday':
                     if isinstance(operands, str):  # JULIANDAY('T1.A')
                         attr = self.parse_expression(operands, ctx, **kwargs)
-                        return FExpression(FOperator('add'), [attr, JULIANDATE_OFFSET])
+                        return FExpression(FOperator('add'), [attr, FDigits(JULIANDATE_OFFSET)])
                     elif is_date(operands):  # JULIANDAY('2025-08-29')
                         return self.parse_expression(operands, ctx, **kwargs) + JULIANDATE_OFFSET
                     elif is_literal(operands):  # only JULIANDAY('now')
                         return get_juliandate_now(operands['literal'])
                     else:  # JULIANDAY('now', 'start of month', '+1 month', '-1 day')
-                        raise NotImplementedError(f"Cannot support JULIANDAY with >1 arguments.")
+                        raise NotSupportedError(f"Cannot support JULIANDAY with >1 arguments.")
                 # -------------- Literature benchmark's symbolic predicates -------------- #
                 case 'b' | 'b0' | 'b1' | 'b2':
                     if isinstance(operands, ExcutableType | str):
@@ -1489,25 +1509,27 @@ class Encoder:
                 case 'like':
                     # only support 'ABC', 'ABC%', '%ABC', 'ABC%DEF', 'date%'
                     # e.g., FULL_NAME LIKE 'JOHN%', LABORATORY.DATE LIKE '1991%'
+                    if isinstance(operands[1], int):
+                        operands[1] = {"literal": str(operands[1])}
 
                     if is_literal(operands[1]):
                         pattern = operands[1]['literal'].strip()
 
-                        num = re.findall("\%", pattern)
+                        num = re.findall(r"\%", pattern)
                         assert len(num) <= 1, NotImplementedError(
                             f"VeriEQL only supports 4 like-cases: 'ABC', 'ABC%', '%ABC', 'ABC%DEF', but yours is {pattern}")
 
-                        if operands[0][-6:] == "__DATE":  # LABORATORY.DATE LIKE '1991%'
-                            assert pattern[-1] == "%", ValueError(
-                                f"LIKE for dates must ends with %, but your format is {operands[0]}")
-                            lb, ub = utils.date_pattern_to_int(pattern[:-1])
-                            if lb == ub:  # LIKE '1991-01-01%' => date='1991-01-01'
-                                return self.parse_expression({'eq': [operands[0], lb]}, ctx, **kwargs)
-                            else:
-                                expr = {'and': [{'lte': [lb, operands[0]]}, {'lte': [operands[0], ub]}]}
-                                return self.parse_expression(expr, ctx, **kwargs)
-
                         opd = self.parse_expression(operands[0], ctx, **kwargs)
+                        # if opd.type == DATE:  # LABORATORY.DATE LIKE '1991%'
+                        #     assert pattern[-1] == "%", ValueError(
+                        #         f"LIKE for dates must ends with %, but your format is {operands[0]}")
+                        #     lb, ub = utils.date_pattern_to_int(pattern[:-1])
+                        #     if lb == ub:  # LIKE '1991-01-01%' => date='1991-01-01'
+                        #         return self.parse_expression({'eq': [operands[0], lb]}, ctx, **kwargs)
+                        #     else:
+                        #         expr = {'and': [{'lte': [lb, operands[0]]}, {'lte': [operands[0], ub]}]}
+                        #         return self.parse_expression(expr, ctx, **kwargs)
+
                         no_pattern = False
                         if len(num) == 0:  # 'ABC'
                             prefix, suffix, no_pattern = pattern, "", True
@@ -1517,7 +1539,22 @@ class Encoder:
                             prefix, suffix = pattern[:-1], ""
                         else:
                             prefix, suffix = pattern.split("%")
-                        return FLikePredicate(opd, prefix, suffix, no_pattern)
+
+                        if opd.type == DATE or isinstance(opd, FDate):
+                            # convert Date to string, and then do string operations is VERY slow. So we directly compare if possible
+                            # return FDateLikePredicate(opd, prefix, suffix, no_pattern)
+                            if no_pattern:
+                                prefix = prefix.split('-')
+                                if any(len(d) != 0 and not str.isdigit(d) for d in prefix):
+                                    return FDigits(0)
+                            else:
+                                if len(prefix) != 0 and not str.isdigit(prefix):
+                                    return FDigits(0)
+                                if len(suffix) != 0 and not str.isdigit(suffix):
+                                    return FDigits(0)
+                            return FDateLikePredicate(opd, prefix, suffix, no_pattern)
+                        else:
+                            return FLikePredicate(opd, prefix, suffix, no_pattern)
                     else:
                         raise NotImplementedError(f"Incorrect string pattern: {operands[1]}")
                 case 'not_like':
@@ -1557,7 +1594,7 @@ class Encoder:
             else:
                 dst_attributes = []
                 for idx, (attr, alias_name) in enumerate(zip(src_table.attributes, alias_names)):
-                    dst_attributes.append(attr.update_alias(self.scope, alias_table, alias_name))
+                    dst_attributes.append(attr.update_alias(self.scope, alias_table, alias_name, type=attr.type))
                 # dst_attributes = deepcopy(src_table.attributes)
                 # for attr, alias_attr in zip(dst_attributes, alias_names):
                 #     attr.prefix = alias_table
@@ -1654,7 +1691,7 @@ class Encoder:
                 attributes = [self.parse_expression(selected_attrs, ctx, filter_cond=filter_cond,
                                                     select_block=kwargs.get('select_block', False))]
 
-            if alias_flag or isinstance(attributes[0], ArithRef | FDigits):
+            if alias_flag or isinstance(attributes[0], ArithRef | FDigits | FDate):
                 if utils.is_uninterpreted_func(attributes[0]):
                     attributes[0] = attributes[0].update_alias(
                         self.scope, ctx.prev_database.name, selected_attrs['name']
@@ -1668,18 +1705,22 @@ class Encoder:
                         self.scope,
                         alias_prefix=ctx.prev_database.name,
                         alias_name=selected_attrs['name'],
+                        type=attributes[0].type,  # for string
                     )
-                elif isinstance(attributes[0], ArithRef | FDigits):
+                elif isinstance(attributes[0], ArithRef | FDigits | FDate):
                     attr = self.scope.declare_attribute(
                         name=ctx.prev_database.name,
                         literal=selected_attrs.get('name', f'ATTR_{attributes[0]}'),
                         _uuid=utils.uuid_hash(),
+                        attr_type=DATE if isinstance(attributes[0], FDate) else INTEGER,  # for FDate
                     )
                     if isinstance(attributes[0], ArithRef):
                         _const_ = deepcopy(attributes[0])
                     elif isinstance(attributes[0], FDigits):
                         _const_ = IntVal(str(attributes[0].value)) if isinstance(attributes[0].value, int) \
                             else RealVal(str(attributes[0].value))
+                    elif isinstance(attributes[0], FDate):
+                        _const_ = attributes[0]
                     else:
                         raise NotImplementedError(str(attributes[0]))
                     attr.NULL = IntermFunc(
@@ -1716,6 +1757,8 @@ class Encoder:
                     attributes = attributes[::-1]
             elif selected_attrs == 'CURRENT_TIMESTAMP':
                 attributes = [FDigits(utils.strptime_to_int(now()))]
+                if self.scope.encode_date:
+                    attributes[0] = utils.int_to_date(attributes[0])
             elif isinstance(ctx, GroupbyContext):
                 # only works for HAVING
                 attributes = self._find_attributes(selected_attrs, ctx.attributes)
@@ -1786,6 +1829,7 @@ class Encoder:
                             self.scope,
                             alias_prefix='' if ctx.prev_database is None else ctx.prev_database.name,
                             alias_name=str(attr),
+                            type=attr.type,  # for string
                         )
                 return attributes
 

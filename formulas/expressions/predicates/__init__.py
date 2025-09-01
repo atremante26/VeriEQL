@@ -24,14 +24,17 @@ from .power_predicate import FPowerPredicate
 from .to_real_predicate import FToRealPredicate
 from .substr_predicate import FSubstrPredicate
 from .like_predicate import FLikePredicate
+from .date_like_predicate import FDateLikePredicate
+from .to_date_predicate import FToDatePredicate
+from .strftime_predicate import FStrftimePredicate
 
 PredicateType = FBasePredicate | \
                 FInPredicate | FNotInPredicate | FIsNullPredicate | FIsNotNullPredicate | FCasePredicate | \
                 FCoalescePredicate | FIfPredicate | FAbsPredicate | FPowerPredicate | FExistsPredicate | \
                 FAnyValuePredicate | FFirstValuePredicate | FLastValuePredicate | FModPredicate | \
                 FIsTruePredicate | FIsFalsePredicate | FIsNotTruePredicate | FIsNotFalsePredicate | \
-                FIsNullOrHoldPredicate | FNullIfPredicate | FToRealPredicate | \
-                FSubstrPredicate | FLikePredicate
+                FIsNullOrHoldPredicate | FNullIfPredicate | FToRealPredicate | FSubstrPredicate | \
+                FLikePredicate | FDateLikePredicate | FToDatePredicate | FStrftimePredicate
 
 __all__ = [
     'FInPredicate',
@@ -56,7 +59,10 @@ __all__ = [
     'FToRealPredicate',
     'FNullIfPredicate',
     'FSubstrPredicate',
+    'FToDatePredicate',
+    'FStrftimePredicate',
     'FLikePredicate',
+    'FDateLikePredicate',
 
     'PredicateType',
 ]

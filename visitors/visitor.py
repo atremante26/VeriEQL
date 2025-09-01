@@ -30,26 +30,8 @@ from z3 import (
     SuffixOf,
     eq as Z3_EQ,
 )
-
-from constants import (
-    Z3_NULL_VALUE,
-    NumericType,
-    Sum,
-    Implies,
-    If,
-    Not,
-    And,
-    Or,
-    Z3_TRUE,
-    Z3_FALSE,
-    Z3_1,
-    Z3_0,
-    IntVal,
-    BoolVal,
-    RealVal,
-    Z3_EMPTY_STRING,
-    StringVal,
-)
+import utils
+from constants import *
 from errors import NotSupportedError
 from formulas.columns import *
 from formulas.expressions import *
@@ -91,7 +73,10 @@ class Visitor:
     def arithmetic_type_align(self, operands):  # convert any string to int for arithmetic, e.g., SUBSTR(s, 0, 1) = '1'
         for idx, opd in enumerate(operands):
             if is_seq(opd.VALUE):
-                opd.VALUE = StrToInt(opd.VALUE)
+                opd.VALUE, constraint = utils.str2int(opd.VALUE)
+                self.scope.register_formulas(
+                    CodeSnippet(code=constraint, docstring=f"string -> int", docstring_first=True, )
+                )
         return operands
 
     @visitor(FExpression)
@@ -127,11 +112,16 @@ class Visitor:
                     else:
                         operands.append(FExpressionTuple(Z3_FALSE, operand))
 
+                # map (date, numeric) -> (numeric, numeric)
+                operands[0].VALUE, operands[1].VALUE = utils.align_attrs(operands[0].VALUE, operands[1].VALUE)
+
                 match formulas.operator:
                     case '∧' | '∨':  # AND, OR
                         for idx, opd in enumerate(operands):
                             if isinstance(opd.VALUE, ArithRef | NumericType):
                                 operands[idx].VALUE = opd.VALUE != Z3_0
+                            elif isinstance(opd.VALUE, FDate):
+                                raise NotImplementedError
                         if formulas.operator == '∧':
                             # NULL and false <=> false
                             # other NULL operations <=> NULL
@@ -147,13 +137,15 @@ class Visitor:
                     case '=' | '!=':  # EQ, NEQ
                         def _align_string(lhs, rhs):
                             # lhs is string
-                            lhs.VALUE = StrToInt(lhs.VALUE)
+                            lhs.VALUE, constraint = utils.str2int(lhs.VALUE)
+                            self.scope.register_formulas(
+                                CodeSnippet(code=constraint, docstring=f"string -> int", docstring_first=True, )
+                            )
                             if isinstance(rhs, BoolRef | bool):
                                 rhs.VALUE = If(rhs.VALUE, Z3_1, Z3_0)
                             return FExpressionTuple(
                                 NULL=simplify([lhs.NULL, rhs.NULL], operator=Or),
-                                VALUE=encode_func(*[lhs.NULL, rhs.NULL],
-                                                  *[lhs.VALUE, rhs.VALUE], ),
+                                VALUE=encode_func(lhs.NULL, rhs.NULL, lhs.VALUE, rhs.VALUE),
                             )
 
                         if formulas.operator == '=':
@@ -214,8 +206,13 @@ class Visitor:
                         if formulas.operator == '/':
                             NULL = simplify([opd.NULL for opd in operands] + [operands[-1].VALUE == Z3_0], operator=Or)
                             for idx, v in enumerate(values):
-                                if isinstance(v, AstRef) and v.is_int():
+                                if isinstance(v, AstRef) and v.is_int() or isinstance(v, IntNumRef):
                                     values[idx] = ToReal(v)
+                                elif isinstance(v, BoolRef):
+                                    values[idx] = If(v, Z3_R1, Z3_R0)
+                                # elif isinstance(v, StringRef):
+                                #     values[idx] = If(v, Z3_R1, Z3_R0)
+
                         else:
                             NULL = simplify([opd.NULL for opd in operands], operator=Or)
                         if formulas.operator == '-' and len(values) == 1:
@@ -2235,6 +2232,27 @@ And(
         return lambda *args, **kwargs: FExpressionTuple(Z3_FALSE, formula)
 
     @functools.lru_cache()
+    @visitor(FDateAttribute)
+    def visit(self, formulas: FDateAttribute, **outer_kwargs):
+        def _f(args, **kwargs):
+            if 'first_non_deleted_tuple_sort' in kwargs:
+                args = kwargs['first_non_deleted_tuple_sort']
+            if isinstance(args, tuple | list):
+                args = args[0]
+            if str(formulas) in outer_kwargs.get('outer_attrs', {}):
+                return outer_kwargs['outer_attrs'][str(formulas)]
+            else:
+                NULL = formulas.NULL(args)
+                if kwargs.get('pity_flag', False):
+                    NULL = Or(NULL, self._DEL(args))
+                return FExpressionTuple(
+                    NULL=NULL,
+                    VALUE=formulas.VALUE(args),
+                )
+
+        return _f
+
+    @functools.lru_cache()
     @visitor(FAttribute)
     def visit(self, formulas: FAttribute, **outer_kwargs):
         def _f(args, **kwargs):
@@ -2332,7 +2350,7 @@ And(
             expr0 = self.visit(formulas[0])(*args, **kwargs)
             expr1 = self.visit(formulas[1])(*args, **kwargs)
             return FExpressionTuple(
-                Or(expr0.NULL, expr1.NULL),
+                Or(expr0.NULL, expr1.NULL, expr1 == Z3_0),
                 expr0.VALUE % expr1.VALUE,
             )
 
@@ -2376,6 +2394,91 @@ And(
 
         return _f
 
+    @visitor(FStrftimePredicate)
+    def visit(self, formulas: FStrftimePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            date: FDate = self.visit(formulas[0])(*args, **kwargs)
+            if isinstance(date.VALUE, FDate):
+                null = date.NULL
+                strings = [IntToStr(string) for flag, string in \
+                           zip(formulas[1:], [date.VALUE.year, date.VALUE.month, date.VALUE.day]) if flag]
+            elif is_seq(date.VALUE):
+                year = StrToInt(SubString(date.VALUE, Z3_0, Z3_4))
+                month = StrToInt(SubString(date.VALUE, Z3_4, Z3_2))
+                day = StrToInt(SubString(date.VALUE, Z3_6, Z3_2))
+                is_leap = utils.z3_is_leap_year(year)
+                null = Or(
+                    date.NULL,
+                    StrToInt(date.VALUE) == -Z3_1,  # string must consist of numbers
+                    Length(date.VALUE) != Z3_8,
+                    year < Z3_0, year > MAX_YEAR,  # here allow 0000-01-01, try to get close to MySQL
+                    month < Z3_0, month > Z3_12,
+                    # day constraints
+                    day < Z3_1,
+                    Implies(
+                        Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
+                           month == Z3_12), day > Z3_31),
+                    Implies(month == Z3_2, Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0) > day),
+                    Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), Z3_30 > day),
+
+                )
+                strings = [IntToStr(string) for flag, string in \
+                           zip(formulas[1:], [year, month, day]) if flag]
+            else:
+                raise ValueError(
+                    f"{formulas.func_name} only accepts DATE and String, but yours is {type(date.VALUE)}. Please set `encode_date = True`.")
+
+            if len(strings) == 0:
+                return FExpressionTuple(Z3_TRUE, Z3_NULL_VALUE)
+            else:
+                out_string = strings[0]
+                for idx in range(1, len(strings)):
+                    out_string += Z3_SPACE_STRING + strings[idx]
+                return FExpressionTuple(null, out_string)
+
+        return _f
+
+    def _string2date(self, s: FExpressionTuple):
+        year = StrToInt(SubString(s.VALUE, Z3_0, Z3_4))
+        month = StrToInt(SubString(s.VALUE, Z3_4, Z3_2))
+        day = StrToInt(SubString(s.VALUE, Z3_6, Z3_2))
+        is_leap = utils.z3_is_leap_year(year)
+        null = Or(
+            s.NULL,
+            StrToInt(s.VALUE) == -Z3_1,  # string must consist of numbers
+            Length(s.VALUE) != Z3_8,
+            year < Z3_0, year > MAX_YEAR,  # here allow 0000-01-01, try to get close to MySQL
+            month < Z3_0, month > Z3_12,
+            # day constraints
+            day < Z3_1,
+            Implies(
+                Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
+                   month == Z3_12), day > Z3_31),
+            Implies(month == Z3_2, Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0) > day),
+            Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), Z3_30 > day),
+
+        )
+        date = FDate(year)
+        raise
+        return FExpressionTuple(null, date)
+
+    @visitor(FDate)
+    def visit(self, formulas: FDate, **kwargs):
+        def _f(*args, **kwargs):
+            return FExpressionTuple(Z3_TRUE, formulas)
+
+        return _f
+
+    @visitor(FToDatePredicate)
+    def visit(self, formulas: FToDatePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            # int/string/expr/date -> date
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            # raise NotImplementedError(f"Unknown type {expr.sort()} of CAST(*, DATE)")
+            return expr
+
+        return _f
+
     @visitor(FSubstrPredicate)
     def visit(self, formulas: FSubstrPredicate, **kwargs):
         def _f(*args, **kwargs):
@@ -2412,6 +2515,9 @@ And(
 
         return _f
 
+    def _date2string(self, date: FDate):
+        return IntToStr(date.year) + SIGN + IntToStr(date.month) + SIGN + IntToStr(date.day)
+
     @visitor(FLikePredicate)
     def visit(self, formulas: FLikePredicate, **kwargs):
         def _f(*args, **kwargs):
@@ -2425,6 +2531,25 @@ And(
                     conds.append(PrefixOf(StringVal(prefix), expr.VALUE))
                 if len(suffix) != 0:
                     conds.append(SuffixOf(StringVal(suffix), expr.VALUE))
+                return FExpressionTuple(expr.NULL, simplify(conds, operator=And))
+
+        return _f
+
+    @visitor(FDateLikePredicate)
+    def visit(self, formulas: FDateLikePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            prefix, suffix, no_pattern = formulas[1:]
+            if no_pattern:
+                conds = [lhs == rhs
+                         for lhs, rhs in zip([expr.VALUE.year, expr.VALUE.month, expr.VALUE.day], prefix)]
+                return FExpressionTuple(expr.NULL, simplify(conds, operator=And))
+            else:
+                conds = []
+                if len(prefix) != 0:
+                    conds.append(expr.VALUE.year == IntVal(prefix))
+                if len(suffix) != 0:
+                    conds.append(expr.VALUE.day == IntVal(suffix))
                 return FExpressionTuple(expr.NULL, simplify(conds, operator=And))
 
         return _f

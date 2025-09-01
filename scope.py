@@ -25,6 +25,7 @@ class Scope:
         self.bound_constraints = self.environment.bound_constraints
         self.encode_string = self.environment.encode_string
         self.ascii_only = self.environment.ascii_only
+        self.encode_date = self.environment.encode_date
         self._display_datasets = set(self.databases.keys())
 
         # function
@@ -37,6 +38,11 @@ class Scope:
         self.MIN_FUNCTION = self.environment.MIN_FUNCTION
         self.AVG_FUNCTION = self.environment.AVG_FUNCTION
         self.SUM_FUNCTION = self.environment.SUM_FUNCTION
+        if self.encode_date:
+            self.MONTH2DAYS_FUNCTION = self.environment.MONTH2DAYS_FUNCTION
+            self.DATE2YEAR_FUNCTION = self.environment.DATE2YEAR_FUNCTION
+            self.DATE2MONTH_FUNCTION = self.environment.DATE2MONTH_FUNCTION
+            self.DATE2DAY_FUNCTION = self.environment.DATE2DAY_FUNCTION
 
         self._get_function = self.environment._get_function
         self.register_function = self.environment.register_function

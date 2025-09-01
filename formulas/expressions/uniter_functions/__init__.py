@@ -3,7 +3,7 @@
 from .base_function import FUninterpretedFunction
 from .boolean import FBoolean
 from .cast import FCast
-from .date import FDate
+from .date import FUDate
 from .decimal import FDecimal
 from .double import FDouble
 from .float import FFloat
@@ -17,14 +17,14 @@ from .upper import FUpper
 from .varchar import FVarchar
 
 UninterFunctionType = FUninterpretedFunction | \
-                      FRound | FTime | FDate | FTimestamp | FCast | \
+                      FRound | FTime | FUDate | FTimestamp | FCast | \
                       FInteger | FDouble | FVarchar | FBoolean | FDecimal | \
                       FUpper | FLower | FNumeric | FFloat
 
 __all__ = [
     'FRound',
     'FTime',
-    'FDate',
+    'FUDate',
     'FTimestamp',
     'FCast',
     'FInteger',

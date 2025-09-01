@@ -2,63 +2,49 @@
 
 from copy import copy
 
-from z3 import ArithRef
+from typing import Callable
 
 from constants import (
     NumericType,
     Z3_NULL_VALUE,
     Z3_FALSE,
     Z3_TRUE,
-    INTEGER,
+    DATE,
+    ArithRef,
 )
+from .attribute import FAttribute
 from formulas import register_formula
-from formulas.columns.base_column import FBaseColumn
 from formulas.expressions.expression_tuple import FExpressionTuple
 from formulas.expressions.null import FNull
+from formulas.expressions.date import FDate
 
 
-@register_formula('attribute')
-class FAttribute(FBaseColumn):
-    """
-    1) pure attribute
-        NULL: NULL(?, StringSort)
-        VALUE: attribute(?)
-        expression: None
-    2) alias attribute for expression
-        NULL: NULL(?, StringSort)
-        VALUE: attribute(?)
-        EXPRESSION: expr | op(expr+)
-        EXPR_NULL/EXPR_VALUE: they are only obtained from the `__call__` function
-    """
-
-    # why slot? deepcopy take lots of time and memory
+@register_formula('date_attr')
+class FDateAttribute(FAttribute):
     __slots__ = [
         # name
         'prefix', 'name',
         # z3
         'VALUE', 'NULL', '__STRING_SORT__',
         # alias expression
-        'EXPR', 'EXPR_CALL', 'require_tuples', '_sugar_name', '_sugar_full_name'
+        'EXPR', 'EXPR_CALL', 'require_tuples', '_sugar_name', '_sugar_full_name',
+        # day functions
+        'year_func', 'month_func', 'day_func'
     ]
 
     def __init__(self,
                  scope,
                  literal: str,
                  prefix: str,
-                 type: str = INTEGER,
+                 # map date to year/month/day
+                 year_func: Callable = None, month_func: Callable = None, day_func: Callable = None,
+                 type: str = DATE,
                  _uuid: int = None,
                  ):
-        self.prefix = prefix
-        self.name = literal
-        self.type = type
-        super(FAttribute, self).__init__(scope.DELETED_FUNCTION, uuid=_uuid)
-
-        self.__STRING_SORT__ = None  # StringSort
-        self.EXPR = None  # store its real expression
-        self.EXPR_CALL = None  # store its visited expression
-        self.require_tuples = False  # only True for alias expression
-        # when group-by use sugar index, having and order-by can use its orginial name or alias name
-        self._sugar_full_name = self._sugar_name = None
+        self.year_func = year_func
+        self.month_func = month_func
+        self.day_func = day_func
+        super(FDateAttribute, self).__init__(scope, literal, prefix, type, _uuid)
 
     def detach(self):
         # deepcopy will copy `self.EXPR`
@@ -78,12 +64,9 @@ class FAttribute(FBaseColumn):
         attr.uninterpreted_func = self.uninterpreted_func
         return attr
 
-    def __str__(self):
-        return f'{self.prefix}__{self.name}'
-
     def __eq__(self, other):
         from visitors.interm_function import IntermFunc
-        if isinstance(other, FAttribute):
+        if isinstance(other, FDateAttribute):
             return hash(self) == hash(other) and self.VALUE == other.VALUE
         elif isinstance(other, IntermFunc):
             return self in other.attributes
@@ -108,21 +91,29 @@ class FAttribute(FBaseColumn):
         from formulas.expressions.digits import FDigits
 
         if isinstance(self.EXPR, FLastValuePredicate):
-            pass
+            # pass
+            raise NotImplementedError
         elif not self.require_tuples and isinstance(src_tuples, list):
-            src_tuples = src_tuples[0]
+            # src_tuples = src_tuples[0]
+            raise NotImplementedError
 
         if isinstance(self.EXPR, AggregationType):  # Aggregation
-            return self.EXPR.__expr__(src_tuples, **kwargs)
+            # return self.EXPR.__expr__(src_tuples, **kwargs)
+            raise NotImplementedError
         elif isinstance(self.EXPR, FCasePredicate | FExpression):
-            return self.EXPR_CALL(src_tuples, **kwargs)
+            # return self.EXPR_CALL(src_tuples, **kwargs)
+            raise NotImplementedError
         elif isinstance(self.EXPR, FNull):
-            return FExpressionTuple(Z3_TRUE, Z3_NULL_VALUE)
+            # return FExpressionTuple(Z3_TRUE, Z3_NULL_VALUE)
+            raise NotImplementedError
         elif isinstance(self.EXPR, FDigits):
-            return FExpressionTuple(Z3_FALSE, self.EXPR_CALL(None))
+            # return FExpressionTuple(Z3_FALSE, self.EXPR_CALL(None))
+            raise NotImplementedError
         elif isinstance(self.EXPR, NumericType | ArithRef):
-            return FExpressionTuple(Z3_FALSE, self.EXPR)
+            # return FExpressionTuple(Z3_FALSE, self.EXPR)
+            raise NotImplementedError
         elif self.EXPR is None:  # FSymbol
-            return FExpressionTuple(Z3_FALSE, self.VALUE(None))
+            # return FExpressionTuple(Z3_FALSE, self.VALUE(None))
+            raise NotImplementedError
         else:
             raise NotImplementedError(self.EXPR)

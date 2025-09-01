@@ -2,7 +2,7 @@
 
 import operator
 
-from constants import Z3_FALSE
+from constants import Z3_FALSE, INTEGER
 from formulas import register_formula
 from formulas.expressions.symbol import FSymbol
 
@@ -12,7 +12,10 @@ class FDigits(FSymbol):
     def __init__(self, value):
         if isinstance(value, FSymbol):
             value = value.value
+        elif isinstance(value, bool):
+            value = int(value)
         super(FDigits, self).__init__(value)
+        self.type = INTEGER
 
     def __eq__(self, other):
         if isinstance(other, FSymbol):
@@ -83,7 +86,7 @@ class FDigits(FSymbol):
         # assert index == 0
         return self.value
 
-    def update_alias(self, scope, alias_prefix, alias_name):
+    def update_alias(self, scope, alias_prefix, alias_name, **kwargs):
         from visitors.interm_function import IntermFunc
         attribute = scope.declare_attribute(alias_prefix, alias_name)
         attribute.EXPR = self.value if isinstance(self, FDigits) else self

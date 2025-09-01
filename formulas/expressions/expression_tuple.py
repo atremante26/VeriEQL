@@ -3,12 +3,14 @@
 
 from z3 import (
     ArithRef,
+    is_seq,
 )
-
 from constants import (
     And,
     Not,
+    NumericType,
 )
+from errors import NotSupportedError
 
 
 class FExpressionTuple:
@@ -29,13 +31,18 @@ class FExpressionTuple:
         return f"{self.__class__.__name__}(NULL={self.NULL}, VALUE={self.VALUE})"
 
     def __eq__(self, other):
+        from formulas.expressions.date import FDate
+
         if isinstance(other, FExpressionTuple):
-            return And(
-                self.NULL == other.NULL,
-                self.VALUE == other.VALUE,
-            )
+            if (isinstance(self.VALUE, NumericType) and is_seq(other.VALUE)) or \
+                    (is_seq(self.VALUE) and isinstance(other.VALUE, NumericType)):
+                raise NotSupportedError("In the outermost projection, You compare a String with a numerical which is NOT allowed.")
+                # TODO: build a class like FDate to define implicit type conversion within it.
+            return And(self.NULL == other.NULL, self.VALUE == other.VALUE)
         elif isinstance(other, ArithRef):
             return And(Not(self.NULL), self.VALUE == other)
+        elif isinstance(other, FDate):
+            raise NotImplementedError
         else:
             raise NotImplementedError
 

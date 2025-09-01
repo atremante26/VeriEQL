@@ -1188,8 +1188,8 @@ def _to_expr_ref(a, ctx):
     #         return FiniteDomainRef(a, ctx)
     # if sk == Z3_ROUNDING_MODE_SORT:
     #     return FPRMRef(a, ctx)
-    # if sk == Z3_SEQ_SORT:
-    #     return SeqRef(a, ctx)
+    if sk == Z3_SEQ_SORT:
+        return SeqRef(a, ctx)
     # if sk == Z3_CHAR_SORT:
     #     return CharRef(a, ctx)
     # if sk == Z3_RE_SORT:
@@ -1217,23 +1217,23 @@ def _coerce_expr_merge(s, a):
 
 
 def _coerce_exprs(a, b, ctx=None):
-    # if not is_expr(a) and not is_expr(b):
-    #     a = _py2expr(a, ctx)
-    #     b = _py2expr(b, ctx)
-    # if isinstance(a, str) and isinstance(b, SeqRef):
-    #     a = StringVal(a, b.ctx)
-    # if isinstance(b, str) and isinstance(a, SeqRef):
-    #     b = StringVal(b, a.ctx)
-    # if isinstance(a, float) and isinstance(b, ArithRef):
-    #     a = RealVal(a, b.ctx)
-    # if isinstance(b, float) and isinstance(a, ArithRef):
-    #     b = RealVal(b, a.ctx)
-    #
-    # s = None
-    # s = _coerce_expr_merge(s, a)
-    # s = _coerce_expr_merge(s, b)
-    # a = s.cast(a)
-    # b = s.cast(b)
+    if not is_expr(a) and not is_expr(b):
+        a = _py2expr(a, ctx)
+        b = _py2expr(b, ctx)
+    if isinstance(a, str) and isinstance(b, SeqRef):
+        a = StringVal(a, b.ctx)
+    if isinstance(b, str) and isinstance(a, SeqRef):
+        b = StringVal(b, a.ctx)
+    if isinstance(a, float) and isinstance(b, ArithRef):
+        a = RealVal(a, b.ctx)
+    if isinstance(b, float) and isinstance(a, ArithRef):
+        b = RealVal(b, a.ctx)
+
+    s = None
+    s = _coerce_expr_merge(s, a)
+    s = _coerce_expr_merge(s, b)
+    a = s.cast(a)
+    b = s.cast(b)
 
     # we assume all input variables are z3 variables
     s = a.sort()
@@ -11194,8 +11194,9 @@ def Length(s):
     >>> simplify(l)
     3
     """
-    s = _coerce_seq(s)
-    return ArithRef(Z3_mk_seq_length(s.ctx_ref(), s.as_ast()), s.ctx)
+    # s = _coerce_seq(s)
+    # return ArithRef(Z3_mk_seq_length(s.ctx_ref(), s.as_ast()), s.ctx)
+    return ArithRef(Z3_mk_seq_length(s.ctx.ctx, s.ast), s.ctx)
 
 
 def StrToInt(s):

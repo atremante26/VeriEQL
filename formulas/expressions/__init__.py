@@ -3,6 +3,7 @@
 from .base_expression import FBaseExpression
 from .digits import FDigits
 from .expression import FExpression
+from .date import FDate
 from .expression_tuple import FExpressionTuple
 from .null import FNull
 from .operator import FOperator
@@ -30,6 +31,9 @@ from .predicates import (
     FToRealPredicate,
     FSubstrPredicate,
     FLikePredicate,
+    FDateLikePredicate,
+    FToDatePredicate,
+    FStrftimePredicate,
     PredicateType,
 )
 from .sym_func import FSymbolicFunc
@@ -37,7 +41,7 @@ from .symbol import FSymbol
 from .uniter_functions import (
     FRound,
     FTime,
-    FDate,
+    FUDate,
     FTimestamp,
     FCast,
     FInteger,
@@ -58,7 +62,7 @@ __all__ = [
 
     'FRound',
     'FTime',
-    'FDate',
+    'FUDate',
     'FTimestamp',
     'FCast',
     'FInteger',
@@ -95,11 +99,15 @@ __all__ = [
     'FToRealPredicate',
     'FSubstrPredicate',
     'FLikePredicate',
+    'FDateLikePredicate',
+    'FToDatePredicate',
+    'FStrftimePredicate',
     'PredicateType',
 
     'FSymbol',
     'FNull',
     'FDigits',
+    'FDate',
     'FOperator',
 
     'FExpression',

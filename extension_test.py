@@ -27,9 +27,16 @@ def load_schemas():
 
 
 def eval(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
+    # encode_string = True: must encode strings as Z3 builtin strings;
+    # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
     STRING_KEYS = [" LIKE ", "SUBSTR"]
     kwargs["encode_string"] = kwargs.get("encode_string", False) or any(
         any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in STRING_KEYS)
+    # encode_date = True: must encode dates/datetimes as tuples;
+    # encode_date = False: only follow this encoding if queries involve STRFTIME
+    DATE_KEYS = ["STRFTIME"]
+    kwargs["encode_date"] = kwargs.get("encode_date", False) or any(
+        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in DATE_KEYS)
     with Environment(**kwargs) as env:
         for k, v in schema.items():
             env.create_database(attributes=v, bound_size=ROW_NUM, name=k)
@@ -186,13 +193,11 @@ if __name__ == '__main__':
 
     # Configuration for VeriEQL analysis
     config = {
-        'generate_code': False,
+        'generate_code': True,
         'timer': True,
         'show_counterexample': True,
         "dialect": DIALECT.MYSQL,
-        # "encode_string": True, # True: must encode strings as Z3 builtin strings; False: only follow this encoding if queries involve SUBSTR, LIKE
-        # "ascii_only": True, # restrict unicode to ascii, this will slow verification
-        # "ROW_NUM": 1
+        "ROW_NUM": 1
     }
 
     # Run evaluation for all questions in the selected extension type

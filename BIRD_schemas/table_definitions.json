@@ -1,7 +1,7 @@
 {
     "california_schools": {
             "FRPM": {
-                "CDSCODE": "INTEGER",
+                "CDSCODE": "VARCHAR",
                 "ACADEMIC_YEAR": "INTEGER",
                 "COUNTY_CODE": "INTEGER",
                 "DISTRICT_CODE": "INTEGER",
