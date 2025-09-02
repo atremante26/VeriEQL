@@ -97,8 +97,11 @@ class Verifier:
             semantics_verifier = ListSemanticsVerifier(self._env)
             semantics_verifier.additional_conclusion = self.additional_conclusion
         else:
-            from .bag_semantics_verifier import BagSemanticsVerifier
-            semantics_verifier = BagSemanticsVerifier(self._env)
+            #from .bag_semantics_verifier import BagSemanticsVerifier
+            #semantics_verifier = BagSemanticsVerifier(self._env)
+
+            from .set_semantics_verifier import SetSemanticsVerifier
+            semantics_verifier = SetSemanticsVerifier(self._env)
 
         conclusion = semantics_verifier.table_equivalence(ltable, rtable, left_attributes, right_attributes, **kwargs)
         if self._env._script_writer is not None:
