@@ -2,14 +2,6 @@ import sys
 import os
 
 
-from verieql import verify_sql_equivalence
-
-#sys.path.append(os.path.join(base_dir, 'verieql'))
-#sys.path.append(os.path.join(base_dir, 'verieql', 'z3py_libs'))
-#from verieql.verieql import verify_sql_equivalence
-
-
-
 import json
 import csv
 import traceback
@@ -64,7 +56,18 @@ if __name__ == '__main__':
     parser.add_argument('--question', type=int, required=True)
     parser.add_argument('--bound', type=int, required=True)
     parser.add_argument('--prediction-path', type=str, required=True)
+    parser.add_argument('--vanilla', action='store_true')
+
     args = parser.parse_args()
+
+    base_dir = "/home/hwu/txt2sql-verieql/VeriEQL"
+    sys.path.insert(0, base_dir)
+    if args.vanilla:
+        from VeriEQL_vanilla.verieql import verify_sql_equivalence
+        from VeriEQL_vanilla.constants import DIALECT
+    else:
+        from verieql import verify_sql_equivalence
+        from constants import DIALECT
 
     question_idx = args.question
     bound_size = args.bound
@@ -117,9 +120,24 @@ if __name__ == '__main__':
             with open(constraints_path, 'r') as f:
                 constraints = json.load(f)
 
-            config = {'generate_code': True, 'timer': True, 'show_counterexample': True}
-            verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
-        
+            config = {'generate_code': True, 
+                      'timer': True, 
+                      'show_counterexample': True, 
+                      'dialect': DIALECT.MYSQL}
+            if not args.vanilla:
+                STRING_KEYS = [" LIKE ", "SUBSTR"]
+                config["encode_string"] = config.get("encode_string", False) or any(
+                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in STRING_KEYS)
+
+                DATE_KEYS = ["STRFTIME"]
+                config["encode_date"] = config.get("encode_date", False) or any(
+                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS)
+
+                verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
+
+            else:
+                verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
+
             csv_row = {
                 'bound_size': bound_size,
                 'question_id': question_idx,

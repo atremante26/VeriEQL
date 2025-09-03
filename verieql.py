@@ -2,18 +2,6 @@ from constants import DIALECT
 from environment import Environment
 
 def verify_sql_equivalence(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
-    config = {'generate_code': True, 
-              'timer': True, 
-              'show_counterexample': True, 
-              'dialect': DIALECT.MYSQL}
-    STRING_KEYS = [" LIKE ", "SUBSTR"]
-    config["encode_string"] = kwargs.get("encode_string", False) or any(
-        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in STRING_KEYS)
-
-    DATE_KEYS = ["STRFTIME"]
-    kwargs["encode_date"] = kwargs.get("encode_date", False) or any(
-        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in DATE_KEYS)
-
     with Environment(**kwargs) as env:
         for k, v in schema.items():
             env.create_database(attributes=v, bound_size=ROW_NUM, name=k)
@@ -23,7 +11,11 @@ def verify_sql_equivalence(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kw
             env._script_writer.save_checkpoints()
         
         
-        result = env.analyze(sql1, sql2, out_file="test/test.py")
+        result = env.analyze(sql1, sql2)
+        if result == True:
+            print("\033[1;32;40m>>> Equivalent! \033[0m")
+        else:
+            print("\033[1;31;40m>>> Non-Equivalent! Found a counterexample! \033[0m")
         counterexample = env.counterexample if env.show_counterexample else None
         time_cost = None
         if env.traversing_time is not None:
