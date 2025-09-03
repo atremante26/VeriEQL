@@ -22,6 +22,7 @@ from formulas.expressions import *
 from utils import (
     encode_same,
     CodeSnippet,
+    align_attrs,
 )
 from verifiers.verifier import (
     Verifier,
@@ -124,8 +125,10 @@ def equals(ltuples, rtuples):
                     equalities = []
                     for lhs_attr, rhs_attr in zip(lhs_value[1:], rhs_value[1:]):
                         if isinstance(lhs_attr, list):
+                            lhs_attr[1], rhs_attr[1] = align_attrs(lhs_attr[1], rhs_attr[1])
                             equalities.append(encode_same(lhs_attr[0], rhs_attr[0], lhs_attr[1], rhs_attr[1]))
                         else:
+                            lhs_attr, rhs_attr = align_attrs(lhs_attr, rhs_attr)
                             equalities.append(lhs_attr == rhs_attr)
                     cmp_formulas[(i, j)] = cmp_formulas[(j, i)] = If(
                         Or(
