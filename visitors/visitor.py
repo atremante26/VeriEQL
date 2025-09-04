@@ -113,7 +113,8 @@ class Visitor:
                         operands.append(FExpressionTuple(Z3_FALSE, operand))
 
                 # map (date, numeric) -> (numeric, numeric)
-                operands[0].VALUE, operands[1].VALUE = utils.align_attrs(operands[0].VALUE, operands[1].VALUE)
+                if len(operands) == 2:
+                    operands[0].VALUE, operands[1].VALUE = utils.align_attrs(operands[0].VALUE, operands[1].VALUE)
 
                 match formulas.operator:
                     case '∧' | '∨':  # AND, OR
