@@ -53,9 +53,9 @@ def clean_up(generated_sql):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
+    parser.add_argument('prediction_path', type=str)
     parser.add_argument('--question', type=int, required=True)
     parser.add_argument('--bound', type=int, required=True)
-    parser.add_argument('--prediction-path', type=str, required=True)
     parser.add_argument('--vanilla', action='store_true')
 
     args = parser.parse_args()
