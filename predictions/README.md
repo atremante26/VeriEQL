@@ -34,3 +34,13 @@ Link: https://github.com/RUCKBReasoning/OmniSQL/issues/40 (we could add more var
 rsl
 RSL-SQL + GPT-4o
 https://github.com/Laqcce-cao/RSL-SQL/blob/main/main_result/BIRD_DEV/gpt-4o/step4/final_sql.txt
+
+
+slm
+SLM-SQL + Qwen2.5-Coder-1.5B-Instruct
+https://github.com/CycloneBoy/slm_sql/tree/main/data/bird_dev/1.5b
+
+We could add 
+https://github.com/CycloneBoy/slm_sql/blob/main/data/bird_dev/0.5b/sampling_think_sql_merge_pred_major_voting_sqls.sql
+
+tasql

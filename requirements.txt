@@ -11,3 +11,4 @@ mysql-connector-python
 matplotlib
 sphinx
 sphinx-rtd-theme
+func_timeout
