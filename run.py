@@ -134,7 +134,6 @@ if __name__ == '__main__':
                     any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS)
 
                 verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
-
             else:
                 verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
 

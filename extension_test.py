@@ -182,18 +182,18 @@ if __name__ == '__main__':
                 "formula_1"
             ]
         }
-    elif args.extension_type == 'soundness':
+    elif args.extension_type == 'index':
         questions = {
-            6: [
-                "SELECT T2.SCHOOL FROM SATSCORES AS T1 INNER JOIN SCHOOLS AS T2 ON T1.CDS = T2.CDSCODE WHERE T2.MAGNET = 1 AND T1.NUMTSTTAKR > 500",
-                "SELECT DISTINCT S.SCHOOL FROM SCHOOLS AS S INNER JOIN SATSCORES AS SA ON S.CDSCODE = SA.CDS WHERE SA.NUMTSTTAKR > 500 AND S.MAGNET = 1",
-                "california_schools"
-            ],
             1: [
+                "SELECT NAME FROM CARDS WHERE ISPROMO = 1 AND NOT SIDE IS NULL",
+                "SELECT DISTINCT NAME FROM CARDS WHERE ISPROMO = 1 AND SIDE IS NOT NULL",
+                "card_games"
+            ],
+            2: [
                 "SELECT (T1.FREE_MEAL_COUNT_AGES_5_17 / T1.ENROLLMENT_AGES_5_17) AS ELIGIBLEFREERATE FROM FRPM AS T1 INNER JOIN SCHOOLS AS T2 ON T1.CDSCODE = T2.CDSCODE WHERE T2.SOCTYPE = 'CONTINUATION HIGH SCHOOLS' AND NOT T1.FREE_MEAL_COUNT_AGES_5_17 IS NULL AND NOT T1.ENROLLMENT_AGES_5_17 IS NULL AND T1.ENROLLMENT_AGES_5_17 > 0 ORDER BY ELIGIBLEFREERATE ASC LIMIT 3",
                 "SELECT FREE_MEAL_COUNT_AGES_5_17 / ENROLLMENT_AGES_5_17 FROM FRPM WHERE EDUCATIONAL_OPTION_TYPE = 'CONTINUATION SCHOOL' AND FREE_MEAL_COUNT_AGES_5_17 / ENROLLMENT_AGES_5_17 IS NOT NULL ORDER BY FREE_MEAL_COUNT_AGES_5_17 / ENROLLMENT_AGES_5_17 ASC LIMIT 3",
                 "california_schools"
-            ],
+            ]
         }
 
     else:
@@ -211,7 +211,6 @@ if __name__ == '__main__':
         'timer': True,
         'show_counterexample': True,
         "dialect": DIALECT.MYSQL,
-        "ROW_NUM": 1
     }
 
     # Run evaluation for all questions in the selected extension type
@@ -231,4 +230,5 @@ if __name__ == '__main__':
         if not schema:
             print(f"Warning: No schema found for database '{schema_name}'")
 
-        eval(sql1, sql2, schema, constraints=constraints, **config)
+        eval(sql1, sql2, schema, 1, constraints=constraints, **config)
+        #eval(sql1, sql2, schema, ROW_NUM=2, constraints=constraints, **config)
