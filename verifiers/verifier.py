@@ -93,9 +93,11 @@ class Verifier:
         if kwargs['orderby_constraints'][0] is not None and \
                 kwargs['orderby_constraints'][1] is not None:
             # only two outermost queries have orderby claues
-            from .list_semantics_verifier import ListSemanticsVerifier
-            semantics_verifier = ListSemanticsVerifier(self._env)
-            semantics_verifier.additional_conclusion = self.additional_conclusion
+            #from .list_semantics_verifier import ListSemanticsVerifier
+            #semantics_verifier = ListSemanticsVerifier(self._env)
+            #semantics_verifier.additional_conclusion = self.additional_conclusion
+            from .set_semantics_verifier import SetSemanticsVerifier
+            semantics_verifier = SetSemanticsVerifier(self._env)
         else:
             #from .bag_semantics_verifier import BagSemanticsVerifier
             #semantics_verifier = BagSemanticsVerifier(self._env)
