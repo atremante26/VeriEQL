@@ -51,6 +51,10 @@ def main():
         mapping_clean_to_orig[db_id] = {}
         # Get table names and columns
         table_names = db["table_names_original"]
+        # Assert that the table names only contains english letters
+        for t in table_names:
+            assert re.match(r'^[A-Za-z0-9_]+$', t)
+
         column_names = db["column_names_original"]
         column_types = db["column_types"]
         primary_keys = db["primary_keys"]
@@ -99,11 +103,16 @@ def main():
 
     with open("table_constraints.json", "w") as f:
         json.dump(constraints, f, indent=4)
-    
 
-    # # Compare verieql_table_definitions with table
-    # for db_id in verieql_table_definitions:
-    #     for table_name in verieql_table_definitions[db_id]:
+    with open("column_name_mapping.json", "w") as f:
+        json.dump({
+            "orig_to_clean": mapping_orig_to_clean,
+            "clean_to_orig": mapping_clean_to_orig
+        }, f, indent=4)
+
+    # Compare verieql_table_definitions with table
+    #for db_id in verieql_table_definitions:
+    #    for table_name in verieql_table_definitions[db_id]:
     #         if table_name not in table[db_id]:
     #             print(f"Table {table_name} in verieql but not in processed table for db {db_id}")
     #         else:
