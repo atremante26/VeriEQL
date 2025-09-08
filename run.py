@@ -69,13 +69,14 @@ if __name__ == '__main__':
     bound_size = args.bound
 
     BENCHMARKS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/dev.json"
-    DEV_CONSTRAINTS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/evaluation/table_constraints.json"
-    DEV_TABLE_DEF_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/evaluation/table_to_columns.json"
+    DEV_CONSTRAINTS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/table_constraints.json"
+    DEV_TABLE_DEF_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/table_to_columns.json"
 
     print(f"Running question {question_idx} with bound {bound_size}")
 
     csv_path = "./out.csv"
-    csv_headers = ['bound_size', 'question_id', 'equivalent', 'counterexample', 'time_cost', 'generated_sql', 'gold_sql']
+    counter_example_path = "./counterexample.txt"
+    csv_headers = ['bound_size', 'question_id', 'equivalent', 'error', 'time_cost', 'generated_sql', 'gold_sql']
 
     with open(csv_path, 'w', newline='') as csvfile:
 
@@ -137,12 +138,17 @@ if __name__ == '__main__':
                 'bound_size': bound_size,
                 'question_id': question_idx,
                 'equivalent': verification_result['equivalent'],
-                'counterexample': str(verification_result['counterexample']) if verification_result['counterexample'] else '',
+                'error': '',
                 'time_cost': verification_result['time_cost'] if verification_result['time_cost'] else '',
                 'generated_sql': generated_sql,
                 'gold_sql': gold_sql
             }
 
+            if verification_result['counterexample'] is not None:
+                ce = verification_result['counterexample']
+                with open(counter_example_path, 'w') as f:
+                    f.write(ce)
+                
             writer.writerow(csv_row)
             csvfile.flush() 
                         
@@ -153,7 +159,7 @@ if __name__ == '__main__':
                 'bound_size': bound_size,
                 'question_id': question_idx,
                 'equivalent': 'ERROR',
-                'counterexample': f"{type(e).__name__}: {str(e)}",
+                'error': f"{type(e).__name__}: {str(e)}",
                 'time_cost': '',
                 'generated_sql': generated_sql if 'generated_sql' in locals() else '',
                 'gold_sql': gold_sql if 'gold_sql' in locals() else ''
