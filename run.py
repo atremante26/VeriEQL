@@ -16,22 +16,18 @@ def clean_up(generated_sql):
 
         # Convert to uppercase
         content = content.upper()
-
         # Replace spaces with underscores
         content = content.replace(' ', '_')
-
-        # Handle hyphens based on context:
-        # - If it's between numbers (like "5-17"), replace with underscore ("5_17")
-        # - If it's between letters and numbers (like "K-12"), remove the hyphen ("K12")
+        # Handle hyphens based on context
         content = re.sub(r'(\d+)-(\d+)', r'\1_\2', content)  # Numbers with hyphen -> underscore
         content = re.sub(r'([A-Z]+)-(\d+)', r'\1\2', content)  # Letters-number with hyphen -> remove hyphen
-
+        # replace hyphen with underscore
+        content = content.replace('-', '_')
         # Remove non-alphanumeric characters except underscores
-        # This removes parentheses, percent signs, slashes, etc.
         content = re.sub(r'[^A-Z0-9_]', '', content)
-
         # Clean up multiple consecutive underscores
         content = re.sub(r'_+', '_', content)
+
 
         # Remove leading/trailing underscores
         content = content.strip('_')
@@ -73,8 +69,8 @@ if __name__ == '__main__':
     bound_size = args.bound
 
     BENCHMARKS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/dev.json"
-    DEV_CONSTRAINTS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/dev_constraints.json"
-    DEV_TABLE_DEF_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/table_definitions.json"
+    DEV_CONSTRAINTS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/evaluation/table_constraints.json"
+    DEV_TABLE_DEF_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/evaluation/table_to_columns.json"
 
     print(f"Running question {question_idx} with bound {bound_size}")
 
