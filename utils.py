@@ -282,12 +282,15 @@ def strftime_handler(format, lb=None, ub=None):
 
 
 def str2int(s):
-    sign = SubString(s, Z3_0, Z3_1)
-    number = SubString(s, Z3_1, Length(s) - Z3_1)
-    value = StrToInt(s)
-    s_value = If(sign == SIGN, -StrToInt(number), value)
-    constraint = If(s_value < Z3_0, IntToStr(-s_value) == number, IntToStr(s_value) == s)
-    return s_value, constraint
+    if isinstance(s, Z3_SeqRef) and str(s.decl()) == "IntToStr":
+        return s.children()[0], Z3_TRUE
+    else:
+        sign = SubString(s, Z3_0, Z3_1)
+        number = SubString(s, Z3_1, Length(s) - Z3_1)
+        value = StrToInt(s)
+        s_value = If(sign == SIGN, -StrToInt(number), value)
+        constraint = If(s_value < Z3_0, IntToStr(-s_value) == number, IntToStr(s_value) == s)
+        return s_value, constraint
 
 
 def strptime_to_fdate(date: str):

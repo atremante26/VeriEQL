@@ -36,13 +36,16 @@ class FExpressionTuple:
         if isinstance(other, FExpressionTuple):
             if (isinstance(self.VALUE, NumericType) and is_seq(other.VALUE)) or \
                     (is_seq(self.VALUE) and isinstance(other.VALUE, NumericType)):
-                raise NotSupportedError("In the outermost projection, You compare a String with a numerical which is NOT allowed.")
+                raise NotSupportedError(
+                    "In the outermost projection, You compare a String with a numerical which is NOT allowed.")
+            elif isinstance(self.VALUE, FDate) and isinstance(other.VALUE, FDate):
                 # TODO: build a class like FDate to define implicit type conversion within it.
+                return And(self.NULL == other.NULL, self.VALUE.year == other.VALUE.year,
+                           self.VALUE.month == other.VALUE.month,
+                           self.VALUE.day == other.VALUE.day)
             return And(self.NULL == other.NULL, self.VALUE == other.VALUE)
         elif isinstance(other, ArithRef):
             return And(Not(self.NULL), self.VALUE == other)
-        elif isinstance(other, FDate):
-            raise NotImplementedError
         else:
             raise NotImplementedError
 

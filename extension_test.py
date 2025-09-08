@@ -27,16 +27,17 @@ def load_schemas():
 
 
 def eval(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
-    # encode_string = True: must encode strings as Z3 builtin strings;
-    # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
-    STRING_KEYS = [" LIKE ", "SUBSTR"]
-    kwargs["encode_string"] = kwargs.get("encode_string", False) or any(
-        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in STRING_KEYS)
     # encode_date = True: must encode dates/datetimes as tuples;
     # encode_date = False: only follow this encoding if queries involve STRFTIME
     DATE_KEYS = ["STRFTIME"]
     kwargs["encode_date"] = kwargs.get("encode_date", False) or any(
         any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in DATE_KEYS)
+    # encode_string = True: must encode strings as Z3 builtin strings;
+    # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
+    # since date involves arithmetic operations, once encode_date = True, encode_string must be True.
+    STRING_KEYS = [" LIKE ", "SUBSTR"]
+    kwargs["encode_string"] = kwargs.get("encode_string", False) or any(
+        any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in STRING_KEYS) or kwargs["encode_date"]
     with Environment(**kwargs) as env:
         for k, v in schema.items():
             env.create_database(attributes=v, bound_size=ROW_NUM, name=k)

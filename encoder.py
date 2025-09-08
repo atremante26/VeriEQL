@@ -1465,7 +1465,8 @@ class Encoder:
                     else:
                         raise NotSupportedError("we only support the DAY interval.")
                 case 'strftime' | 'str_to_date' | 'date_format':
-                    args, attr = operands
+                    if operator == 'strftime': operands = operands[::-1]
+                    attr, args = operands
                     if is_literal(args):
                         format = str.upper(args['literal'])  # no syntax checking, please check by yourself
                         opd = self.parse_expression(attr, ctx, **kwargs)

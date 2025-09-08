@@ -21,6 +21,7 @@ class Script:
                 CodeSnippet('__Int = IntSort()', 'define `Int` sort'),
                 CodeSnippet('__String = StringSort()', 'define `String` sort'),
                 CodeSnippet('__Boolean = BoolSort()', 'define `Boolean` sort'),
+                CodeSnippet('__Date = DeclareSort("DateSort")', 'define `Date` sort'),
             ],
             docstring='define z3 Sorts'
         )
@@ -51,6 +52,14 @@ class Script:
                             'define `SUM` function'),
                 CodeSnippet('ROUND = Function("ROUND", __Int, __Int, __Int, __Int)',
                             'define `ROUND` (uninterpreted) function'),
+                CodeSnippet('DATE2YEAR_FUNCTION = Function("DATE2YEAR_FUNCTION", __Date, __Int)',
+                            'define `DATE2YEAR` function'),
+                CodeSnippet('DATE2MONTH_FUNCTION = Function("DATE2MONTH_FUNCTION", __Date, __Int)',
+                            'define `DATE2MONTH` function'),
+                CodeSnippet('DATE2DAY_FUNCTION = Function("DATE2DAY_FUNCTION", __Date, __Int)',
+                            'define `DATE2DAY` function'),
+                CodeSnippet('MONTH2DAYS_FUNCTION = Function("MONTH2DAYS_FUNCTION", __Int, __Int)',
+                            'define `MONTH2DAYS` function'),
             ],
             docstring='Special functions',
         )

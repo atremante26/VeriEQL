@@ -24,6 +24,7 @@ from z3 import (
     BoolSort as Z3_BoolSort,
     RatVal as Z3_RatVal,
     StringSort as Z3_StringSort,
+    SeqRef as Z3_SeqRef,
     StrToInt,
     IntToStr,
 
