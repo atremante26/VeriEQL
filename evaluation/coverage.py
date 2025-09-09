@@ -53,8 +53,8 @@ def main():
                 has_error = any(b["result"] == ERROR for b in bounds)
                 if not has_error:
                     num_supported += 1
-                else:
-                    print(f"Question {question_id} has errors in bounds.")
+                #else:
+                    #print(f"Question {question_id} has errors in bounds.")
                 num_relevant += 1
 
     print(f"Coverage: {num_supported}/{num_relevant} ({num_supported/num_relevant:.2%})")

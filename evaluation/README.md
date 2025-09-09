@@ -21,3 +21,5 @@ for file in ../predictions/*json; do python calculate.py VeriEQL_results_val_cc/
 
 # To calculate coverage 
 for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(basename $file)/ EX_results/$(basename $file)_EX.csv; done
+
+for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(basename $file)_vanilla/ EX_results/$(basename $file)_EX.csv; done
