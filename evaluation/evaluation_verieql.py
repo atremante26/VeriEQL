@@ -161,6 +161,7 @@ def get_bounds_info(question_id, folder, prediction_path):
                 "result": result,
                 "original_result": row["equivalent"],
                 "time_cost": float(row["time_cost"]) if not is_error else 0,
+                "counterexample_path": counterexample_path,
                 "output1": output1 if results else "",
                 "output2": output2 if results else "",
                 "generated_sql": row["generated_sql"],
@@ -201,7 +202,7 @@ def main():
 
     with open(input_csv, newline='') as infile, open(output_csv, 'w', newline='') as outfile:
         reader = csv.DictReader(infile)
-        fieldnames = ["question_id", "res", "verieql_res_orig", "verieql_res", "bound_size", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
+        fieldnames = ["question_id", "res", "verieql_res_orig", "verieql_res", "bound_size", "counterexample_path", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -237,6 +238,7 @@ def main():
                     "verieql_res_orig": INCORRECT if deemed_incorrect else CORRECT,
                     "verieql_res": verieql_res,
                     "bound_size": bound_size,
+                    "counterexample_path": os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt"),
                     "runtime": runtime,
                     "output1": output1,
                     "output2": output2,
