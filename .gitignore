@@ -1,6 +1,7 @@
 out.csv
 benchmark_set_*
 .*~
+*~
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
