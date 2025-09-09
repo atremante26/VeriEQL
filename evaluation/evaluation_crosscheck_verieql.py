@@ -3,6 +3,7 @@ import csv
 import os
 import sqlite3
 import argparse
+import re
 
 
 DONT_CARE = "dontcare"
