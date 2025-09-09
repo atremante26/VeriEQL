@@ -159,6 +159,7 @@ def get_bounds_info(question_id, folder, prediction_path):
             bounds.append({
                 "bound_size": bound_size, 
                 "result": result,
+                "original_result": row["equivalent"],
                 "time_cost": float(row["time_cost"]) if not is_error else 0,
                 "output1": output1 if results else "",
                 "output2": output2 if results else "",
@@ -198,7 +199,7 @@ def main():
 
     with open(input_csv, newline='') as infile, open(output_csv, 'w', newline='') as outfile:
         reader = csv.DictReader(infile)
-        fieldnames = ["question_id", "res", "verieql_res", "bound_size", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
+        fieldnames = ["question_id", "res", "verieql_res_orig", "verieql_res", "bound_size", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -216,6 +217,7 @@ def main():
             else:
                 assert(res == "correct")
                 bounds = get_bounds_info(question_id, folder, args.prediction)
+                deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
                 valid_bounds = [b for b in bounds if b["result"] == INCORRECT]
                 bound_size = min([b["bound_size"] for b in valid_bounds], default=-1)
                 output1, output2 = "", ""
@@ -228,6 +230,7 @@ def main():
                 writer.writerow({
                     "question_id": question_id,
                     "res": res,
+                    "verieql_res_orig": INCORRECT if deemed_incorrect else CORRECT,
                     "verieql_res": verieql_res,
                     "bound_size": bound_size,
                     "runtime": runtime,
