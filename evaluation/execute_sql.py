@@ -119,6 +119,10 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
     sql1 = alpha_sql_json[str(question_id)]
     sql2 = dev_json[question_id]["SQL"]
 
+    if "\t----- bird" in sql1:
+        print("found bird in sql1")
+        sql1 = sql1.split("\t----- bird")[0]
+
     # Execute both queries
     return execute_model(sql1, sql2, db_path, question_id)
 
