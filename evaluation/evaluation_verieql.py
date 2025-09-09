@@ -191,6 +191,8 @@ def main():
     ap.add_argument("prediction", help="Path to the prediction.")
     ap.add_argument("ex_input", help="Path to CSV with EX results.")
     ap.add_argument("output", help="Output CSV path.")
+    ap.add_argument("--question-id", default=None, type=int, help="If set, only process this question ID.")
+
     
     args = ap.parse_args()
     folder = args.input
@@ -205,6 +207,8 @@ def main():
 
         for row in reader:
             question_id = row["question_id"]
+            if args.question_id is not None and int(question_id) != args.question_id:
+                continue
             res = row["res"]
             if res == "incorrect":
                 writer.writerow({
