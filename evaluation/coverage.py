@@ -5,22 +5,22 @@ import os
 ERROR = "error"
 OK = "ok"
 
-def get_bounds_info(question_id, folder):
-    reader = csv.DictReader(open(os.path.join(folder, "results.csv")))
-    bounds = []
-    for row in reader:
-        if row["question_id"] != question_id:
-            continue
-        else:
-            is_error = row["equivalent"] == "ERROR"
+K = 5
 
-            if is_error:
-                result = ERROR
-            else:
-                result = OK
-            bounds.append({
-                "result": result,
-            })
+def get_bounds_info(question_id, folder, results_rows):
+    bounds = []
+    for b in range(K):
+        row = results_rows[int(question_id) * K + b]
+
+        is_error = row["equivalent"] == "ERROR"
+
+        if is_error:
+            result = ERROR
+        else:
+            result = OK
+        bounds.append({
+            "result": result,
+        })
     return bounds
 
 def main():
@@ -38,6 +38,9 @@ def main():
         print(f"Folder {folder} does not exist.")
         return
 
+    with open(os.path.join(folder, "results.csv")) as results_file:
+        results_rows = list(csv.DictReader(results_file))
+
     num_relevant = 0
     num_supported = 0
     with open(input_csv, newline='') as infile:
@@ -49,7 +52,7 @@ def main():
                 continue
             else:
                 assert(res == "correct")
-                bounds = get_bounds_info(question_id, folder)
+                bounds = get_bounds_info(question_id, folder, results_rows)
                 has_error = any(b["result"] == ERROR for b in bounds)
                 if not has_error:
                     num_supported += 1

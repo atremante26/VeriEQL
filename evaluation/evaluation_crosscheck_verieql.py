@@ -12,6 +12,8 @@ UNKNOWN = "unknown"
 ERROR = "error"
 TIMEOUT = "timeout"
 
+K = 5
+
 def load_json(path):
     with open(path, "r") as f:
         return json.load(f)
@@ -24,10 +26,13 @@ def load_csv_counterexamples(csv_paths):
             reader = csv.DictReader(f)
             for row in reader:
                 qid = row.get("question_id")
-                result = row.get("verieql_res")
+                result = row.get("verieql_res_orig")
                 cpath = row.get("counterexample_path")
-                if result == INCORRECT and qid and cpath:
-                    counterexamples.setdefault(qid, []).append(cpath)
+                if result == INCORRECT:
+                    assert("bound" in cpath)
+                    cpath = cpath.split("bound")[0] + "bound"
+                    for i in range(K + 1)[1:]:
+                        counterexamples.setdefault(qid, []).append(f"{cpath}{i}.txt")
     return counterexamples
 
 
@@ -60,6 +65,8 @@ def main():
                 assert(row["verieql_res"] in [UNKNOWN, ERROR])
                 if question_id in counterexamples:
                     for ce_path in counterexamples[question_id]:
+                        if not os.path.exists(ce_path):
+                            continue
                         results = execute_counterexample_(ce_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", args.prediction)
                         if results is None:
                             continue

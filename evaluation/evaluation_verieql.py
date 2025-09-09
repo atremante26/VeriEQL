@@ -112,7 +112,7 @@ def main():
                 })
             else:
                 assert(res == "correct")
-                print(f"Processing question_id {question_id}")
+                print(f"Processing question_id {question_id} for {folder}")
                 bounds = get_bounds_info(question_id, folder, args.prediction, results_rows)
                 deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
                 valid_bounds = [b for b in bounds if b["result"] == INCORRECT]

@@ -98,6 +98,8 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
                 line = line.replace("ORDER", "`ORDER`")
             if "JOURNEY INTO NYX HERO'S PATH" in line:
                 line = line.replace("JOURNEY INTO NYX HERO'S PATH", "JOURNEY INTO NYX HERO''S PATH")
+            if "ANCESTOR'S CHOSEN" in line:
+                line = line.replace("ANCESTOR'S CHOSEN", "ANCESTOR''S CHOSEN")
             new_db_def.append(line)
     db_def = "\n".join(new_db_def)
     # Dump to sqlite database
@@ -120,7 +122,7 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
     sql2 = dev_json[question_id]["SQL"]
 
     if "\t----- bird" in sql1:
-        print("found bird in sql1")
+        #print("found bird in sql1")
         sql1 = sql1.split("\t----- bird")[0]
 
     # Execute both queries
