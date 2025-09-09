@@ -10,51 +10,51 @@ UNKNOWN = "unknown"
 ERROR = "error"
 TIMEOUT = "timeout"
 
+K = 5  # Maximum bound size to consider
+
 def execute_counterexample(counterexample_path, prediction_path):
     if not os.path.exists(counterexample_path):
         return None
     return execute_counterexample_(counterexample_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", prediction_path)
 
-def get_bounds_info(question_id, folder, prediction_path):
-    reader = csv.DictReader(open(os.path.join(folder, "results.csv")))
+def get_bounds_info(question_id, folder, prediction_path, results_rows):
     bounds = []
-    for row in reader:
-        if row["question_id"] != question_id:
-            continue
+    for b in range(K):
+        row = results_rows[int(question_id) * K + b]
+        assert(int(row["question_id"]) == int(question_id))
+        is_error = row["equivalent"] == "ERROR"
+        is_correct = row["equivalent"] in ["True", True]
+        is_incorrect = row["equivalent"] in ["False", False]
+        is_timeout = row["equivalent"] == "Unknown"
+        bound_size = int(row["bound_size"])
+        counterexample_path = os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt")
+        results = execute_counterexample(counterexample_path, prediction_path)
+        if results is None:
+            is_incorrect = False
         else:
-            is_error = row["equivalent"] == "ERROR"
-            is_correct = row["equivalent"] in ["True", True]
-            is_incorrect = row["equivalent"] in ["False", False]
-            is_timeout = row["equivalent"] == "Unknown"
-            bound_size = int(row["bound_size"])
-            counterexample_path = os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt")
-            results = execute_counterexample(counterexample_path, prediction_path)
-            if results is None:
-                is_incorrect = False
-            else:
-                output1, output2 = results
+            output1, output2 = results
 
-            if is_error:
-                result = ERROR
-            elif is_correct:
-                result = CORRECT
-            elif is_incorrect:
-                result = INCORRECT
-            elif is_timeout:
-                result = TIMEOUT
-            else:
-                result = UNKNOWN
-            bounds.append({
-                "bound_size": bound_size, 
-                "result": result,
-                "original_result": row["equivalent"],
-                "time_cost": float(row["time_cost"]) if not is_error else 0,
-                "counterexample_path": counterexample_path,
-                "output1": output1 if results else "",
-                "output2": output2 if results else "",
-                "generated_sql": row["generated_sql"],
-                "gold_sql": row["gold_sql"],
-            })
+        if is_error:
+            result = ERROR
+        elif is_correct:
+            result = CORRECT
+        elif is_incorrect:
+            result = INCORRECT
+        elif is_timeout:
+            result = TIMEOUT
+        else:
+            result = UNKNOWN
+        bounds.append({
+            "bound_size": bound_size, 
+            "result": result,
+            "original_result": row["equivalent"],
+            "time_cost": float(row["time_cost"]) if not is_error else 0,
+            "counterexample_path": counterexample_path,
+            "output1": output1 if results else "",
+            "output2": output2 if results else "",
+            "generated_sql": row["generated_sql"],
+            "gold_sql": row["gold_sql"],
+        })
     return bounds
 
 def compute_verieql_res(bounds):
@@ -88,6 +88,9 @@ def main():
     input_csv = args.ex_input
     output_csv = args.output
 
+    with open(os.path.join(folder, "results.csv")) as results_file:
+        results_rows = list(csv.DictReader(results_file))
+
     with open(input_csv, newline='') as infile, open(output_csv, 'w', newline='') as outfile:
         reader = csv.DictReader(infile)
         fieldnames = ["question_id", "res", "verieql_res_orig", "verieql_res", "bound_size", "counterexample_path", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
@@ -109,7 +112,8 @@ def main():
                 })
             else:
                 assert(res == "correct")
-                bounds = get_bounds_info(question_id, folder, args.prediction)
+                print(f"Processing question_id {question_id}")
+                bounds = get_bounds_info(question_id, folder, args.prediction, results_rows)
                 deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
                 valid_bounds = [b for b in bounds if b["result"] == INCORRECT]
                 bound_size = min([b["bound_size"] for b in valid_bounds], default=-1)
