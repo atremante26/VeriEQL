@@ -40,6 +40,10 @@ def main():
 
     args = ap.parse_args()
 
+    if not os.path.exists(args.csv_path):
+        print(f"File {args.csv_path} does not exist.")
+        return
+
     with open(args.csv_path, newline='') as f:
         reader = csv.DictReader(f)
         rows = list(reader)
@@ -53,20 +57,20 @@ def main():
         filtered_count, _, filtered_freq = count_correct_and_not_incorrect(rows)
         print(f'EX + VeriEQL + Validation": {filtered_count}/{total_count} ({filtered_freq:.2%})')
 
-    # 3. If prediction file is provided, execute counterexample DBs and confirm result is not None
-    if args.prediction is not None:
-        print(f"Re-validating the counter-examples for {args.prediction}")
-        validated = 0
-        for row in rows:
-            if row["verieql_res"] == "incorrect":
-                ce_path = row.get("counterexample_path")
-                output1, output2 = execute_counterexample_(ce_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", args.prediction)
-                if output1 != output2:
-                    validated += 1
-                else:
-                    print("Failed to validate counter-example for question_id:", row["question_id"])
-                    assert(False)
-        print(f"Validated {validated} VeriEQL counter-examples")
+        # 3. If prediction file is provided, execute counterexample DBs and confirm result is not None
+        if args.prediction is not None:
+            print(f"Re-validating the counter-examples for {args.prediction}")
+            validated = 0
+            for row in rows:
+                if row["verieql_res"] == "incorrect":
+                    ce_path = row.get("counterexample_path")
+                    output1, output2 = execute_counterexample_(ce_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", args.prediction)
+                    if output1 != output2:
+                        validated += 1
+                    else:
+                        print("Failed to validate counter-example for question_id:", row["question_id"])
+                        assert(False)
+            print(f"Validated {validated} VeriEQL counter-examples")
 
 if __name__ == "__main__":
     main()

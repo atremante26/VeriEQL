@@ -5,10 +5,12 @@ for file in ../predictions/*json; do python evaluation_ex.py --predicted_sql_pat
 
 # To evaluate VeriEQL
 
-for file in ../predictions/*json; do python evaluation_verieql.py ./VeriEQL_results/$(basename $file)/ $file EX_results/$(basename $file)_EX.csv VeriEQL_results_val/$(basename $file).csv
+for file in ../predictions/*json; do python evaluation_verieql.py ./VeriEQL_results/$(basename $file)/ $file EX_results/$(basename $file)_EX.csv VeriEQL_results_val/$(basename $file).csv; done
 
 # To cross check
-for file in ../predictions/*json; do python evaluation_crosscheck_verieql.py $file ./VeriEQL_results_val/$(basename $file).csv ./VeriEQL_results_val/ ./VeriEQL_results_val_cc/$(basename $file).csv
+for file in ../predictions/*json; do python evaluation_crosscheck_verieql.py $file ./VeriEQL_results_val/$(basename $file).csv ./VeriEQL_results_val/ ./VeriEQL_results_val_cc/$(basename $file).csv; done
 
 # To calculate metrics
-python calculate.py [any csv files in VeriEQL_results*]
+for file in ../predictions/*json; do python calculate.py EX_results/$(basename $file)_EX.csv --prediction $file; done
+for file in ../predictions/*json; do python calculate.py VeriEQL_results_val/$(basename $file).csv --prediction $file; done
+for file in ../predictions/*json; do python calculate.py VeriEQL_results_val_cc/$(basename $file).csv --prediction $file; done
