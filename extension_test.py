@@ -19,7 +19,7 @@ def load_constraints():
 def load_schemas():
     """Load table definitions from table_definitions.json"""
     try:
-        with open('BIRD_schemas/table_definitions.json', 'r') as f:
+        with open('BIRD_schemas/table_to_columns.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError:
         print("Warning: table_definitions.json not found. Using empty schemas.")
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         }
     elif args.extension_type == 'datetime':
         questions = {
-            1: ["SELECT COUNT(PATIENT.ID) FROM PATIENT INNER JOIN EXAMINATION ON PATIENT.ID = EXAMINATION.ID WHERE PATIENT.SEX = 'M' AND EXAMINATION.EXAMINATION_DATE BETWEEN '1995-01-01' AND '1997-12-31' AND EXAMINATION.DIAGNOSIS = 'BEHCET' AND PATIENT.ADMISSION = '-'",
+            1: ["SELECT COUNT(DISTINCT PATIENT.ID) FROM PATIENT INNER JOIN EXAMINATION ON PATIENT.ID = EXAMINATION.ID WHERE PATIENT.SEX = 'M' AND EXAMINATION.EXAMINATION_DATE BETWEEN '1995-01-01' AND '1997-12-31' AND EXAMINATION.DIAGNOSIS = 'BEHCET' AND PATIENT.ADMISSION = '-'",
                 "SELECT COUNT(T1.ID) FROM PATIENT AS T1 INNER JOIN EXAMINATION AS T2 ON T1.ID = T2.ID WHERE T2.DIAGNOSIS = 'BEHCET' AND T1.SEX = 'M' AND STRFTIME('%Y', T2.EXAMINATION_DATE) BETWEEN '1995' AND '1997' AND T1.ADMISSION = '-'",
                 "thrombosis_prediction"],
             #68: [
@@ -234,5 +234,5 @@ if __name__ == '__main__':
         if not schema:
             print(f"Warning: No schema found for database '{schema_name}'")
 
-        eval(sql1, sql2, schema, 1, constraints=constraints, **config)
+        eval(sql1, sql2, schema, 2, constraints=constraints, **config)
         #eval(sql1, sql2, schema, ROW_NUM=2, constraints=constraints, **config)

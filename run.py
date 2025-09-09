@@ -122,13 +122,15 @@ if __name__ == '__main__':
                       'show_counterexample': True, 
                       'dialect': DIALECT.MYSQL}
             if not args.vanilla:
-                STRING_KEYS = [" LIKE ", "SUBSTR"]
-                config["encode_string"] = config.get("encode_string", False) or any(
-                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in STRING_KEYS)
-
                 DATE_KEYS = ["STRFTIME"]
                 config["encode_date"] = config.get("encode_date", False) or any(
                     any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS)
+                # encode_string = True: must encode strings as Z3 builtin strings;
+                # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
+                # since date involves arithmetic operations, once encode_date = True, encode_string must be True.
+                STRING_KEYS = [" LIKE ", "SUBSTR"]
+                config["encode_string"] = config.get("encode_string", False) or any(
+                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in STRING_KEYS) or config["encode_date"]
 
                 verification_result = verify_sql_equivalence(generated_sql, gold_sql, schema[str(database_id)], bound_size, constraints[str(database_id)][0], **config)
             else:
