@@ -173,7 +173,7 @@ if __name__ == "__main__":
         for qid, res in ultimate_results
     ]
 
-    with open(f"{os.path.basename(args.predicted_sql_path).split(".")[0]}_EX.csv", "w") as f:
+    with open(f"{os.path.basename(args.predicted_sql_path)}_EX.csv", "w") as f:
         writer = csv.DictWriter(f, fieldnames=headers)
         writer.writeheader()
         for row in new_ultimate_results:

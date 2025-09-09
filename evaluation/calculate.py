@@ -164,7 +164,8 @@ def main():
         for row in rows:
             if row["verieql_res"] == "incorrect":
                 ce_path = row.get("counterexample_path")
-                if execute_counterexample_(ce_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", args.prediction) is not None:
+                output1, output2 = execute_counterexample_(ce_path, "./column_name_mapping.json", "../BIRD_schemas/dev.json", args.prediction)
+                if output1 != output2:
                     validated += 1
                 else:
                     print("Failed to validate counter-example for question_id:", row["question_id"])

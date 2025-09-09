@@ -5,7 +5,10 @@ for file in ../predictions/*json; do python evaluation_ex.py --predicted_sql_pat
 
 # To evaluate VeriEQL
 
-python evaluation_verieql.py ./VeriEQL_results/alpha_sql.json_verieql/ ../predictions/alpha_sql.json EX_results/alpha_sql_EX.csv test.csv
+for file in ../predictions/*json; do python evaluation_verieql.py ./VeriEQL_results/$(basename $file)/ $file EX_results/$(basename $file)_EX.csv VeriEQL_results_val/$(basename $file).csv
 
 # To cross check
-python evaluation_crosscheck_verieql.py ../predictions/alpha_sql.json VeriEQL_result_after_validation/test.csv VeriEQL_result_after_validation/ test_new.csv
+for file in ../predictions/*json; do python evaluation_crosscheck_verieql.py $file ./VeriEQL_results_val/$(basename $file).csv ./VeriEQL_results_val/ ./VeriEQL_results_val_cc/$(basename $file).csv
+
+# To calculate metrics
+python calculate.py [any csv files in VeriEQL_results*]
