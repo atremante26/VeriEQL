@@ -2,6 +2,10 @@
 
 for file in ../predictions/*json; do python evaluation_ex.py --predicted_sql_path $file --ground_truth_path ../../dev_20240627/dev.sql --db_root_path ../../dev_20240627/dev_databases/  --diff_json_path ../../dev_20240627/dev.json --num_cpus 24; done
 
+# To gather results on cluster
+
+
+for file in log/*/; do echo $file/$(basename $file); python concatenate_results.py $file/$(basename $file) evaluation/VeriEQL_results/$(basename $file); done
 
 # To evaluate VeriEQL
 
