@@ -31,7 +31,7 @@ def load_csv_counterexamples(csv_paths):
                 if result == INCORRECT:
                     assert("bound" in cpath)
                     cpath = cpath.split("bound")[0] + "bound"
-                    for i in range(K + 1)[1:]:
+                    for i in range(int(row["bound_size"]) + 1)[1:]:
                         counterexamples.setdefault(qid, []).append(f"{cpath}{i}.txt")
     return counterexamples
 

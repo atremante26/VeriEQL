@@ -92,7 +92,7 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
                 assert(len(parts) == 2)
                 col_name = parts[0]
                 new_column_name = mapping[col_name]
-                new_db_def.append(f"\"{mapping[col_name]}\" {parts[1]}")
+                new_db_def.append(f"\"{new_column_name.upper()}\" {parts[1]}")
         else:
             if "ORDER" in line:
                 line = line.replace("ORDER", "`ORDER`")
@@ -126,5 +126,5 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
         sql1 = sql1.split("\t----- bird")[0]
 
     # Execute both queries
-    return execute_model(sql1, sql2, db_path, question_id)
+    return execute_model(sql1.upper(), sql2.upper(), db_path, question_id)
 

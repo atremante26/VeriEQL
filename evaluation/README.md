@@ -13,7 +13,7 @@ for file in log/*/; do echo $file/$(basename $file); python concatenate_results.
 
 # To evaluate VeriEQL
 
-for file in ../predictions/*json; do python evaluation_verieql.py ./VeriEQL_results/$(basename $file)/ $file EX_results/$(basename $file)_EX.csv VeriEQL_results_val/$(basename $file).csv; done
+for file in ../predictions/*json; do python evaluation_verieql.py ./VeriEQL_results/$(basename $file)_no_shrink/ $file EX_results/$(basename $file)_EX.csv VeriEQL_results_val/$(basename $file).csv; done
 
 # To cross check
 for file in ../predictions/*json; do python evaluation_crosscheck_verieql.py $file ./VeriEQL_results_val/$(basename $file).csv ./VeriEQL_results_val/ ./VeriEQL_results_val_cc/$(basename $file).csv; done
