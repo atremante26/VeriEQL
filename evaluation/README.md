@@ -27,4 +27,6 @@ for file in ../predictions/*json; do python calculate.py VeriEQL_results_val_cc/
 for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(basename $file)/ EX_results/$(basename $file)_EX.csv; done
 for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(basename $file)_vanilla/ EX_results/$(basename $file)_EX.csv; done
 
-    
+# To generate the histogram
+
+python analyze_incorrectness.py ./VeriEQL_results_val_cc/ VeriEQL_results_val_cc_verieql_only_histogram.png VeriEQL_results_val_cc_verifyeql_only_histogram.json
