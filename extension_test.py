@@ -199,6 +199,14 @@ if __name__ == '__main__':
                 "california_schools"
             ]
         }
+    elif args.extension_type == 'null':
+        questions = {
+            1: [
+                "SELECT ((R1.FASTESTLAPSPEED - R2.FASTESTLAPSPEED) / R1.FASTESTLAPSPEED) * 100 AS PERCENTAGE_DIFFERENCE FROM RESULTS R1 JOIN RESULTS R2 ON R1.DRIVERID = R2.DRIVERID WHERE R1.RACEID = 853 AND R2.RACEID = 854 AND R1.DRIVERID = (SELECT DRIVERID FROM DRIVERS WHERE FORENAME = 'PAUL' AND SURNAME = 'DI RESTA')"
+                "SELECT (SUM(IIF(T2.RACEID = 853, T2.FASTESTLAPSPEED, 0)) - SUM(IIF(T2.RACEID = 854, T2.FASTESTLAPSPEED, 0))) * 100 / SUM(IIF(T2.RACEID = 853, T2.FASTESTLAPSPEED, 0)) FROM DRIVERS AS T1 INNER JOIN RESULTS AS T2 ON T2.DRIVERID = T1.DRIVERID WHERE T1.FORENAME = 'PAUL' AND T1.SURNAME = 'DI RESTA'"
+                "formula_1"
+            ]
+        }
 
     else:
         print(f"Unknown extension type: {args.extension_type}")

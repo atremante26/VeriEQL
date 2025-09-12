@@ -14,7 +14,12 @@ TIMEOUT = "timeout"
 # --- Provided functions ---
 def calculate_ex(predicted_res, ground_truth_res):
     if set(predicted_res) != set(ground_truth_res):
-        return INCORRECT
+        if set(predicted_res) == set() and set(ground_truth_res) == {(None,)}:
+            return None
+        elif set(ground_truth_res) == set() and set(predicted_res) == {(None,)}:
+            return None
+        else:
+            return INCORRECT
 
 def connect_db(db_path):
     conn = sqlite3.connect(db_path)
