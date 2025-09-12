@@ -26,6 +26,7 @@ class Scope:
         self.encode_string = self.environment.encode_string
         self.ascii_only = self.environment.ascii_only
         self.encode_date = self.environment.encode_date
+        self.all_null_is_deleted = self.environment.all_null_is_deleted
         self._display_datasets = set(self.databases.keys())
 
         # function

@@ -91,6 +91,7 @@ class Environment:
 
     def __init__(self, generate_code=False, semantics=None, timer=False, show_counterexample=False,
                  dialect=DIALECT.ALL, encode_string=False, ascii_only=False, encode_date=False,
+                 all_null_is_deleted=False,
                  **kwargs):
         if generate_code:
             self._script_writer = Script()
@@ -118,6 +119,7 @@ class Environment:
         self.encode_string = encode_string
         self.ascii_only = ascii_only  # z3 Strings only consider ASCII chars. This slows the solving process.
         self.encode_date = encode_date
+        self.all_null_is_deleted = all_null_is_deleted
         LOGGER.debug(f"SQL dialect: {self.dialect}")
 
         self.attributes = {}

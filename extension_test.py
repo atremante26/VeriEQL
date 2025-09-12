@@ -223,6 +223,7 @@ if __name__ == '__main__':
         'timer': True,
         'show_counterexample': True,
         "dialect": DIALECT.MYSQL,
+        'all_null_is_deleted': True,
     }
 
     # Run evaluation for all questions in the selected extension type

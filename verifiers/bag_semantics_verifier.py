@@ -117,6 +117,18 @@ def equals(ltuples, rtuples):
         cmp_funcs = self.cmp_funcs(left_attributes, right_attributes)
         lhs_tuple_values = self.tuple_values(ltable.values(), left_attributes, cmp_funcs)
         rhs_tuple_values = self.tuple_values(rtable.values(), right_attributes, cmp_funcs)
+
+        # treat all NULL row as deleted by updating delete value with all null constraint
+        if self._env.all_null_is_deleted:
+            for idx, tuple_values in enumerate(lhs_tuple_values):
+                if all(isinstance(attr_value, list) for attr_value in tuple_values[1:]):
+                    lhs_tuple_values[idx][0] = Or(tuple_values[0],
+                                                  And(*[attr_value[0] for attr_value in tuple_values[1:]]))
+            for idx, tuple_values in enumerate(rhs_tuple_values):
+                if all(isinstance(attr_value, list) for attr_value in tuple_values[1:]):
+                    rhs_tuple_values[idx][0] = Or(tuple_values[0],
+                                                  And(*[attr_value[0] for attr_value in tuple_values[1:]]))
+
         tuple_values = lhs_tuple_values + rhs_tuple_values
         cmp_formulas = {}
         for i, lhs_value in enumerate(tuple_values):
