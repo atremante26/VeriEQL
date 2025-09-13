@@ -120,7 +120,9 @@ if __name__ == '__main__':
             config = {'generate_code': True, 
                       'timer': True, 
                       'show_counterexample': True, 
-                      'dialect': DIALECT.MYSQL}
+                      'dialect': DIALECT.MYSQL,
+                      "all_null_is_deleted": True, 
+                      }
             if not args.vanilla:
                 DATE_KEYS = ["STRFTIME"]
                 config["encode_date"] = config.get("encode_date", False) or any(
