@@ -69,7 +69,7 @@
     },
     "312": {
         "question_id": "312",
-        "analyze": "Ambigious quetion:   It doesn’t specify whether we need to check if any atoms related to a molecule.",
+        "analyze": "GoldSQL: Performs additinal JOIN on atom",
         "question": "What is the carcinogenic label for bond TR001_2_4?",
         "evidence": "label = '+' mean molecules are carcinogenic",
         "SQL": "SELECT DISTINCT T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_id = 'TR001_2_4'",
@@ -86,7 +86,7 @@
     },
     "318": {
         "question_id": "318",
-        "analyze": "Ambigious quetion: It doesn’t specify whether we need to check if any atoms are connected by this bond.",
+        "analyze": "GoldSQL: Perfoms addition JOIN operators (not sure why)",
         "question": "What is the molecule id of bond id TR001_1_7?",
         "evidence": "",
         "SQL": "SELECT DISTINCT T1.molecule_id FROM atom AS T1 INNER JOIN connected AS T2 ON T1.atom_id = T2.atom_id WHERE T2.bond_id = 'TR001_1_7'",
@@ -137,7 +137,7 @@
     },
     "475": {
         "question_id": "475",
-        "analyze": "GoldSQL: SUM on empty rows return NULL. We need to return 0 as the quetion is 'How many'",
+        "analyze": "GoldSQL: SUM on empty rows return NULL. We need to return 0 as the question is 'How many'",
         "question": "How many cards in the set Coldsnap have a black border color?",
         "evidence": "card set Coldsnap refers to name = 'Coldsnap'; black border color refers to borderColor = 'black'",
         "SQL": "SELECT SUM(CASE WHEN T1.borderColor = 'black' THEN 1 ELSE 0 END) FROM cards AS T1 INNER JOIN sets AS T2 ON T2.code = T1.setCode WHERE T2.name = 'Coldsnap'",
@@ -205,7 +205,7 @@
     },
     "583": {
         "question_id": "583",
-        "analyze": "Ambigious quetion: It doesn’t specify whether we need to compute scroe per url or in total",
+        "analyze": "Ambigious question: It doesn’t specify whether we need to compute score per url or in total",
         "question": "What is the total score of the posts edited by Yevgeny and include the user's website URL.",
         "evidence": "\"Yevgeny\" is the DisplayName; edited refers to LastEditorUserId",
         "SQL": "SELECT SUM(T1.Score), T2.WebsiteUrl FROM posts AS T1 INNER JOIN users AS T2 ON T1.LastEditorUserId = T2.Id WHERE T2.DisplayName = 'Yevgeny' GROUP BY T2.WebsiteUrl",
@@ -256,7 +256,7 @@
     },
     "707": {
         "question_id": "707",
-        "analyze": "Ambigious quetion:   It doesn’t specify tie breaking rule",
+        "analyze": "Ambigious question: It doesn’t specify tie breaking rule",
         "question": "Among the posts with views ranging from 100 to 150, what is the comment with the highest score?",
         "evidence": "views ranging from 100 to 150 refers to ViewCount BETWEEN 100 and 150; comment with the highest score refers to Text where MAX(Score);",
         "SQL": "SELECT Text FROM comments WHERE PostId IN ( SELECT Id FROM posts WHERE ViewCount BETWEEN 100 AND 150 ) ORDER BY Score DESC LIMIT 1",
