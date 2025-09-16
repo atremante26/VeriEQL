@@ -18,7 +18,7 @@ from collections import defaultdict
 import glob
 import numpy as np
 
-def analyze_incorrectness(csv_folder_path):
+def analyze_incorrectness(incorrects, csv_folder_path):
     """
     Analyze incorrectness across all CSV files in the given folder.
     
@@ -31,35 +31,40 @@ def analyze_incorrectness(csv_folder_path):
 
     # Dictionary to store incorrectness count for each question_id
     incorrectness_count = defaultdict(int)
-    
+
     # Find all CSV files in the folder
     csv_files = glob.glob(os.path.join(csv_folder_path, "*.csv"))
-    
+
     print(f"Found {len(csv_files)} CSV files to analyze:")
     for csv_file in csv_files:
         print(f"  - {os.path.basename(csv_file)}")
-    
+
     # Process each CSV file
     for csv_file in csv_files:
         print(f"\nProcessing: {os.path.basename(csv_file)}")
-        
+
         try:
             # Read CSV file
             df = pd.read_csv(csv_file)
-            
+
             # Check if required columns exist
             if 'question_id' not in df.columns or 'res' not in df.columns:
                 print(f"  Warning: Missing required columns in {csv_file}")
                 continue
-                
+
             # Process each row
             for _, row in df.iterrows():
                 question_id = row['question_id']
-                #if question_id not in incorrectness_count:
-                #    incorrectness_count[question_id] = 0
+                if int(question_id) not in incorrects:
+                    continue
+                if question_id not in incorrectness_count:
+                    incorrectness_count[question_id] = 0
                 is_incorrect = False
-                
+
                 # Check if res is incorrect
+                if row['res'] == "incorrect":
+                    is_incorrect = True
+
                 if 'verieql_res' in df.columns:
                     if row['verieql_res'] == 'incorrect':
                         is_incorrect = True
@@ -67,12 +72,12 @@ def analyze_incorrectness(csv_folder_path):
                 # Increment count if incorrect
                 if is_incorrect:
                     incorrectness_count[question_id] += 1
-            
+
             print(f"  Processed {len(df)} rows")
-            
+
         except Exception as e:
             print(f"  Error processing {csv_file}: {e}")
-    
+
     return dict(incorrectness_count)
 
 import matplotlib.pyplot as plt
@@ -158,11 +163,21 @@ def print_summary_statistics(incorrectness_data):
 def main():
     # Set the folder path
     csv_folder_path = sys.argv[1]
+    target_path = sys.argv[4]
     
     print("Starting analysis of CSV files...")
-    
+
+    df = pd.read_csv(target_path)
+
+    # Process each row
+    incorrects = set()
+    for _, row in df.iterrows():
+        question_id = row['question_id']
+        if row['res'] == "incorrect":
+            incorrects.add(int(question_id))
+
     # Analyze incorrectness
-    incorrectness_data = analyze_incorrectness(csv_folder_path)
+    incorrectness_data = analyze_incorrectness(incorrects, csv_folder_path)
     
     # Print summary statistics
     print_summary_statistics(incorrectness_data)
