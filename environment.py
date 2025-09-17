@@ -699,7 +699,7 @@ class Environment:
             Z3_1 <= day,
             Implies(Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
                        month == Z3_12), day <= Z3_31),
-            Implies(month == Z3_2, day <= Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0)),
+            Implies(month == Z3_2, day <= Z3_28 + If(is_leap, Z3_1, Z3_0)),
             Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), day <= Z3_30),
         ]
 
