@@ -30,3 +30,7 @@ for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(base
 # To generate the histogram
 
 python analyze_incorrectness.py ./VeriEQL_results_val_cc/ VeriEQL_results_val_cc_verieql_only_histogram.png VeriEQL_results_val_cc_verifyeql_only_histogram.json
+
+
+# To generate runtime
+for file in VeriEQL_results_val_null/*; do echo $file; python runtime.py $file; done
