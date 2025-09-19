@@ -339,4 +339,53 @@
         "omni-32-majority_sql.json.csv": "SELECT DRIVERS.NATIONALITY FROM DRIVERS WHERE DRIVERS.DRIVERID = ( SELECT RESULTS.DRIVERID FROM RESULTS WHERE RESULTS.RACEID = 933 ORDER BY RESULTS.FASTESTLAPSPEED DESC LIMIT 1 );",
         "gena_submission_1_sql.json.csv": "SELECT T1.NATIONALITY FROM DRIVERS AS T1 INNER JOIN RESULTS AS T2 ON T1.DRIVERID = T2.DRIVERID WHERE T2.RACEID = 933 ORDER BY T2.FASTESTLAPSPEED DESC LIMIT 1"
     }
+	"927": {
+		"analyze": "GenSQL does not filter NULL"
+	}
+	"977": {
+		"analyze": "incorrect Gold SQL. If time is all NULL, Gold SQL returns NULL instead of 0."
+	}
+	"1019": {
+		"analyze": "Average is computed incorrectly when denominator contains NULL"
+	}
+	"1039": {
+		"analyze": "The average is not computed correctly  when denominator contains NULL"
+	}
+	"1072": {
+		"analyze": "average computed incorrectly  when denominator contains NULL"
+	}
+	"1095": {
+		"analyze": "average computed incorrectly when denominator contains NULL"
+	}
+	"1096": {
+		"analyze": "average computed incorrectly when denominator contains NULL"
+	}
+	"1101": {
+		"analyze": "average computed incorrectly when denominator contains NULL"
+	}
+	"1183": {
+		"analyze": "Should return EXAMINATION.diagnosis. Good one."
+	}
+	"1263": {
+		"analyze": "Does not handle tie-breaking correctly."
+	}
+	"1332": {
+		"analyze": "Extra filter on Gold SQL SUBSTR(T1.event_date, 6, 2) = '09'"
+	}
+	"1335": {
+		"analyze": "Extra filter on Gold SQL SUBSTR(T1.event_date, 6, 2) = '09'"
+	}
+	"1403": {
+		"analyze": "Gold SQL use filters on Expense instead of Event"
+	}
+
+	"1426": {
+		"analyze": "Extra filter 'Member'. Cool."
+	}
+	"1509": {
+		"analyze": "Does not take into account NULL id. Cool"
+	}
+	"1513": {
+		"analyze": "Gold SQL gives the latest paid customer not the earliest paid customer!"
+	}
 }
