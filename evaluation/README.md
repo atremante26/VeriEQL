@@ -29,8 +29,9 @@ for file in ../predictions/*json; do python coverage.py ./VeriEQL_results/$(base
 
 # To generate the histogram
 
-python analyze_incorrectness.py ./VeriEQL_results_val_cc/ VeriEQL_results_val_cc_verieql_only_histogram.png VeriEQL_results_val_cc_verifyeql_only_histogram.json
+python analyze_incorrectness.py ./VeriEQL_results_val_cc_null/ VeriEQL_results_val_cc_verieql_only_histogram.png VeriEQL_results_val_cc_verifyeql_only_histogram.json
 
+python analyze_incorrectness.py ./EX_results/ EX_results_histogram.png EX_results_histogram.json ./EX_results/csc-32b_sql.json_EX.csv 
 
 # To generate runtime
 for file in VeriEQL_results_val_null/*; do echo $file; python runtime.py $file; done

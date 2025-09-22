@@ -57,13 +57,13 @@ def analyze_incorrectness(incorrects, csv_folder_path):
                 question_id = row['question_id']
                 if int(question_id) not in incorrects:
                     continue
-                if question_id not in incorrectness_count:
-                    incorrectness_count[question_id] = 0
+                #if question_id not in incorrectness_count:
+                #    incorrectness_count[question_id] = 0
                 is_incorrect = False
 
                 # Check if res is incorrect
-                if row['res'] == "incorrect":
-                    is_incorrect = True
+                #if row['res'] == "incorrect":
+                #    is_incorrect = True
 
                 if 'verieql_res' in df.columns:
                     if row['verieql_res'] == 'incorrect':
@@ -100,13 +100,13 @@ def create_histogram(incorrectness_data, output_path=None):
         plt.figure(figsize=(12, 8))
         bars = plt.bar(values, frequencies, alpha=0.7, edgecolor='black')
 
-        # Larger fonts for labels
-        plt.xlabel('# predictions deemed correct by EX and incorrect by SpotIt', fontsize=20)
-        plt.ylabel('# questions', fontsize=20)
+        # Even larger fonts for labels
+        plt.xlabel('# Text-to-SQL methods', fontsize=28)
+        plt.ylabel('# questions', fontsize=28)
 
         plt.grid(True, axis="y", alpha=0.3)
-        plt.xticks(values, fontsize=20)   # One tick per integer
-        plt.yticks(fontsize=20)
+        plt.xticks(values, fontsize=24)   # One tick per integer
+        plt.yticks(fontsize=24)
 
         # Add value labels above each bar
         for bar, freq in zip(bars, frequencies):
@@ -163,18 +163,21 @@ def print_summary_statistics(incorrectness_data):
 def main():
     # Set the folder path
     csv_folder_path = sys.argv[1]
-    target_path = sys.argv[4]
-    
-    print("Starting analysis of CSV files...")
+    if len(sys.argv) != 5:
+        incorrects = set([i for i in range(1, 1533)])  # Default to question IDs 1 to 100
+    else:
+        target_path = sys.argv[4]
+        
+        print("Starting analysis of CSV files...")
 
-    df = pd.read_csv(target_path)
+        df = pd.read_csv(target_path)
 
-    # Process each row
-    incorrects = set()
-    for _, row in df.iterrows():
-        question_id = row['question_id']
-        if row['res'] == "incorrect":
-            incorrects.add(int(question_id))
+        # Process each row
+        incorrects = set()
+        for _, row in df.iterrows():
+            question_id = row['question_id']
+            if row['res'] == "incorrect":
+                incorrects.add(int(question_id))
 
     # Analyze incorrectness
     incorrectness_data = analyze_incorrectness(incorrects, csv_folder_path)
