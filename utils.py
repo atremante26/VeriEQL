@@ -338,6 +338,18 @@ def date_pattern_to_int(date: str):
         lb = ub = _f(year, month, day)
     return lb, ub
 
+def date_to_juliandate(year, month, day):
+    if month <= 2:
+        year -= 1
+        month += 12
+
+    A = year // 100
+    B = 2 - A + (A // 4)
+
+    # Integer day part
+    jd_day = (math.floor(365.25 * (year + 4716)) + math.floor(30.6001 * (month + 1)) + day + B - 1524.5)
+
+    return jd_day
 
 def decode_unicode_braces(match):
     # decode into unicode, e.g., \\u{165} -> ť

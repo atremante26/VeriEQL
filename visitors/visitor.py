@@ -2480,6 +2480,30 @@ And(
 
         return _f
 
+    @visitor(FToJulianDatePredicate)
+    def visit(self, formulas: FToJulianDatePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            # date -> juliandate
+            date = self.visit(formulas[0])(*args, **kwargs)
+
+            assert isinstance(date.VALUE, FDate), NotSupportedError("JulianDate only accepts date.")
+
+            def floor_division(x, y):
+                return If(x % y == Z3_0, x / y, (x - x % y) / y)
+
+            Y, M, D = date.VALUE.year, date.VALUE.month, date.VALUE.day
+            Y_adj = If(M <= Z3_2, Y - Z3_1, Y)
+            M_adj = If(M <= Z3_2, M + Z3_12, M)
+            A = floor_division(Y_adj, Z3_100)
+            B = Z3_2 - A + (A / Z3_4)
+            v1 = IntVal("36525") * (Y_adj + IntVal("4716"))
+            v2 = IntVal("306001") * (M_adj + Z3_1)
+            jd_day = floor_division(v1, Z3_100) + floor_division(v2, Z3_10000) + D + B - RealVal("1524.5")
+
+            return FExpressionTuple(date.NULL, jd_day)
+
+        return _f
+
     @visitor(FSubstrPredicate)
     def visit(self, formulas: FSubstrPredicate, **kwargs):
         def _f(*args, **kwargs):

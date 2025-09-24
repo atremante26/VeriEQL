@@ -29,7 +29,7 @@ def load_schemas():
 def eval(sql1, sql2, schema, ROW_NUM=2, constraints=None, **kwargs):
     # encode_date = True: must encode dates/datetimes as tuples;
     # encode_date = False: only follow this encoding if queries involve STRFTIME
-    DATE_KEYS = ["STRFTIME"]
+    DATE_KEYS = ["STRFTIME", "JULIANDAY"]
     kwargs["encode_date"] = kwargs.get("encode_date", False) or any(
         any(map(lambda query: key in str.upper(query), [sql1, sql2])) for key in DATE_KEYS)
     # encode_string = True: must encode strings as Z3 builtin strings;
@@ -85,26 +85,26 @@ if __name__ == '__main__':
             1: ["SELECT COUNT(DISTINCT PATIENT.ID) FROM PATIENT INNER JOIN EXAMINATION ON PATIENT.ID = EXAMINATION.ID WHERE PATIENT.SEX = 'M' AND EXAMINATION.EXAMINATION_DATE BETWEEN '1995-01-01' AND '1997-12-31' AND EXAMINATION.DIAGNOSIS = 'BEHCET' AND PATIENT.ADMISSION = '-'",
                 "SELECT COUNT(T1.ID) FROM PATIENT AS T1 INNER JOIN EXAMINATION AS T2 ON T1.ID = T2.ID WHERE T2.DIAGNOSIS = 'BEHCET' AND T1.SEX = 'M' AND STRFTIME('%Y', T2.EXAMINATION_DATE) BETWEEN '1995' AND '1997' AND T1.ADMISSION = '-'",
                 "thrombosis_prediction"],
-            #68: [
+            # 68: [
             #    "SELECT SCHOOLS.COUNTY FROM SCHOOLS WHERE SCHOOLS.SOC = 11 AND SCHOOLS.CLOSEDDATE BETWEEN '1980-01-01' AND '1989-12-31' GROUP BY SCHOOLS.COUNTY ORDER BY COUNT(*) DESC LIMIT 1",
             #    "SELECT COUNTY FROM SCHOOLS WHERE STRFTIME('%Y', CLOSEDDATE) BETWEEN '1980' AND '1989' AND STATUSTYPE = 'CLOSED' AND SOC = 11 GROUP BY COUNTY ORDER BY COUNT(SCHOOL) DESC LIMIT 1",
             #    "california_schools"
-            #],
-            #969: [
+            # ],
+            # 969: [
             #    "SELECT COUNT(*) FROM DRIVERS WHERE NATIONALITY = 'BRITISH' AND STRFTIME('%Y', DOB) = '1980';",
             #    "SELECT COUNT(DRIVERID) FROM DRIVERS WHERE NATIONALITY = 'BRITISH' AND STRFTIME('%Y', DOB) = '1980'",
             #    "formula_1"
-            #],
-            #1150: [
+            # ],
+            # 1150: [
             #    "SELECT CAST(COUNT(ID) * 100.0 / (SELECT COUNT(ID) FROM PATIENT WHERE SEX = 'F') AS REAL) FROM PATIENT WHERE SEX = 'F' AND STRFTIME('%Y', BIRTHDAY) > '1930'",
             #    "SELECT CAST(SUM(CASE WHEN STRFTIME('%Y', BIRTHDAY) > '1930' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM PATIENT WHERE SEX = 'F'",
             #    "thrombosis_prediction"
-            #],
-            #1339: [
+            # ],
+            # 1339: [
             #    "SELECT AVG(EXPENSE.COST) FROM EXPENSE INNER JOIN MEMBER ON EXPENSE.LINK_TO_MEMBER = MEMBER.MEMBER_ID WHERE MEMBER.FIRST_NAME = 'ELIJAH' AND MEMBER.LAST_NAME = 'ALLEN' AND (STRFTIME('%M', EXPENSE.EXPENSE_DATE) = '09' OR STRFTIME('%M', EXPENSE.EXPENSE_DATE) = '10')",
             #    "SELECT AVG(T2.COST) FROM MEMBER AS T1 INNER JOIN EXPENSE AS T2 ON T1.MEMBER_ID = T2.LINK_TO_MEMBER WHERE T1.LAST_NAME = 'ALLEN' AND T1.FIRST_NAME = 'ELIJAH' AND (SUBSTR(T2.EXPENSE_DATE, 6, 2) = '09' OR SUBSTR(T2.EXPENSE_DATE, 6, 2) = '10')",
             #    "student_club"
-            #]
+            # ]
         }
     elif args.extension_type == 'substring':
         questions = {
@@ -244,4 +244,4 @@ if __name__ == '__main__':
             print(f"Warning: No schema found for database '{schema_name}'")
 
         eval(sql1, sql2, schema, 2, constraints=constraints, **config)
-        #eval(sql1, sql2, schema, ROW_NUM=2, constraints=constraints, **config)
+        # eval(sql1, sql2, schema, ROW_NUM=2, constraints=constraints, **config)

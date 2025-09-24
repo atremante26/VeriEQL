@@ -27,6 +27,7 @@ from .like_predicate import FLikePredicate
 from .date_like_predicate import FDateLikePredicate
 from .to_date_predicate import FToDatePredicate
 from .strftime_predicate import FStrftimePredicate
+from .to_juliandate_predicate import FToJulianDatePredicate
 
 PredicateType = FBasePredicate | \
                 FInPredicate | FNotInPredicate | FIsNullPredicate | FIsNotNullPredicate | FCasePredicate | \
@@ -34,7 +35,7 @@ PredicateType = FBasePredicate | \
                 FAnyValuePredicate | FFirstValuePredicate | FLastValuePredicate | FModPredicate | \
                 FIsTruePredicate | FIsFalsePredicate | FIsNotTruePredicate | FIsNotFalsePredicate | \
                 FIsNullOrHoldPredicate | FNullIfPredicate | FToRealPredicate | FSubstrPredicate | \
-                FLikePredicate | FDateLikePredicate | FToDatePredicate | FStrftimePredicate
+                FLikePredicate | FDateLikePredicate | FToDatePredicate | FStrftimePredicate | FToJulianDatePredicate
 
 __all__ = [
     'FInPredicate',
@@ -63,6 +64,7 @@ __all__ = [
     'FStrftimePredicate',
     'FLikePredicate',
     'FDateLikePredicate',
+    'FToJulianDatePredicate',
 
     'PredicateType',
 ]

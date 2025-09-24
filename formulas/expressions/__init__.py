@@ -34,6 +34,7 @@ from .predicates import (
     FDateLikePredicate,
     FToDatePredicate,
     FStrftimePredicate,
+    FToJulianDatePredicate,
     PredicateType,
 )
 from .sym_func import FSymbolicFunc
@@ -102,6 +103,7 @@ __all__ = [
     'FDateLikePredicate',
     'FToDatePredicate',
     'FStrftimePredicate',
+    'FToJulianDatePredicate',
     'PredicateType',
 
     'FSymbol',

@@ -40,7 +40,8 @@ def is_date(query):
 
 def get_juliandate_now(date):
     if str.lower(date) == "now":
-        return FDigits(utils.strptime_to_int(utils.now()) + JULIANDATE_OFFSET)
+        date = list(map(int, utils.now()[:10].split('-')))
+        return utils.date_to_juliandate(*date)
     else:
         raise NotImplementedError("Only support `JULIANDAY('now')`.")
 
@@ -1475,11 +1476,9 @@ class Encoder:
                     else:
                         raise SyntaxError(f"Unknown argument for {str.upper(operator)}")
                 case 'julianday':
-                    if isinstance(operands, str):  # JULIANDAY('T1.A')
+                    if isinstance(operands, str) or is_date(operands):  # JULIANDAY('T1.A'), JULIANDAY('2025-08-29')
                         attr = self.parse_expression(operands, ctx, **kwargs)
-                        return FExpression(FOperator('add'), [attr, FDigits(JULIANDATE_OFFSET)])
-                    elif is_date(operands):  # JULIANDAY('2025-08-29')
-                        return self.parse_expression(operands, ctx, **kwargs) + JULIANDATE_OFFSET
+                        return FToJulianDatePredicate(attr)
                     elif is_literal(operands):  # only JULIANDAY('now')
                         return get_juliandate_now(operands['literal'])
                     else:  # JULIANDAY('now', 'start of month', '+1 month', '-1 day')
