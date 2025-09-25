@@ -563,7 +563,7 @@
 
 	"1426": {
         "question_id": "1426",
-		"analyze": "Extra filter 'Member'. Cool.",
+		"analyze": "Extra filter 'Member'.",
         "question": "List the last name of members with a major in environmental engineering and include its department and college name.",
         "evidence": "'Environmental Engineering' is the major_name;",
         "SQL": "SELECT T2.last_name, T1.department, T1.college FROM major AS T1 INNER JOIN member AS T2 ON T1.major_id = T2.link_to_major WHERE T2.position = 'Member' AND T1.major_name = 'Environmental Engineering'",
@@ -582,7 +582,7 @@
 	"1509": {
         "question_id": "1509",
 
-		"analyze": "Does not take into account NULL id. Cool",
+		"analyze": "Does not take into account NULL id.",
         "question": "Among the transactions made in the gas stations in the Czech Republic, how many of them are taken place after 2012/1/1?",
         "evidence": "Czech Republic can be represented as the Country value in the gasstations table is 'CZE'",
         "SQL": "SELECT COUNT(T1.TransactionID) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T2.Country = 'CZE' AND STRFTIME('%Y', T1.Date) >= '2012'",
