@@ -18,7 +18,7 @@ from collections import defaultdict
 import glob
 import numpy as np
 
-def analyze_incorrectness(incorrects, csv_folder_path):
+def analyze_incorrectness(incorrects, csv_folder_path, ex):
     """
     Analyze incorrectness across all CSV files in the given folder.
     
@@ -61,9 +61,10 @@ def analyze_incorrectness(incorrects, csv_folder_path):
                 #    incorrectness_count[question_id] = 0
                 is_incorrect = False
 
-                # Check if res is incorrect
-                #if row['res'] == "incorrect":
-                #    is_incorrect = True
+                if ex:
+                    # Check if res is incorrect
+                    if row['res'] == "incorrect":
+                        is_incorrect = True
 
                 if 'verieql_res' in df.columns:
                     if row['verieql_res'] == 'incorrect':
@@ -97,22 +98,32 @@ def create_histogram(incorrectness_data, output_path=None):
         # Count how many questions fall into each incorrectness value
         values, frequencies = np.unique(counts, return_counts=True)
 
-        plt.figure(figsize=(12, 8))
-        bars = plt.bar(values, frequencies, alpha=0.7, edgecolor='black')
+        # Make the plot taller and wider
+        plt.figure(figsize=(8, 6))  # Increased height from 8 to 14
+
+        # Make bars thinner by setting width
+        bar_width = 0.6  # Default is 0.8, so 0.4 is thinner
+        bars = plt.bar(values, frequencies, width=bar_width, alpha=0.7, edgecolor='black')
 
         # Even larger fonts for labels
-        plt.xlabel('# Text-to-SQL methods', fontsize=28)
-        plt.ylabel('# questions', fontsize=28)
+        plt.xlabel('# Text-to-SQL methods', fontsize=36)
+        plt.ylabel('# questions', fontsize=36)
 
-        plt.grid(True, axis="y", alpha=0.3)
-        plt.xticks(values, fontsize=24)   # One tick per integer
-        plt.yticks(fontsize=24)
+        #plt.yscale('log')  # Use log scale for y-axis
+        # Set the y-axis range to be larger (e.g., from 0.8 to 10x the max frequency)
+        min_y = 0.8
+        max_y = max(frequencies) * 1.1 if len(frequencies) > 0 else 10
+        plt.ylim(min_y, max_y)
+        plt.grid(True, axis="y", alpha=0.3, which='both')
+        plt.xticks(values, fontsize=30)   # One tick per integer
+        plt.yticks(fontsize=30)
 
-        # Add value labels above each bar
+        # Add value labels above each bar (show only if freq > 0)
         for bar, freq in zip(bars, frequencies):
             height = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2, height,
-                     f"{int(freq)}", ha='center', va='bottom', fontsize=20)
+            if freq > 0:
+                plt.text(bar.get_x() + bar.get_width()/2, height,
+                         f"{int(freq)}", ha='center', va='bottom', fontsize=26)
 
         plt.tight_layout()
 
@@ -180,7 +191,7 @@ def main():
                 incorrects.add(int(question_id))
 
     # Analyze incorrectness
-    incorrectness_data = analyze_incorrectness(incorrects, csv_folder_path)
+    incorrectness_data = analyze_incorrectness(incorrects, csv_folder_path, len(sys.argv) == 5)
     
     # Print summary statistics
     print_summary_statistics(incorrectness_data)
