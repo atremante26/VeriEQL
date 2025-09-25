@@ -478,7 +478,7 @@
     },
 	"1183": {
         "question_id": "1183",
-		"analyze": "Should return EXAMINATION.diagnosis. Good one.",
+		"analyze": "Should return EXAMINATION.diagnosis.",
  "question": "For the patient who was diagnosed SLE on 1997/1/27, what was his/her original diagnose when he/she came to the hospital for the first time?",
         "evidence": "'SLE' AND original diagnose refers to diagnosis; 1997/1/27 refer to `Examination Date` = '1997-01-27'; first came to the hospital refers to patient.`First Date`",
         "SQL": "SELECT T1.Diagnosis FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T1.ID = ( SELECT ID FROM Examination WHERE `Examination Date` = '1997-01-27' AND Diagnosis = 'SLE' ) AND T2.`Examination Date` = T1.`First Date`",
@@ -599,7 +599,7 @@
 	},
 	"1513": {
                 "question_id": "1513",
-		"analyze": "Gold SQL gives the latest paid customer not the earliest paid customer!",
+		"analyze": "Gold SQL gives the latest paid customer not the earliest paid customer.",
             "question": "Which country's gas station had the first paid cusomer in 2012/8/25?",
         "evidence": "'2012/8/25' can be represented by '2012-08-25'",
         "SQL": "SELECT T2.Country FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-25' ORDER BY T1.Time DESC LIMIT 1",
