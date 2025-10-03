@@ -24,7 +24,6 @@ def test_constraint():
     # Define constraints
     constraints = [
         # Existing constraint types for reference:
-        {'not_null': ['EMPLOYEES__ID']},
         {'primary': ['EMPLOYEES__ID']},
         {'between': [['EMPLOYEES__AGE'], 18, 65]},
         
@@ -72,4 +71,4 @@ def test_constraint():
 
 if __name__ == '__main__':
     result = test_constraint()
-    print(f"Test passed: {result['equivalent']}")
+    print(result)
