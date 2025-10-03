@@ -1,10 +1,3 @@
-import sys
-import os
-
-# Setup paths
-base_dir = "/home/hwu/txt2sql-verieql/VeriEQL"
-sys.path.insert(0, base_dir)
-
 from verieql import verify_sql_equivalence
 from constants import DIALECT
 
@@ -23,11 +16,17 @@ def test_constraint():
     
     # Define constraints
     constraints = [
-        # Existing constraint types for reference:
-        {'primary': ['EMPLOYEES__ID']},
-        {'between': [['EMPLOYEES__AGE'], 18, 65]},
-        
-        # Add your new constraint here:
+        {
+            "primary": [
+                {"value": "EMPLOYEES__ID"}
+            ]
+        },
+        # If you want to add not_null, format would be:
+        # {
+        #     "not_null": [
+        #         {"value": "EMPLOYEES__ID"}
+        #     ]
+        # }
     ]
     
     # Define two SQL queries to test
