@@ -24,6 +24,32 @@ def extract(db_path: str):
                 table_descriptions[table_name] = table
     
     print(f"Found tables: {table_names}")
+
+    # Build schema
+    schema = {}
+    for table in table_names:
+        schema[table.upper()] = {}
+        for _, row in table_descriptions[table].iterrows():
+            col_name = row['original_column_name']
+            data_format = row['data_format']
+            
+            # Map data formats to VeriEQL types
+            if isinstance(data_format, str):
+                data_format_lower = data_format.lower()
+                if data_format_lower in ('integer', 'int'):
+                    schema[table.upper()][col_name] = 'INTEGER'
+                elif data_format_lower in ('real', 'float', 'double'):
+                    schema[table.upper()][col_name] = 'REAL'
+                elif data_format_lower in ('text', 'varchar', 'char', 'string'):
+                    schema[table.upper()][col_name] = 'VARCHAR'
+                elif data_format_lower == 'date':
+                    schema[table.upper()][col_name] = 'DATE'
+                else:
+                    # Default to VARCHAR for unknown types
+                    schema[table.upper()][col_name] = 'VARCHAR'
+            else:
+                # If data_format is NaN or not a string, default to VARCHAR
+                schema[table.upper()][col_name] = 'VARCHAR'
     
     # Read from SQLite DB
     if os.path.exists(SQL_PATH):
@@ -110,7 +136,7 @@ def extract(db_path: str):
         dependencies = find_functional_dependencies(tables_data[table], table_name=table)
         table_dependencies[table] = dependencies
 
-    return table_range_stats, table_categorical_stats, not_null_output, table_dependencies
+    return schema, table_range_stats, table_categorical_stats, not_null_output, table_dependencies
 
 def find_functional_dependencies(df, table_name=""):
     dependencies = []
@@ -165,10 +191,11 @@ def check_dependency(df, determinant_col, dependent_col):
     }
 
 if __name__ == "__main__":
-    ranges_constraints, categorical_constraints, not_null_constraints, dependencies = extract("thrombosis_prediction")
-    print(ranges_constraints)
-    print(categorical_constraints)
-    print(not_null_constraints)
-    print(dependencies)
+    schema, ranges_constraints, categorical_constraints, not_null_constraints, dependencies = extract("thrombosis_prediction")
+    print("Schema:", schema)
+    print("Ranges:", ranges_constraints)
+    print("Categorical:", categorical_constraints)
+    print("Not Null:", not_null_constraints)
+    print("Dependencies:", dependencies)
 
     
