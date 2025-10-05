@@ -741,7 +741,7 @@ class Environment:
                         out = []
                         if len(operands) == 1:
                             # primary key is an attribute
-                            out.extend([Not(attr.NULL) for attr in operands[0]])
+                            out.extend([Not(attr.NULL) for attr in operands[0]]) # NOTE: primary keys already have not null constraint applied
                             for key1, key2 in list(itertools.combinations(operands[0], 2)):
                                 out.append(key1.VALUE != key2.VALUE)
                         else:
@@ -866,8 +866,17 @@ class Environment:
                         operands = [_f(opd) for opd in operands]
                         return {'or': Or, 'and': And}[operator](*operands)
                     case 'not_null':
-                        operands = _f(operands)
+                        '''operands = _f(operands)
+                        print("operands in not_null case: ", operands)
                         return And(*[Not(opd.NULL) for opd in operands])
+                        '''
+                        out = []
+                        print(operands)
+                        for opd in operands:
+                            print("opd: ", opd)
+                            attrs = _f(opd) # attrs = [FExpressionTuple(...), FExpressionTuple(...)]
+                            out.extend([Not(attr.NULL) for attr in attrs])
+                        return And(*out)
                     case 'in':
                         attributes = _f(operands[0])
                         choices = _f(operands[1])

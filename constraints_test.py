@@ -15,31 +15,26 @@ def test_constraint():
     }
     
     # Define constraints
+    #constraints = []
     constraints = [
         {
-            "primary": [
+            "not_null": [
                 {"value": "EMPLOYEES__ID"}
             ]
-        },
-        # If you want to add not_null, format would be:
-        # {
-        #     "not_null": [
-        #         {"value": "EMPLOYEES__ID"}
-        #     ]
-        # }
+        }
     ]
     
     # Define two SQL queries to test
-    sql1 = "SELECT * FROM EMPLOYEES WHERE SALARY > 50000"
-    sql2 = "SELECT * FROM EMPLOYEES WHERE SALARY > 50000"  # Should be equivalent
+    sql1 = "SELECT * FROM EMPLOYEES"
+    sql2 = "SELECT * FROM EMPLOYEES WHERE ID IS NOT NULL" # equivalent with not_null constraint, CEX found without not_null constraint
     
     # Configuration
     config = {
-        'generate_code': False,
+        'generate_code': True,
         'timer': True,
         'show_counterexample': True,
         'dialect': DIALECT.MYSQL,
-        'all_null_is_deleted': True,
+        'all_null_is_deleted': False,
     }
     
     # Run verification
@@ -70,4 +65,34 @@ def test_constraint():
 
 if __name__ == '__main__':
     result = test_constraint()
-    print(result)
+
+
+'''
+Not Null: Existed but bug
+- Initial call to _f(constraint) in environment.py -> constraint = {'not_null': [{'value': 'EMPLOYEES__ID'}]}
+- Matches isinstance(constraint, dict) -> goes to 'not_null' case
+    - operator = 'not_null'
+    - operands = [{'value': 'EMLOYEES__ID'}]
+    - Second call to _f(operands)
+- Matches isinstance(operands, list) -> iteratives over list and calls [_f(e) for e in expr (operands)]
+- Matches isinstance(e, dict) -> goes to 'value' case ({'value': 'EMLOYEES__ID'})
+    - operator = 'value'
+    - operands = 'EMPLOYEES__ID'
+    - Calls _get_attribute(operands) -> returns list of FExpressionTuples
+- Recursion carries back to original 'not_null' case (operands = _f(operands))
+    - operands = [[FExpressionTuple(...), FExpressionTuple(...)]] (nested list because of wrapping in [_f(e) for e in expr] step)
+- return And(*[Not(opd.NULL) for opd in operands])
+    - Caused error because each opd is a list and opd.NULL tries to apply NULL attribute to list
+
+Solution: Iterate manually and unpack nested list
+    - Iterate over elements in operands (which is currently the list: [{'value': 'EMLOYEES__ID'}])
+    - Each element is a dict, so we call attr = _f(opd) on this dict element
+    - This returns only a single list of FExpressionTuples: attrs = [FExpressionTuple(...), FExpressionTuple(...)]
+    - Apply not null constraint to each tuple in list
+    - Return conjunction of constraints
+
+NOTE: Primary keys already have not null constraint applied
+
+Use 'between' constraint for ranges?
+Use 'in' constraint for categorical?
+'''
