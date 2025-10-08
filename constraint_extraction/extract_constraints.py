@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import json
 import os
 import sqlite3
 from collections import defaultdict
@@ -22,35 +22,7 @@ def extract(db_path: str):
                 # Append table to table descriptions
                 table = pd.read_csv(f"{DESCRIPTION_PATH}/{filename}")
                 table_descriptions[table_name] = table
-    
-    print(f"Found tables: {table_names}")
 
-    # Build schema
-    schema = {}
-    for table in table_names:
-        schema[table.upper()] = {}
-        for _, row in table_descriptions[table].iterrows():
-            col_name = row['original_column_name']
-            data_format = row['data_format']
-            
-            # Map data formats to VeriEQL types
-            if isinstance(data_format, str):
-                data_format_lower = data_format.lower()
-                if data_format_lower in ('integer', 'int'):
-                    schema[table.upper()][col_name] = 'INTEGER'
-                elif data_format_lower in ('real', 'float', 'double'):
-                    schema[table.upper()][col_name] = 'REAL'
-                elif data_format_lower in ('text', 'varchar', 'char', 'string'):
-                    schema[table.upper()][col_name] = 'VARCHAR'
-                elif data_format_lower == 'date':
-                    schema[table.upper()][col_name] = 'DATE'
-                else:
-                    # Default to VARCHAR for unknown types
-                    schema[table.upper()][col_name] = 'VARCHAR'
-            else:
-                # If data_format is NaN or not a string, default to VARCHAR
-                schema[table.upper()][col_name] = 'VARCHAR'
-    
     # Read from SQLite DB
     if os.path.exists(SQL_PATH):
         conn = sqlite3.connect(SQL_PATH)
@@ -61,12 +33,40 @@ def extract(db_path: str):
             try:
                 df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
                 tables_data[table_name] = df
-                print(f"Loaded table '{table_name}': {len(df)} rows")
             except Exception as e:
                 print(f"Error loading table '{table_name}': {e}")
     else:
         print(f"SQLite file not found: {SQL_PATH}")
         return None
+    
+    # Build schema
+    schema = {}
+    for table_name in table_names:
+        schema[table_name.upper()] = {}
+        
+        # Get column info
+        cursor = conn.cursor()
+        cursor.execute(f"PRAGMA table_info({table_name})")
+        columns_info = cursor.fetchall()
+        
+        for col_info in columns_info:
+            col_name = col_info[1]  # Column name
+            col_type = col_info[2].upper()  # Column type
+            
+            # Normalize column name
+            normalized_col_name = col_name.upper().replace(' ', '_')
+            
+            # Map SQLite types to VeriEQL types
+            if col_type in ('INTEGER', 'INT'):
+                schema[table_name.upper()][normalized_col_name] = 'INTEGER'
+            elif col_type in ('REAL', 'FLOAT', 'DOUBLE'):
+                schema[table_name.upper()][normalized_col_name] = 'REAL'
+            elif col_type in ('TEXT', 'VARCHAR', 'CHAR'):
+                schema[table_name.upper()][normalized_col_name] = 'VARCHAR'
+            elif col_type == 'DATE':
+                schema[table_name.upper()][normalized_col_name] = 'DATE'
+            else:
+                schema[table_name.upper()][normalized_col_name] = 'VARCHAR'
 
     # Calculate ranges
     table_range_cols = defaultdict(list)
@@ -74,20 +74,18 @@ def extract(db_path: str):
         for _, row in table_descriptions[table].iterrows():
             if isinstance(row['data_format'], str) and row['data_format'].lower() in ('integer', 'real'):
                 table_range_cols[table].append(row['original_column_name'])
-    
+
     table_range_stats = defaultdict(list)
     for table in table_names:
-        for col in table_range_cols[table]:
-            table_range_stats[table].append({
-                'column': col,
-                'max': tables_data[table][col].max(),
-                'min': tables_data[table][col].min(),
-                'mean': tables_data[table][col].mean()
+        for stat in table_range_stats[table]:
+            all_constraints.append({
+                "between": [
+                    [{"value": f"{table.upper()}__{stat['column']}"}],
+                    float(stat['min']) if pd.notna(stat['min']) else None,  # Convert to Python float
+                    float(stat['max']) if pd.notna(stat['max']) else None   # Convert to Python float
+                ]
             })
-    
-    for table in table_range_stats.keys():
-        table_range_stats[table] = pd.DataFrame(table_range_stats[table])
-            
+
     # Calculate categorical
     table_categorical_cols = defaultdict(list)
     for table in table_names:
@@ -106,10 +104,6 @@ def extract(db_path: str):
                     'n_categories': tables_data[table][col].nunique()
                 })
 
-    for table in table_categorical_stats.keys():
-        table_categorical_stats[table] = pd.DataFrame(table_categorical_stats[table])
-
-
     # Calculate NOT NULL
     table_not_null_cols = defaultdict(list)
     for table in table_names:
@@ -117,28 +111,65 @@ def extract(db_path: str):
                         if not tables_data[table][col].isnull().any()]
         table_not_null_cols[table] = not_null_cols
 
-    def not_null_entries(table_name: str, cols: list[str]) -> list[dict]:
-        return [{"not_null": [{"value": f"{table_name}__{col}"}]} for col in cols]
-
-    entries = []
+    # Calculate Dependencies
+    table_dependencies = defaultdict(list)
     for table in table_names:
-        entries.extend(not_null_entries(table.upper(), table_not_null_cols[table]))
+        dependencies = find_dependencies(tables_data[table], table_name=table)
+        table_dependencies[table] = dependencies
 
-    not_null_output = {
+    # TODO: NEED TO IMPLEMENT DEPENDENCIES CONSTRAINTS
+
+    # Format Constraints for VeriEQL
+    all_constraints = []
+
+    # NOT NULL constraints
+    for table in table_names:
+        for col in table_not_null_cols[table]:
+            all_constraints.append({
+                "not_null": [{"value": f"{table.upper()}__{col}"}]
+            })
+
+    # BETWEEN constraints (for numeric ranges)
+    for table in table_names:
+        for stat in table_range_stats[table]:
+            all_constraints.append({
+                "between": [
+                    [{"value": f"{table.upper()}__{stat['column']}"}],
+                    stat['min'],
+                    stat['max']
+                ]
+            })
+
+    # IN constraints (for categorical)
+    for table in table_names:
+        for stat in table_categorical_stats[table]:
+            all_constraints.append({
+                "in": [
+                    [{"value": f"{table.upper()}__{stat['column']}"}],
+                    stat['categories']
+                ]
+            })
+
+    # Format for VeriEQL
+    constraints_output = {
         db_path: [
-            entries
+            all_constraints
         ]
     }
 
-    # Calculate dependencies
-    table_dependencies = defaultdict(list)
-    for table in table_names:
-        dependencies = find_functional_dependencies(tables_data[table], table_name=table)
-        table_dependencies[table] = dependencies
+    # Save to schema JSON
+    schema_output = {db_path: schema}
+    with open(f'constraint_results/{db_path}_schema.json', 'w') as f:
+        json.dump(schema_output, f, indent=2)
+    
+    # Save constraints to JSON
+    with open(f'constraint_results/{db_path}_constraints.json', 'w') as f:
+        json.dump(constraints_output, f, indent=2)
 
-    return schema, table_range_stats, table_categorical_stats, not_null_output, table_dependencies
+    return schema, constraints_output
 
-def find_functional_dependencies(df, table_name=""):
+
+def find_dependencies(df, table_name=""):
     dependencies = []
     columns = df.columns.tolist()
         
@@ -191,11 +222,8 @@ def check_dependency(df, determinant_col, dependent_col):
     }
 
 if __name__ == "__main__":
-    schema, ranges_constraints, categorical_constraints, not_null_constraints, dependencies = extract("thrombosis_prediction")
-    print("Schema:", schema)
-    print("Ranges:", ranges_constraints)
-    print("Categorical:", categorical_constraints)
-    print("Not Null:", not_null_constraints)
-    print("Dependencies:", dependencies)
+    schema, constraints = extract("thrombosis_prediction")
+    #print("Schema:", schema)
+    #print("Constraints:", constraints)
 
     
