@@ -11,7 +11,7 @@
       {
         "not_null": [
           {
-            "value": "LABORATORY__Date"
+            "value": "LABORATORY__DATE"
           }
         ]
       },
@@ -32,43 +32,428 @@
       {
         "not_null": [
           {
-            "value": "PATIENT__Admission"
+            "value": "PATIENT__ADMISSION"
           }
         ]
       },
       {
         "not_null": [
           {
-            "value": "PATIENT__Diagnosis"
+            "value": "PATIENT__DIAGNOSIS"
           }
         ]
       },
       {
         "not_null": [
           {
-            "value": "EXAMINATION__aCL IgG"
+            "value": "EXAMINATION__ACL_IGG"
           }
         ]
       },
       {
         "not_null": [
           {
-            "value": "EXAMINATION__aCL IgM"
+            "value": "EXAMINATION__ACL_IGM"
           }
         ]
       },
       {
         "not_null": [
           {
-            "value": "EXAMINATION__aCL IgA"
+            "value": "EXAMINATION__ACL_IGA"
           }
         ]
       },
       {
         "not_null": [
           {
-            "value": "EXAMINATION__Thrombosis"
+            "value": "EXAMINATION__THROMBOSIS"
           }
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__ID"
+            }
+          ],
+          27654,
+          5452747
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__GOT"
+            }
+          ],
+          3.0,
+          21480.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__GPT"
+            }
+          ],
+          1.0,
+          4780.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__LDH"
+            }
+          ],
+          25.0,
+          67080.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__ALP"
+            }
+          ],
+          11.0,
+          1308.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__TP"
+            }
+          ],
+          0.0,
+          9.9
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__ALB"
+            }
+          ],
+          1.0,
+          5.8
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__UA"
+            }
+          ],
+          0.4,
+          17.3
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__UN"
+            }
+          ],
+          0.0,
+          152.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__CRE"
+            }
+          ],
+          0.1,
+          17.1
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__T-BIL"
+            }
+          ],
+          0.1,
+          7.9
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__T-CHO"
+            }
+          ],
+          37.0,
+          568.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__TG"
+            }
+          ],
+          1.0,
+          867.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__CPK"
+            }
+          ],
+          0.0,
+          10835.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__GLU"
+            }
+          ],
+          62.0,
+          499.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__WBC"
+            }
+          ],
+          0.9,
+          35.2
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__RBC"
+            }
+          ],
+          0.4,
+          6.6
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__HGB"
+            }
+          ],
+          1.3,
+          18.9
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__HCT"
+            }
+          ],
+          3.0,
+          56.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__PLT"
+            }
+          ],
+          5.0,
+          5844.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__PT"
+            }
+          ],
+          10.1,
+          27.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__APTT"
+            }
+          ],
+          57.0,
+          146.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__FG"
+            }
+          ],
+          23.8,
+          106.5
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__IGG"
+            }
+          ],
+          3.0,
+          6510.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__IGA"
+            }
+          ],
+          1.0,
+          1765.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__IGM"
+            }
+          ],
+          0.0,
+          1573.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__C3"
+            }
+          ],
+          15.0,
+          196.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "LABORATORY__C4"
+            }
+          ],
+          3.0,
+          80.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "PATIENT__ID"
+            }
+          ],
+          2110,
+          5845877
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__ID"
+            }
+          ],
+          14872.0,
+          9334040.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__ACL_IGG"
+            }
+          ],
+          0.0,
+          2150.3
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__ACL_IGM"
+            }
+          ],
+          0.0,
+          187122.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__ANA"
+            }
+          ],
+          0.0,
+          4096.0
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__ACL_IGA"
+            }
+          ],
+          0,
+          48547
+        ]
+      },
+      {
+        "between": [
+          [
+            {
+              "value": "EXAMINATION__THROMBOSIS"
+            }
+          ],
+          0,
+          3
         ]
       },
       {
@@ -1444,7 +1829,7 @@
         "in": [
           [
             {
-              "value": "PATIENT__Admission"
+              "value": "PATIENT__ADMISSION"
             }
           ],
           [
@@ -1459,7 +1844,7 @@
         "in": [
           [
             {
-              "value": "PATIENT__Diagnosis"
+              "value": "PATIENT__DIAGNOSIS"
             }
           ],
           [
@@ -1690,7 +2075,7 @@
         "in": [
           [
             {
-              "value": "EXAMINATION__ANA Pattern"
+              "value": "EXAMINATION__ANA_PATTERN"
             }
           ],
           [
@@ -1716,7 +2101,7 @@
         "in": [
           [
             {
-              "value": "EXAMINATION__Diagnosis"
+              "value": "EXAMINATION__DIAGNOSIS"
             }
           ],
           [
@@ -1947,7 +2332,7 @@
         "in": [
           [
             {
-              "value": "EXAMINATION__Symptoms"
+              "value": "EXAMINATION__SYMPTOMS"
             }
           ],
           [

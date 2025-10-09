@@ -1,34 +1,19 @@
 from verieql import verify_sql_equivalence
+from constraint_extraction.extract_constraints import extract
 from constants import DIALECT
+import os
 
-def test_constraint():
+def test_constraint(db_path):
+    schema, constraints_dict = extract(db_path) 
     
-    # Define a minimal schema
-    schema = {
-        'EMPLOYEES': {
-            'ID': 'INTEGER',
-            'NAME': 'VARCHAR',
-            'SALARY': 'INTEGER',
-            'DEPARTMENT': 'VARCHAR',
-            'AGE': 'INTEGER'
-        }
-    }
+    db_name = os.path.basename(db_path)
     
-    # Define constraints
-    #constraints = []
-    constraints = [
-        {
-            "not_null": [
-                {"value": "EMPLOYEES__ID"}
-            ]
-        }
-    ]
+    # Extract constraints for specific DB
+    constraints = constraints_dict[db_name][0]
     
-    # Define two SQL queries to test
-    sql1 = "SELECT * FROM EMPLOYEES"
-    sql2 = "SELECT * FROM EMPLOYEES WHERE ID IS NOT NULL" # equivalent with not_null constraint, CEX found without not_null constraint
+    sql1 = "SELECT * FROM EXAMINATION"
+    sql2 = "SELECT * FROM EXAMINATION WHERE ID IS NOT NULL"
     
-    # Configuration
     config = {
         'generate_code': True,
         'timer': True,
@@ -37,34 +22,26 @@ def test_constraint():
         'all_null_is_deleted': False,
     }
     
-    # Run verification
-    try:
-        result = verify_sql_equivalence(
-            sql1, 
-            sql2, 
-            schema, 
-            ROW_NUM=2, 
-            constraints=constraints,
-            **config
-        )
-        
-        print(f"\n{'='*60}")
-        print(f"Equivalent: {result['equivalent']}")
-        print(f"Time cost: {result['time_cost']}")
-        if result['counterexample']:
-            print(f"\nCounterexample:\n{result['counterexample']}")
-        print(f"{'='*60}\n")
-        
-        return result
-        
-    except Exception as e:
-        print(f"Error: {type(e).__name__}: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return None
+    result = verify_sql_equivalence(
+        sql1, 
+        sql2, 
+        schema,
+        ROW_NUM=2, 
+        constraints=constraints,
+        **config
+    )
+    
+    print(f"\n{'='*60}")
+    print(f"Equivalent: {result['equivalent']}")
+    print(f"Time cost: {result['time_cost']}")
+    if result['counterexample']:
+        print(f"\nCounterexample:\n{result['counterexample']}")
+    print(f"{'='*60}\n")
+    
+    return result
 
 if __name__ == '__main__':
-    result = test_constraint()
+    result = test_constraint('constraint_extraction/thrombosis_prediction')
 
 
 '''

@@ -2,11 +2,24 @@ import pandas as pd
 import json
 import os
 import sqlite3
+import numpy as np
 from collections import defaultdict
 from itertools import combinations
 
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (np.integer, np.int64)):
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float64)):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+    
 def extract(db_path: str):
-    SQL_PATH = db_path + "/" + db_path + ".sqlite"
+    db_name = os.path.basename(db_path)
+    
+    SQL_PATH = db_path + "/" + db_name + ".sqlite"
     DESCRIPTION_PATH = db_path + "/database_description"
 
     # Extract table names
@@ -68,7 +81,10 @@ def extract(db_path: str):
             else:
                 schema[table_name.upper()][normalized_col_name] = 'VARCHAR'
 
-    # Calculate ranges
+    # Format Constraints for VeriEQL
+    all_constraints = []
+
+    # Calculate ranges 
     table_range_cols = defaultdict(list)
     for table in table_names:
         for _, row in table_descriptions[table].iterrows():
@@ -77,13 +93,13 @@ def extract(db_path: str):
 
     table_range_stats = defaultdict(list)
     for table in table_names:
-        for stat in table_range_stats[table]:
-            all_constraints.append({
-                "between": [
-                    [{"value": f"{table.upper()}__{stat['column']}"}],
-                    float(stat['min']) if pd.notna(stat['min']) else None,  # Convert to Python float
-                    float(stat['max']) if pd.notna(stat['max']) else None   # Convert to Python float
-                ]
+        for col in table_range_cols[table]:
+            if col in tables_data[table].columns:
+                table_range_stats[table].append({
+                    'column': col,
+                    'max': tables_data[table][col].max(),
+                    'min': tables_data[table][col].min(),
+                    'mean': tables_data[table][col].mean()
             })
 
     # Calculate categorical
@@ -119,22 +135,24 @@ def extract(db_path: str):
 
     # TODO: NEED TO IMPLEMENT DEPENDENCIES CONSTRAINTS
 
-    # Format Constraints for VeriEQL
-    all_constraints = []
-
     # NOT NULL constraints
     for table in table_names:
         for col in table_not_null_cols[table]:
+            normalized_col = col.upper().replace(' ', '_') 
             all_constraints.append({
-                "not_null": [{"value": f"{table.upper()}__{col}"}]
+                "not_null": [{"value": f"{table.upper()}__{normalized_col}"}]
             })
 
     # BETWEEN constraints (for numeric ranges)
     for table in table_names:
         for stat in table_range_stats[table]:
+            # Skip if min or max is NaN
+            if pd.isna(stat['min']) or pd.isna(stat['max']):
+                continue
+            normalized_col = stat['column'].upper().replace(' ', '_')
             all_constraints.append({
                 "between": [
-                    [{"value": f"{table.upper()}__{stat['column']}"}],
+                    [{"value": f"{table.upper()}__{normalized_col}"}],
                     stat['min'],
                     stat['max']
                 ]
@@ -143,28 +161,33 @@ def extract(db_path: str):
     # IN constraints (for categorical)
     for table in table_names:
         for stat in table_categorical_stats[table]:
+            normalized_col = stat['column'].upper().replace(' ', '_') 
             all_constraints.append({
                 "in": [
-                    [{"value": f"{table.upper()}__{stat['column']}"}],
+                    [{"value": f"{table.upper()}__{normalized_col}"}],
                     stat['categories']
                 ]
             })
 
     # Format for VeriEQL
     constraints_output = {
-        db_path: [
+        db_name: [
             all_constraints
         ]
     }
 
+    # Create output directory
+    output_dir = os.path.join(os.path.dirname(db_path), 'constraint_results')
+    os.makedirs(output_dir, exist_ok=True)
+
     # Save to schema JSON
-    schema_output = {db_path: schema}
-    with open(f'constraint_results/{db_path}_schema.json', 'w') as f:
-        json.dump(schema_output, f, indent=2)
-    
+    schema_output = {db_name: schema}
+    with open(os.path.join(output_dir, f'{db_name}_schema.json'), 'w') as f:
+        json.dump(schema_output, f, indent=2, cls=NumpyEncoder)
+
     # Save constraints to JSON
-    with open(f'constraint_results/{db_path}_constraints.json', 'w') as f:
-        json.dump(constraints_output, f, indent=2)
+    with open(os.path.join(output_dir, f'{db_name}_constraints.json'), 'w') as f:
+        json.dump(constraints_output, f, indent=2, cls=NumpyEncoder)
 
     return schema, constraints_output
 
