@@ -3,7 +3,7 @@ from constraint_extraction.extract_constraints import extract
 from constants import DIALECT
 import os
 
-def test_constraint(db_path):
+def test_constraint(db_path, sql1, sql2):
     schema, constraints_dict = extract(db_path) 
     
     db_name = os.path.basename(db_path)
@@ -11,15 +11,13 @@ def test_constraint(db_path):
     # Extract constraints for specific DB
     constraints = constraints_dict[db_name][0]
     
-    sql1 = "SELECT * FROM EXAMINATION"
-    sql2 = "SELECT * FROM EXAMINATION WHERE ID IS NOT NULL"
-    
     config = {
         'generate_code': True,
         'timer': True,
         'show_counterexample': True,
         'dialect': DIALECT.MYSQL,
         'all_null_is_deleted': False,
+        "encode_date": True
     }
     
     result = verify_sql_equivalence(
@@ -41,7 +39,19 @@ def test_constraint(db_path):
     return result
 
 if __name__ == '__main__':
-    result = test_constraint('constraint_extraction/thrombosis_prediction')
+    #sql1 = "SELECT * FROM EXAMINATION"
+    #sql2 = "SELECT * FROM EXAMINATION WHERE ID IS NOT NULL"
+
+    # Previously generated CEX - #1204
+    sql1 = "SELECT COUNT(DISTINCT ID) FROM LABORATORY WHERE STRFTIME('%Y', DATE) = '1997' AND (TP <= 6.0 OR TP >= 8.5);"
+    sql2 = "SELECT COUNT(ID) FROM LABORATORY WHERE (ALB <= 6.0 OR ALB >= 8.5) AND STRFTIME('%Y', DATE) = '1997';"
+    result = test_constraint('constraint_extraction/thrombosis_prediction', sql1, sql2)
+
+
+
+
+
+
 
 
 '''
