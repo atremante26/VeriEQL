@@ -130,29 +130,27 @@ def extract(db_path: str):
     # Calculate Dependencies
     table_dependencies = defaultdict(list)
     for table in table_names:
-        dependencies = find_dependencies(tables_data[table], table_name=table)
+        dependencies = find_dependency(tables_data[table], table_name=table)
         table_dependencies[table] = dependencies
-
-    # TODO: NEED TO IMPLEMENT DEPENDENCIES CONSTRAINTS
 
     # NOT NULL constraints
     for table in table_names:
         for col in table_not_null_cols[table]:
-            normalized_col = col.upper().replace(' ', '_') 
+            normalized_col = col.upper().replace(' ', '_').replace('-', '_')
             all_constraints.append({
-                "not_null": [{"value": f"{table.upper()}__{normalized_col}"}]
+                "not_null": {"value": f"{table.upper()}__{normalized_col}"}
             })
 
-    # BETWEEN constraints (for numeric ranges)
+   # BETWEEN constraints (for numeric ranges)
     for table in table_names:
         for stat in table_range_stats[table]:
             # Skip if min or max is NaN
             if pd.isna(stat['min']) or pd.isna(stat['max']):
                 continue
-            normalized_col = stat['column'].upper().replace(' ', '_')
+            normalized_col = stat['column'].upper().replace(' ', '_').replace('-', '_')  
             all_constraints.append({
                 "between": [
-                    [{"value": f"{table.upper()}__{normalized_col}"}],
+                    {"value": f"{table.upper()}__{normalized_col}"},  
                     stat['min'],
                     stat['max']
                 ]
@@ -161,14 +159,29 @@ def extract(db_path: str):
     # IN constraints (for categorical)
     for table in table_names:
         for stat in table_categorical_stats[table]:
-            normalized_col = stat['column'].upper().replace(' ', '_') 
+            normalized_col = stat['column'].upper().replace(' ', '_').replace('-', '_')  
             all_constraints.append({
                 "in": [
-                    [{"value": f"{table.upper()}__{normalized_col}"}],
+                    {"value": f"{table.upper()}__{normalized_col}"}, 
                     stat['categories']
                 ]
             })
 
+    # Dependency constraints
+    for table in table_names:
+        for dep in table_dependencies[table]:
+            det_col = dep['determinant'].upper().replace(' ', '_').replace('-', '_')
+            dep_col = dep['dependent'].upper().replace(' ', '_').replace('-', '_')
+            
+            all_constraints.append({
+                "dependency": {
+                    "values": [
+                        f"{table.upper()}__{det_col}",
+                        f"{table.upper()}__{dep_col}"
+                    ],
+                    "mappings": dep['mappings']
+                }
+            })
     # Format for VeriEQL
     constraints_output = {
         db_name: [
@@ -192,56 +205,49 @@ def extract(db_path: str):
     return schema, constraints_output
 
 
-def find_dependencies(df, table_name=""):
+def find_dependency(df, table_name=""):
     dependencies = []
     columns = df.columns.tolist()
-        
-    # Check each pair of columns
+    
     for col_a, col_b in combinations(columns, 2):
-        # Skip if columns are identical
         if df[col_a].equals(df[col_b]):
             continue
-            
+        
         # Check if col_a determines col_b
-        dep_a_to_b = check_dependency(df, col_a, col_b)
-        if dep_a_to_b['is_dependent']:
+        dep_result = check_dependency(df, col_a, col_b)
+        if dep_result['is_dependent']:
             dependencies.append({
                 'table': table_name,
                 'determinant': col_a,
                 'dependent': col_b,
-                'confidence': dep_a_to_b['confidence'],
-                'violations': dep_a_to_b['violations']
+                'mappings': dep_result['mappings']
             })
-            
-        # Check if col_b determines col_a
-        dep_b_to_a = check_dependency(df, col_b, col_a)
-        if dep_b_to_a['is_dependent']:
-            dependencies.append({
-                'table': table_name,
-                'determinant': col_b,
-                'dependent': col_a,
-                'confidence': dep_b_to_a['confidence'],
-                'violations': dep_b_to_a['violations']
-            })
-        
+    
     return dependencies
 
 def check_dependency(df, determinant_col, dependent_col):
     valid_df = df[[determinant_col, dependent_col]].dropna()
-        
+    
     if len(valid_df) == 0:
-        return {'is_dependent': False, 'confidence': 0, 'violations': 0}
-        
-    grouped = valid_df.groupby(determinant_col)[dependent_col].nunique()
-    violations = (grouped > 1).sum()
-    total_groups = len(grouped)
-    confidence = ((total_groups - violations) / total_groups) * 100 if total_groups > 0 else 0
-    is_dependent = (violations == 0 and confidence == 100.0)
-        
+        return {'is_dependent': False, 'mappings': {}}
+    
+    # Group by determinant and check if dependent has only one unique value per group
+    grouped = valid_df.groupby(determinant_col)[dependent_col]
+    violations = (grouped.nunique() > 1).sum()
+    
+    if violations > 0:
+        return {'is_dependent': False, 'mappings': {}}
+    
+    # Build mappings: determinant_value -> dependent_value
+    mappings = {}
+    for det_value, group in grouped:
+        dep_value = group.iloc[0]  # Take first value (all are the same due to FD)
+        # Convert to string for JSON serialization
+        mappings[str(det_value)] = str(dep_value)
+    
     return {
-        'is_dependent': is_dependent,
-        'confidence': confidence,
-        'violations': int(violations)
+        'is_dependent': True,
+        'mappings': mappings
     }
 
 if __name__ == "__main__":

@@ -866,86 +866,67 @@ class Environment:
                         operands = [_f(opd) for opd in operands]
                         return {'or': Or, 'and': And}[operator](*operands)
                     case 'not_null':
-                        '''operands = _f(operands)
-                        print("operands in not_null case: ", operands)
+                        operands = _f(operands)
                         return And(*[Not(opd.NULL) for opd in operands])
-                        '''
-                        out = []
-                        for opd in operands:
-                            attrs = _f(opd) # attrs = [FExpressionTuple(...), FExpressionTuple(...)]
-                            out.extend([Not(attr.NULL) for attr in attrs])
-                        return And(*out)
                     case 'in':
-                        #attributes = _f(operands[0])
-
-                        # Flatten attributes
-                        attributes = [] # [[FExpressionTuple(t1), FExpressionTuple(t2)]] -> [FExpressionTuple(t1), FExpressionTuple(t2)]
-                        for opd in operands[0] if isinstance(operands[0], list) else [operands[0]]: # operands[0] = [{"value": "LABORATORY__U-PRO"}]
-                            attrs = _f(opd)
-                            if isinstance(attrs, list):
-                                attributes.extend(attrs)
-                            else:
-                                attributes.append(attrs)
+                        attributes = _f(operands[0]) 
                         
-                        # Possible categories (values)
-                        choices = operands[1] # operands[1] = ["-", "0", "TR", "1", "2", ...]
-                        
-                        # Convert choices to Z3 values
-                        z3_choices = []
-                        for choice in choices:
+                        # Handle literal choices
+                        choices = []
+                        for choice in operands[1]:
                             if isinstance(choice, str):
-                                z3_choices.append(self._declare_value(FSymbol(choice), register=True)) # converts string to FSymbol
+                                choices.append(self._declare_value(FSymbol(choice), register=True))
                             elif isinstance(choice, int):
-                                z3_choices.append(IntVal(str(choice)))
+                                choices.append(IntVal(str(choice)))
                             elif isinstance(choice, float):
-                                z3_choices.append(RealVal(str(choice)))
+                                choices.append(RealVal(str(choice)))
                             else:
-                                z3_choices.append(choice)
+                                choices.append(choice)
                         
-                        out = [Not(attr.NULL) for attr in attributes] # ensure not null
+                        out = [Not(attr.NULL) for attr in attributes]
                         for attr in attributes:
-                            tmp = utils.simplify([attr.VALUE == value for value in z3_choices], operator=Or) # value must be in z3_choices
+                            tmp = utils.simplify([attr.VALUE == value for value in choices], operator=Or)
                             out.append(tmp)
-                        out = utils.simplify(out, operator=And) # combine with AND
+                        out = utils.simplify(out, operator=And)
                         return out
+                        
                     case 'between':
-                        attributes = []
-                        for opd in operands[0] if isinstance(operands[0], list) else [operands[0]]:
-                            attrs = _f(opd)
-                            if isinstance(attrs, list): # [[FExpressionTuple(t1), FExpressionTuple(t2)]] -> [FExpressionTuple(t1), FExpressionTuple(t2)]
-                                attributes.extend(attrs)
-                            else:
-                                attributes.append(attrs)
+                        attributes = _f(operands[0])
+                        out = [Not(attr.NULL) for attr in attributes]
                         
-                        out = [Not(attr.NULL) for attr in attributes] # ensure not null
-                        
-                        # Extract max / min values
-                        lower_bound = operands[1]
-                        upper_bound = operands[2]
-                        
-                        # Convert numpy types to Python types
-                        if hasattr(lower_bound, 'item'):  # numpy types have .item()
-                            lower_bound = lower_bound.item()
-                        if hasattr(upper_bound, 'item'):
-                            upper_bound = upper_bound.item()
-                        
-                        # Convert Python types to Z3 values
-                        if isinstance(lower_bound, (int, float)):
-                            if isinstance(lower_bound, float):
-                                lower_bound = RealVal(str(lower_bound))
-                            else:
-                                lower_bound = IntVal(str(lower_bound))
-                        
-                        if isinstance(upper_bound, (int, float)):
-                            if isinstance(upper_bound, float):
-                                upper_bound = RealVal(str(upper_bound))
-                            else:
-                                upper_bound = IntVal(str(upper_bound))
+                        # Convert numpy types before passing to _f()
+                        bounds = []
+                        for value in operands[1:]:
+                            if hasattr(value, 'item'):  # numpy type
+                                value = value.item()
+                            bounds.append(_f(value))
+                        lower_bound, upper_bound = bounds
                         
                         for attr in attributes:
-                            out.extend([lower_bound <= attr.VALUE, attr.VALUE <= upper_bound]) # add bounds
-                        out = utils.simplify(out, operator=And) # combine with AND
+                            out.extend([lower_bound <= attr.VALUE, attr.VALUE <= upper_bound])
+                        out = utils.simplify(out, operator=And)
                         return out
+                    case 'dependency':
+                        det_col_name = operands['values'][0]
+                        dep_col_name = operands['values'][1]
+                        mappings = operands['mappings']
+
+                        # Get attributes for both columns
+                        det_attrs = _f({'value': det_col_name})  # [FExpressionTuple(t1), ...]
+                        dep_attrs = _f({'value': dep_col_name})
+
+                        # Build implications for each tuple
+                        out = []
+                        for det_attr, dep_attr in zip(det_attrs, dep_attrs):
+                            for det_value, dep_value in mappings.items():
+                                # Convert values to Z3
+                                det_z3 = self._declare_value(FSymbol(det_value), register=True)
+                                dep_z3 = self._declare_value(FSymbol(dep_value), register=True)
+                                
+                                # Add: Implies(COL_A == det_value, COL_B == dep_value)
+                                out.append(Implies(det_attr.VALUE == det_z3, dep_attr.VALUE == dep_z3))
+                        
+                        return And(*out) if out else None
                     case _:
                         raise NotImplementedError(expr)
             else:

@@ -2,14 +2,19 @@ from verieql import verify_sql_equivalence
 from constraint_extraction.extract_constraints import extract
 from constants import DIALECT
 import os
+import json
 
 def test_constraint(db_path, sql1, sql2):
-    schema, constraints_dict = extract(db_path) 
-    
-    db_name = os.path.basename(db_path)
-    
     # Extract constraints for specific DB
+    _, constraints_dict = extract(db_path) # ignore first argument schema
+    db_name = os.path.basename(db_path)
     constraints = constraints_dict[db_name][0]
+
+    # Load schemas
+    SCHEMAS_PATH = "BIRD_schemas/table_to_columns.json"
+    with open(SCHEMAS_PATH, 'r') as f:
+        all_schemas = json.load(f)
+    schema = all_schemas[db_name]
     
     config = {
         'generate_code': True,
