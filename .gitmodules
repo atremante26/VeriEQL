@@ -1,3 +1,4 @@
 [submodule "benchmarks/Spider2"]
 	path = benchmarks/Spider2
 	url = git@github.com:xlang-ai/Spider2.git
+	main = main
