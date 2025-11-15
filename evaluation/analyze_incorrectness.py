@@ -99,31 +99,36 @@ def create_histogram(incorrectness_data, output_path=None):
         values, frequencies = np.unique(counts, return_counts=True)
 
         # Make the plot taller and wider
-        plt.figure(figsize=(8, 6))  # Increased height from 8 to 14
+        plt.figure(figsize=(8, 5))  # Increased height from 8 to 14
 
         # Make bars thinner by setting width
         bar_width = 0.6  # Default is 0.8, so 0.4 is thinner
         bars = plt.bar(values, frequencies, width=bar_width, alpha=0.7, edgecolor='black')
 
         # Even larger fonts for labels
-        plt.xlabel('# Text-to-SQL methods', fontsize=36)
-        plt.ylabel('# questions', fontsize=36)
+        plt.xlabel('# Text-to-SQL methods', fontsize=32)
+        plt.ylabel('# questions', fontsize=32)
 
         #plt.yscale('log')  # Use log scale for y-axis
         # Set the y-axis range to be larger (e.g., from 0.8 to 10x the max frequency)
         min_y = 0.8
-        max_y = max(frequencies) * 1.1 if len(frequencies) > 0 else 10
+        max_y = max(frequencies) * 1.15 if len(frequencies) > 0 else 10
         plt.ylim(min_y, max_y)
         plt.grid(True, axis="y", alpha=0.3, which='both')
-        plt.xticks(values, fontsize=30)   # One tick per integer
-        plt.yticks(fontsize=30)
+        plt.xticks(values, fontsize=26)   # One tick per integer
+        # Set y-ticks every 50 (e.g., 50, 100, 150, ...) but do not include 0
+        if max_y >= 50:
+            yticks = np.arange(50, max_y + 1, 50)
+            plt.yticks(yticks, fontsize=26)
+        else:
+            plt.yticks(fontsize=26)
 
         # Add value labels above each bar (show only if freq > 0)
         for bar, freq in zip(bars, frequencies):
             height = bar.get_height()
             if freq > 0:
                 plt.text(bar.get_x() + bar.get_width()/2, height,
-                         f"{int(freq)}", ha='center', va='bottom', fontsize=26)
+                         f"{int(freq)}", ha='center', va='bottom', fontsize=24)
 
         plt.tight_layout()
 
