@@ -1448,7 +1448,7 @@
   },
   "BANK_SALES_TRADING": {
     "WEEKLY_SALES": {
-      "WEEK_DATE": "VARCHAR",
+      "WEEK_DATE": "DATE",
       "REGION": "VARCHAR",
       "PLATFORM": "VARCHAR",
       "SEGMENT": "VARCHAR",
@@ -1504,7 +1504,7 @@
       "END_DATE": "DATE"
     },
     "CLEANED_WEEKLY_SALES": {
-      "WEEK_DATE_FORMATTED": "VARCHAR",
+      "WEEK_DATE_FORMATTED": "DATE",
       "WEEK_DATE": "DATE",
       "REGION": "VARCHAR",
       "PLATFORM": "VARCHAR",
