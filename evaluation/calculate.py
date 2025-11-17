@@ -20,8 +20,11 @@ def count_correct_rows(rows):
     correct_rows = [row for row in rows if row.get("res") == "correct"]
     return len(correct_rows), len(rows), len(correct_rows) / len(rows) if rows else 0
 
-def count_correct_and_not_incorrect(rows):
-    filtered = [row for row in rows if row["res"] == "correct" and row["verieql_res"] != "incorrect"]
+def count_correct_and_not_incorrect(rows, orig):
+    if orig:
+        filtered = [row for row in rows if row["res"] == "correct" and row["verieql_res_orig"] != "incorrect"]
+    else:
+        filtered = [row for row in rows if row["res"] == "correct" and row["verieql_res"] != "incorrect"]
     return len(filtered), len(rows), len(filtered) / len(rows) if rows else 0
 
 
@@ -37,6 +40,7 @@ def main():
     )
     ap.add_argument("csv_path", help="Path to the prediction.")
     ap.add_argument("--prediction", default=None)
+    ap.add_argument("--orig", action="store_true")
 
     args = ap.parse_args()
 
@@ -54,8 +58,11 @@ def main():
 
     # 2. If verieql_res column exists, occurrence and frequency of res == "correct" and verieql_res != "incorrect"
     if "verieql_res" in reader.fieldnames:
-        filtered_count, _, filtered_freq = count_correct_and_not_incorrect(rows)
+        if args.orig:
+            filtered_count_orig, _, filtered_freq = count_correct_and_not_incorrect(rows, True)
+        filtered_count, _, filtered_freq = count_correct_and_not_incorrect(rows, False)
         print(f'EX + VeriEQL + Validation": {filtered_count}/{total_count} ({filtered_freq:.2%})')
+        print(f"Verification success rate: {(filtered_count_orig / filtered_count):.2%}")
 
         # 3. If prediction file is provided, execute counterexample DBs and confirm result is not None
         if args.prediction is not None:
