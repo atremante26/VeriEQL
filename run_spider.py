@@ -50,8 +50,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('prediction_path', type=str, help='Path to prediction JSON file', default='./predictions_spider2/omni_portfolio.json')
-    parser.add_argument('--index', type=int, required=True, help='Index to process', default=4)
-    parser.add_argument('--bound', type=int, required=True, help='Bound size for verification', default=1)
+    parser.add_argument('index', type=int, help='Index to process', default=4)
+    parser.add_argument('bound', type=int, help='Bound size for verification', default=1)
     parser.add_argument('--vanilla', action='store_true', help='Use vanilla VeriEQL')
 
     args = parser.parse_args()
@@ -106,7 +106,7 @@ if __name__ == '__main__':
             if str(index) not in index_to_database:
                 raise ValueError(f"Index {index} not found in index_to_database.json")
             
-            database_id = index_to_database[str(index)]
+            database_id = index_to_database[str(index)].upper()
             print(f"Database: {database_id}")
 
             # Get the generated SQL from prediction file
