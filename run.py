@@ -124,7 +124,7 @@ if __name__ == '__main__':
                       "all_null_is_deleted": True, 
                       }
             if not args.vanilla:
-                DATE_KEYS = ["STRFTIME"]
+                DATE_KEYS = ["STRFTIME", "JULIANDAY"]
                 config["encode_date"] = config.get("encode_date", False) or any(
                     any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS)
                 # encode_string = True: must encode strings as Z3 builtin strings;
