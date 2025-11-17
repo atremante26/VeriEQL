@@ -1,6 +1,8 @@
 VeriEQL
 =======
 
+`/home/hwu/.conda/envs/py310/bin/python /home/hwu/txt2sql-verieql/VeriEQL/run_spider.py predictions_spider2/omni_portfolio.json 5 1`
+
 ## 📝 Introduction
 
 VeriEQL is an equivalence verifier for complex SQL queries with integrity constraints using bounded model checking, and
