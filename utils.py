@@ -338,6 +338,7 @@ def date_pattern_to_int(date: str):
         lb = ub = _f(year, month, day)
     return lb, ub
 
+
 def date_to_juliandate(year, month, day):
     if month <= 2:
         year -= 1
@@ -350,6 +351,7 @@ def date_to_juliandate(year, month, day):
     jd_day = (math.floor(365.25 * (year + 4716)) + math.floor(30.6001 * (month + 1)) + day + B - 1524.5)
 
     return jd_day
+
 
 def decode_unicode_braces(match):
     # decode into unicode, e.g., \\u{165} -> ť
@@ -370,22 +372,22 @@ def ascii_constraint(z3str):
 
 
 # ############# datetime #############
-# def is_leap_year(year):
-#     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-#
-#
-# def days_since_0(year, month, day, MONTH_DAYS=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]):
-#     num_days = day
-#     for m in range(1, month):
-#         if m == 2 and is_leap_year(year):
-#             num_days += 29
-#         else:
-#             num_days += MONTH_DAYS[m - 1]
-#     for y in range(0, year):
-#         num_days += 366 if is_leap_year(year) else 365
-#     return num_days
-#
-#
+def is_leap_year(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+
+def days_since_0(year, month, day, MONTH_DAYS=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]):
+    num_days = day
+    for m in range(1, month):
+        if m == 2 and is_leap_year(year):
+            num_days += 29
+        else:
+            num_days += MONTH_DAYS[m - 1]
+    for y in range(1, year + 1):
+        num_days += 366 if is_leap_year(year) else 365
+    return num_days
+
+
 # def date_diff(date1, date2):
 #     return days_since_0(*date2) - days_since_0(*date1)
 # ############# datetime #############
@@ -400,8 +402,13 @@ def z3_month_days(year, month):
     return MONTH2DAYS_FUNCTION(month) + If(And(month > Z3_2, z3_is_leap_year(year)), Z3_1, Z3_0)
 
 
+def z3_floor_div(dividend, divisor):
+    module = dividend % divisor
+    return If(module == Z3_0, dividend / divisor, (dividend - module) / divisor)
+
+
 def z3_days_since_0(year, month, day):
-    leap_days = year / Z3_4 - year / Z3_100 + year / Z3_400
+    leap_days = z3_floor_div(year, Z3_4) - z3_floor_div(year, Z3_100) + z3_floor_div(year, Z3_400)
     return Z3_365 * year + leap_days + day + z3_month_days(year, month)
 
 
@@ -422,6 +429,5 @@ def align_attrs(lattr, rattr):
 
 
 if __name__ == '__main__':
-    print(int_to_strptime(1))
-    # print(strptime_to_int('1970-01-01'))
-    # print(is_date_format('17987'))
+    print(strptime_to_int('1000-01-01'))
+    print(strptime_to_int('9999-12-31'))
