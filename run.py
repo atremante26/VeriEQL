@@ -7,6 +7,9 @@ import csv
 import traceback
 import argparse
 import re
+from constants import (
+    DATE_SHIFT_PATTERN,
+)
 
 def clean_up(generated_sql):
 
@@ -126,11 +129,12 @@ if __name__ == '__main__':
             if not args.vanilla:
                 DATE_KEYS = ["STRFTIME", "JULIANDAY"]
                 config["encode_date"] = config.get("encode_date", False) or any(
-                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS)
+                    any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS) or \
+                            any(re.search(DATE_SHIFT_PATTERN, str.upper(sql)) is not None for sql in [sql1, sql2])
                 # encode_string = True: must encode strings as Z3 builtin strings;
                 # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
                 # since date involves arithmetic operations, once encode_date = True, encode_string must be True.
-                STRING_KEYS = [" LIKE ", "SUBSTR"]
+                STRING_KEYS = [" LIKE ", "SUBSTR", "||"]
                 config["encode_string"] = config.get("encode_string", False) or any(
                     any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in STRING_KEYS) or config["encode_date"]
 
