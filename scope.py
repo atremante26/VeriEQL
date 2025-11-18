@@ -54,6 +54,8 @@ class Scope:
         self._get_tuple_sort = self.environment._get_tuple_sort
         self._declare_tuple = self.environment._declare_tuple
         self._declare_tuple_sort = self.environment._declare_tuple_sort
+        self._declare_tmp_variable = self.environment._declare_tmp_variable
+        self._declare_tmp_date = self.environment._declare_tmp_date
         self.register_tuple = self.environment.register_tuple
         self.register_tuple_sort = self.environment.register_tuple_sort
         self.register_database = self.environment.register_database
