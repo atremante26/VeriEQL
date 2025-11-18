@@ -48,7 +48,7 @@ from utils import (
     encode_concate_by_or,
     is_uninterpreted_func,
     __pos_hash__,
-    CodeSnippet
+    CodeSnippet,
 )
 from visitors import visitor
 from visitors.dump_tuple import DumpTuple
@@ -505,6 +505,10 @@ And(
     def visit(self, formulas: FInnerJoinTable, **kwargs) -> Dict:
         return self._product(formulas, use_condition=formulas[0].condition is not None, is_using=formulas.is_using)
 
+    @visitor(FConcatTable)
+    def visit(self, formulas: FConcatTable, **kwargs) -> Dict:
+        return self._product(formulas)
+
     @visitor(FNaturalJoinTable)
     def visit(self, formulas: FNaturalJoinTable, **kwargs) -> Dict:
         return self._product(formulas, use_condition=True, is_using=formulas.is_using)
@@ -703,7 +707,7 @@ And(
                         formulas = And(inner_expr_tuple.NULL, inner_expr_tuple.VALUE == Z3_NULL_VALUE)
             elif isinstance(attr, FAttribute):
                 if getattr(attr, 'require_tuples', False):
-                    # contrain agg
+                    # contain agg
                     if getattr(attr.EXPR, 'require_tuples', False):
                         formulas = attr.many_to_one_mapping(prev_sorts, curr_sort, **kwargs)
                     else:
@@ -966,9 +970,11 @@ Not({self._DEL(curr_tuple_sort)}),
             formulas = self.detach_tuples(formulas)
         curr_table = {}
         for curr_tuple, prev_tuple in zip(formulas, prev_table.values()):
+        # for curr_tuple, prev_tuple in zip(formulas, formulas.fathers[0]):
             curr_tuple = DumpTuple(
                 name=curr_tuple.name, sort=prev_tuple.SORT, attributes=curr_tuple.attributes,
                 parent_sorts=prev_tuple.kwargs.get('parent_sorts', None),
+                # parent_sorts=prev_table[curr_tuple.fathers[0]],
             )
             self.scope.register_dump_tuple(curr_tuple.name, curr_tuple)
             curr_table[curr_tuple.name] = curr_tuple
@@ -1179,14 +1185,17 @@ And(
         i = 0
         prev_tuples = list(prev_table.values())
         t_0 = prev_tuples[i].SORT
+        # t_0 = formulas.fathers[0][i].SORT
         constraint.append(
             formulas.group_function(t_0, IntVal(str(i))) == If(self._DEL(t_0), Z3_0, Z3_1)
         )
         values = [
             [self.visit(key)(t.SORT) for key in keys]
             for t, keys in zip(prev_tuples, formulas.keys)
+            # for t, keys in zip(formulas.fathers[0], formulas.keys)
         ]
         for j, curr_tuple in enumerate(prev_tuples[1:], start=1):
+        # for j, curr_tuple in enumerate(formulas.fathers[0][1:], start=1):
             constraint.append(
                 Sum(*[formulas.group_function(curr_tuple.SORT, IntVal(str(group_idx))) for group_idx in
                       range(j + 1)]) == \
@@ -1206,6 +1215,7 @@ And(
                     formulas.group_function(curr_tuple.SORT, z3_group_index) == And(
                         Not(self._DEL(curr_tuple.SORT)),
                         formulas.group_function(prev_tuples[group_idx].SORT, z3_group_index),
+                        # formulas.group_function(formulas.fathers[0][group_idx].SORT, z3_group_index),
                         value_equality,
                     )
                 )
@@ -2232,6 +2242,10 @@ And(
     def visit(self, formula: ArithRef, **kwargs):
         return lambda *args, **kwargs: FExpressionTuple(Z3_FALSE, formula)
 
+    @visitor(SeqRef)
+    def visit(self, formula: SeqRef, **kwargs):
+        return lambda *args, **kwargs: FExpressionTuple(Z3_FALSE, formula)
+
     @functools.lru_cache()
     @visitor(FDateAttribute)
     def visit(self, formulas: FDateAttribute, **outer_kwargs):
@@ -2439,29 +2453,29 @@ And(
 
         return _f
 
-    def _string2date(self, s: FExpressionTuple):
-        year = StrToInt(SubString(s.VALUE, Z3_0, Z3_4))
-        month = StrToInt(SubString(s.VALUE, Z3_4, Z3_2))
-        day = StrToInt(SubString(s.VALUE, Z3_6, Z3_2))
-        is_leap = utils.z3_is_leap_year(year)
-        null = Or(
-            s.NULL,
-            StrToInt(s.VALUE) == -Z3_1,  # string must consist of numbers
-            Length(s.VALUE) != Z3_8,
-            year < Z3_0, year > MAX_YEAR,  # here allow 0000-01-01, try to get close to MySQL
-            month < Z3_0, month > Z3_12,
-            # day constraints
-            day < Z3_1,
-            Implies(
-                Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
-                   month == Z3_12), day > Z3_31),
-            Implies(month == Z3_2, Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0) > day),
-            Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), Z3_30 > day),
-
-        )
-        date = FDate(year)
-        raise
-        return FExpressionTuple(null, date)
+    # def _string2date(self, s: FExpressionTuple):
+    #     year = StrToInt(SubString(s.VALUE, Z3_0, Z3_4))
+    #     month = StrToInt(SubString(s.VALUE, Z3_4, Z3_2))
+    #     day = StrToInt(SubString(s.VALUE, Z3_6, Z3_2))
+    #     is_leap = utils.z3_is_leap_year(year)
+    #     null = Or(
+    #         s.NULL,
+    #         StrToInt(s.VALUE) == -Z3_1,  # string must consist of numbers
+    #         Length(s.VALUE) != Z3_8,
+    #         year < Z3_0, year > MAX_YEAR,  # here allow 0000-01-01, try to get close to MySQL
+    #         month < Z3_0, month > Z3_12,
+    #         # day constraints
+    #         day < Z3_1,
+    #         Implies(
+    #             Or(month == Z3_1, month == Z3_3, month == Z3_5, month == Z3_7, month == Z3_8, month == Z3_10,
+    #                month == Z3_12), day > Z3_31),
+    #         Implies(month == Z3_2, Z3_28 + If(And(month > Z3_2, is_leap), Z3_1, Z3_0) > day),
+    #         Implies(Or(month == Z3_4, month == Z3_6, month == Z3_9, month == Z3_11), Z3_30 > day),
+    #
+    #     )
+    #     date = FDate(year)
+    #     raise
+    #     return FExpressionTuple(null, date)
 
     @visitor(FDate)
     def visit(self, formulas: FDate, **kwargs):
@@ -2477,6 +2491,24 @@ And(
             expr = self.visit(formulas[0])(*args, **kwargs)
             # raise NotImplementedError(f"Unknown type {expr.sort()} of CAST(*, DATE)")
             return expr
+
+        return _f
+
+    @visitor(FToIntPredicate)
+    def visit(self, formulas: FToIntPredicate, **kwargs):
+        MIN_DATE_VALUE = utils.days_since_0(MIN_DATE.year, MIN_DATE.month, MIN_DATE.day)
+        MIN_DATE_VALUE = IntVal(str(MIN_DATE_VALUE))
+        MAX_DATE_VALUE = utils.days_since_0(MAX_DATE.year, MAX_DATE.month, MAX_DATE.day)
+        MAX_DATE_VALUE = IntVal(str(MAX_DATE_VALUE))
+
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            if isinstance(formulas[0], FDateAttribute):
+                date_value = utils.z3_days_since_0(expr.VALUE.year, expr.VALUE.month, expr.VALUE.day)
+                is_NULL = Or(expr.NULL, date_value < MIN_DATE_VALUE, MAX_DATE_VALUE > date_value)
+                return FExpressionTuple(is_NULL, date_value)
+            else:
+                raise NotImplementedError(formulas[0])
 
         return _f
 
@@ -2508,6 +2540,9 @@ And(
     def visit(self, formulas: FSubstrPredicate, **kwargs):
         def _f(*args, **kwargs):
             expr = self.visit(formulas[0])(*args, **kwargs)
+            if isinstance(expr.VALUE, FDate):  # date -> string
+                expr.VALUE = IntToStr(expr.VALUE.year) + Z3_DATE_SEP + IntToStr(expr.VALUE.month) + Z3_DATE_SEP + IntToStr(expr.VALUE.day)
+
             offset, shift = formulas[1:]
             # for offset
             # 1) offset=0 or offset<-strlen or offset>strlen => substring = ""
@@ -2557,6 +2592,110 @@ And(
                 if len(suffix) != 0:
                     conds.append(SuffixOf(StringVal(suffix), expr.VALUE))
                 return FExpressionTuple(expr.NULL, simplify(conds, operator=And))
+
+        return _f
+
+    @visitor(FDateShiftPredicate)
+    def visit(self, formulas: FDateShiftPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+
+            def year_handler(date):
+                NULL, VALUE = date.NULL, date.VALUE
+
+                is_NULL = Or(NULL, VALUE.year < MIN_YEAR, VALUE.year > MAX_YEAR)
+                VALUE.month = If(And(utils.z3_is_leap_year(VALUE.year), VALUE.month == Z3_2, VALUE.day == Z3_29), Z3_3, VALUE.month)
+                VALUE.day = If(And(utils.z3_is_leap_year(VALUE.year), VALUE.month == Z3_2, VALUE.day == Z3_29), Z3_1, VALUE.day)
+                return FExpressionTuple(is_NULL, VALUE)
+
+            def day_handler(old_NULL, old_date, new_date, diff):
+                formula_diff = diff == utils.z3_date_diff(new_date, [old_date.year, old_date.month, old_date.day])
+                self.scope.register_formulas(
+                    CodeSnippet(code=formula_diff, docstring=f"Date +/- XX day(s)", docstring_first=True)
+                )
+                is_NULL = Or(old_NULL, new_date[0] < MIN_YEAR, new_date[0] > MAX_YEAR)
+                return FExpressionTuple(is_NULL, old_date)
+
+            sign, num, unit = formulas[1:]
+            if unit == "YEAR":  # 2000-02-29 + 1 YEARS => 2001-02-29 => 2001-03-01
+                expr.VALUE.year = sign(expr.VALUE.year, num)
+                return year_handler(expr)
+            elif unit == "MONTH":
+                virtual_month = sign(expr.VALUE.month, num)
+                month = virtual_month % Z3_12
+                expr.VALUE.year += (virtual_month - month) / Z3_12
+                expr.VALUE.month = month
+                return year_handler(expr)
+            elif unit == "DAY":
+                return day_handler(expr.NULL, expr.VALUE, formulas.out_date, num)
+            else:
+                raise NotImplementedError(f"Unknown day unit: {unit}")
+
+        return _f
+
+    @visitor(FConcatePredicate)
+    def visit(self, formulas: FConcatePredicate, **kwargs):
+        def _f(*args, **kwargs):
+            opds = [self.visit(opd)(*args, **kwargs) for opd in formulas]
+            if len(opds) == 1:
+                return opds[0]
+            else:
+                is_NULL = Or(*[opd.NULL for opd in opds])
+                value = Concat(*[opd.VALUE for opd in opds])
+            return FExpressionTuple(is_NULL, value)
+
+        return _f
+
+    @visitor(FMinPredicate)
+    def visit(self, formulas: FMinPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            opds = [self.visit(opd)(*args, **kwargs) for opd in formulas]
+            is_NULL = Or(*[opd.NULL for opd in opds])
+            value = utils._MIN(*[opd.VALUE for opd in opds])
+            return FExpressionTuple(is_NULL, value)
+
+        return _f
+
+    @visitor(FMaxPredicate)
+    def visit(self, formulas: FMaxPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            opds = [self.visit(opd)(*args, **kwargs) for opd in formulas]
+            is_NULL = Or(*[opd.NULL for opd in opds])
+            value = utils._MAX(*[opd.VALUE for opd in opds])
+            return FExpressionTuple(is_NULL, value)
+
+        return _f
+
+    @visitor(FContainPredicate)
+    def visit(self, formulas: FContainPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            value = InRe(expr.VALUE, formulas[-1])
+            return FExpressionTuple(expr.NULL, value)
+
+        return _f
+
+    @visitor(FFloorPredicate)
+    def visit(self, formulas: FFloorPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            return FExpressionTuple(expr.NULL, ToInt(expr.VALUE))
+
+        return _f
+
+    @visitor(FLengthPredicate)
+    def visit(self, formulas: FLengthPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            return FExpressionTuple(expr.NULL, Length(expr.VALUE))
+
+        return _f
+
+    @visitor(FLowerPredicate)
+    def visit(self, formulas: FLowerPredicate, **kwargs):
+        def _f(*args, **kwargs):
+            expr = self.visit(formulas[0])(*args, **kwargs)
+            return FExpressionTuple(expr.NULL, Length(expr.VALUE))
 
         return _f
 
