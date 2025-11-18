@@ -124,6 +124,7 @@ class Environment:
 
         self.attributes = {}
         self.variables = {}
+        self.tmp_variables = {}
         self.functions = {}
         self.COUNT_ALL_FUNCTION, self.COUNT_ALL_NULL_FUNCTION = self._define_COUNT_ALL()
         self.tuples = {}
@@ -139,6 +140,7 @@ class Environment:
             'tuple_sorts': OrderedSet(),
             'attributes': OrderedSet(),
             'variables': OrderedSet(),
+            'tmp_variables': OrderedSet(),
             'functions': OrderedSet(),
         }
         # only store the last OrderBy results, cuz intermediate OrderBy does not matter
@@ -201,6 +203,7 @@ class Environment:
         self.databases.clear()
         self.tuple_sorts.clear()
         self.variables.clear()
+        self.tmp_variables.clear()
         self.attributes.clear()
         del self.sql_parser
         del self.solver
@@ -298,6 +301,20 @@ class Environment:
     def _get_new_tuple_sort(self) -> str:
         new_tuple = f't{len(self.tuple_sorts) + 1}'
         return self._declare_tuple_sort(new_tuple)
+
+    def _declare_tmp_variable(self, name: str = None, sort=None):
+        if name is None:
+            name = f"tmp{len(self.tmp_variables)}"
+        if sort is None:
+            sort = self.VarSort
+        var = Const(name, sort)
+        self.tmp_variables[name] = var
+        return var
+
+    def _declare_tmp_date(self):
+        vars = [self._declare_tmp_variable() for _ in ['y', 'm', 'd']]
+        self.DBMS_facts.extend(self.add_date_constraints(*vars))
+        return vars
 
     def _declare_variable(self, attribute: FAttribute, sort=None):
         if sort is None:
