@@ -7,6 +7,7 @@ from formulas.tables.base_table import FBaseTable
 from formulas.tables.order_by_table import FOrderByTable
 from formulas.tuples.projection_pity_tuple import FProjectionPityTuple
 from formulas.tuples.projection_tuple import FProjectionTuple
+from formulas.tables.limit_table import FLimitTable
 
 
 def _projection(
@@ -22,6 +23,7 @@ def _projection(
     new_table = []
     if (not isinstance(table, FGroupByTable)) and \
             not (isinstance(table, FOrderByTable) and isinstance(table.fathers[0], FGroupByTable)) and \
+            not (isinstance(table, FLimitTable) and isinstance(table.fathers[0], FOrderByTable) and isinstance(table.fathers[0].fathers[0], FGroupByTable)) and \
             pity_flag:
         # if contain any aggregation functions or their alias
         curr_tuple = FProjectionTuple(table.tuples, condition, name=scope._get_new_tuple_name())

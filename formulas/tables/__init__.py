@@ -38,11 +38,12 @@ from .stack_table import FStackTable
 from .union_all_table import FUnionAllTable
 from .union_table import FUnionTable
 from .value_table import FValueTable
+from .concat_table import FConcatTable
 
 TableType = JoinTableType | FGroupByMapTable | FGroupByTable | \
             FBaseTable | FAliasTable | FFilterTable | FProductTable | FProjectionTable | FDistinctTable | FOrderByTable | \
             FUnionTable | FUnionAllTable | FIntersectTable | FIntersectAllTable | FExceptTable | FExceptAllTable | \
-            FEmptyTable | FOffsetTable | FFetchTable | FLimitTable | FStackTable | FFakeProjectionTable
+            FEmptyTable | FOffsetTable | FFetchTable | FLimitTable | FStackTable | FFakeProjectionTable | FConcatTable
 
 __all__ = [
     'FBaseTable',
@@ -51,6 +52,7 @@ __all__ = [
     'FProductTable',
     'FProjectionTable',
     'FFakeProjectionTable',
+    'FConcatTable',
 
     'FJoinBaseTable',
     'FInnerJoinTable',

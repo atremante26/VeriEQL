@@ -28,6 +28,16 @@ from .date_like_predicate import FDateLikePredicate
 from .to_date_predicate import FToDatePredicate
 from .strftime_predicate import FStrftimePredicate
 from .to_juliandate_predicate import FToJulianDatePredicate
+from .date_shift_predicate import FDateShiftPredicate
+from .concate_predicate import FConcatePredicate
+from .min_predicate import FMinPredicate
+from .max_predicate import FMaxPredicate
+from .contain_predicate import FContainPredicate
+from .floor_predicate import FFloorPredicate
+from .length_predicate import FLengthPredicate
+from .lower_predicate import FLowerPredicate
+from .upper_predicate import FUpperPredicate
+from .to_int_predicate import FToIntPredicate
 
 PredicateType = FBasePredicate | \
                 FInPredicate | FNotInPredicate | FIsNullPredicate | FIsNotNullPredicate | FCasePredicate | \
@@ -35,7 +45,9 @@ PredicateType = FBasePredicate | \
                 FAnyValuePredicate | FFirstValuePredicate | FLastValuePredicate | FModPredicate | \
                 FIsTruePredicate | FIsFalsePredicate | FIsNotTruePredicate | FIsNotFalsePredicate | \
                 FIsNullOrHoldPredicate | FNullIfPredicate | FToRealPredicate | FSubstrPredicate | \
-                FLikePredicate | FDateLikePredicate | FToDatePredicate | FStrftimePredicate | FToJulianDatePredicate
+                FLikePredicate | FDateLikePredicate | FToDatePredicate | FStrftimePredicate | FToJulianDatePredicate | \
+                FDateShiftPredicate | FConcatePredicate | FMinPredicate | FMaxPredicate | FContainPredicate | \
+                FFloorPredicate | FLengthPredicate | FLowerPredicate | FUpperPredicate | FToIntPredicate
 
 __all__ = [
     'FInPredicate',
@@ -65,6 +77,16 @@ __all__ = [
     'FLikePredicate',
     'FDateLikePredicate',
     'FToJulianDatePredicate',
+    'FDateShiftPredicate',
+    'FConcatePredicate',
+    'FContainPredicate',
+    'FMinPredicate',
+    'FMaxPredicate',
+    'FFloorPredicate',
+    'FLengthPredicate',
+    'FLowerPredicate',
+    'FUpperPredicate',
+    'FToIntPredicate',
 
     'PredicateType',
 ]
