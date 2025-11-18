@@ -363,7 +363,13 @@ class Encoder:
                 if attr in saved_attributes:
                     attribute = saved_attributes[attr]
                 else:
-                    attribute = self.scope.environment.declare_attribute(values_table.name, literal=attr)
+                    if is_literal(row[idx]) and isinstance(row[idx]['literal'], str) and self.scope.environment.encode_string:
+                        attr_type = "VARCHAR"
+                    elif is_date(row[idx]) and self.scope.environment.encode_date:
+                        attr_type = "DATE"
+                    else:
+                        attr_type = "INTEGER"
+                    attribute = self.scope.environment.declare_attribute(values_table.name, literal=attr, attr_type=attr_type)
                     saved_attributes[attr] = attribute
                 value = self.parse_expression(row[idx], ctx)
                 # value = self.scope.visitor.visit(value)(None).VALUE
@@ -824,6 +830,13 @@ class Encoder:
             distinct = True
         if ctx.groupby_ctx is None:
             expr = self.parse_expression(operands, ctx)
+            if isinstance(operands, list) and len(operands) > 1:
+                if operator == "min":
+                    return FMinPredicate(expr)
+                elif operator == "max":
+                    return FMaxPredicate(expr)
+                else:
+                    raise NotImplementedError(f"Unknown operator: {operator}")
         else:
             # first search attribute in FROM clauses
             if isinstance(operands, str) and operands in ctx.from_clause.attributes:
@@ -837,6 +850,9 @@ class Encoder:
                 expr = self.parse_expression(operands, ctx.groupby_ctx)
         if isinstance(expr, FNull):
             return expr
+        elif isinstance(expr, FDateAttribute):
+            # expr = FToIntPredicate(expr)
+            raise NotImplementedError(f"Does not support agg-nested-dates: {agg_cls.__name__}({operands})")
         elif isinstance(expr, AggregationType):
             raise SyntaxError(f"MySQL does not support agg-nested-agg functions: {agg_cls.__name__}({operands})")
         return agg_cls(self.scope, operator, expr, distinct=distinct, **kwargs)
@@ -1079,6 +1095,8 @@ class Encoder:
                 case 'power':
                     expr = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     return FPowerPredicate(*expr)
+                case 'sqrt':
+                    return self.parse_expression({'power': [operands, 2]}, ctx, **kwargs)
                 case 'in':
                     attributes = self.parse_expression(operands[0], ctx, **kwargs)
                     if not isinstance(attributes, list):
@@ -1251,7 +1269,7 @@ class Encoder:
                 #     expr = self.parse_expression(operands, ctx, **kwargs)
                 #     expr.uninterpreted_func = FTime()
                 #     return expr
-                case 'date':
+                case 'date' | 'datetime':
                     if isinstance(operands, dict) and len(operands) == 1:
                         if 'literal' in operands:
                             # PSQL: only support (DATE '2022-01-01')
@@ -1286,6 +1304,23 @@ class Encoder:
                             cdate = FDigits(utils.strptime_to_int(operands))
                         except:
                             cdate = FNull()
+                    elif isinstance(operands, list) and len(operands) == 2 and is_literal(operands[1]):
+                        attr = self.parse_expression(operands[0], ctx, **kwargs)
+                        offset = operands[1]['literal'].strip()
+                        out = re.fullmatch(DATE_SHIFT_PATTERN, offset)
+                        assert out is not None, ValueError(f"Incorrect date shift argument: {expr}.")
+                        sign, num, unit = out.groups()
+                        sign = sign == '+'
+                        num = eval(num)
+                        if unit[-1] == "S": unit = unit[:-1]
+                        if unit == "WEEK":
+                            num *= 7
+                            unit = "DAY"
+                        out_date = None
+                        if unit == "DAY":
+                            # infer `date + 10 days` is hard, therefore, we create a new date', then compute `date' - date = 10`
+                            out_date = self.scope._declare_tmp_date()
+                        return FDateShiftPredicate(attr, sign, num, unit, out_date=out_date)
                     else:
                         raise NotSupportedError(expr)
                     if self.scope.encode_date and not isinstance(cdate, FNull):
@@ -1454,6 +1489,8 @@ class Encoder:
                         return self.parse_expression(0, ctx, **kwargs)
                     else:
                         return FModPredicate(*[self.parse_expression(opd, ctx, **kwargs) for opd in operands])
+                case 'floor':
+                    return FFloorPredicate(self.parse_expression(operands, ctx, **kwargs))
                 case 'date_add' | 'adddate':
                     operands = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
                     return eval_operation(FOperator('add'), operands)
@@ -1476,13 +1513,25 @@ class Encoder:
                     else:
                         raise SyntaxError(f"Unknown argument for {str.upper(operator)}")
                 case 'julianday':
-                    if isinstance(operands, str) or is_date(operands):  # JULIANDAY('T1.A'), JULIANDAY('2025-08-29')
+                    if isinstance(operands, str) or is_date(operands) or isinstance(operands, dict):  # JULIANDAY('T1.A'), JULIANDAY('2025-08-29')
                         attr = self.parse_expression(operands, ctx, **kwargs)
                         return FToJulianDatePredicate(attr)
                     elif is_literal(operands):  # only JULIANDAY('now')
                         return get_juliandate_now(operands['literal'])
                     else:  # JULIANDAY('now', 'start of month', '+1 month', '-1 day')
                         raise NotSupportedError(f"Cannot support JULIANDAY with >1 arguments.")
+
+                case 'printf':
+                    pattern = operands[0]['literal']
+                    if not (pattern[0] == '%' and pattern[-1] == '%'):
+                        raise ValueError(f"Incorrect `printf` format: {pattern}")
+                    if re.fullmatch(PRINTF_FLOAT_PATTERN, pattern) is not None:
+                        decimal_place = re.fullmatch(PRINTF_FLOAT_PATTERN, pattern).group(1)
+                        decimal_place = int(decimal_place)
+                        return self.parse_expression({'round': [decimal_place, operands[1]]}, ctx, **kwargs)
+                    else:
+                        raise NotImplementedError(f"Unsupported `printf` format: {pattern}")
+
                 # -------------- Literature benchmark's symbolic predicates -------------- #
                 case 'b' | 'b0' | 'b1' | 'b2':
                     if isinstance(operands, ExcutableType | str):
@@ -1506,16 +1555,30 @@ class Encoder:
                         raise NotImplementedError(f"Unknown #arguments {args} for SUBSTR")
                     offset = IntVal(str(offset))
                     return FSubstrPredicate(opd, offset, shift)
+                case 'contain':
+                    expr = self.parse_expression(operands[0], ctx, **kwargs)
+                    regexp = Concat(Full(ReSort(StringSort)), Re(operands[-1]), Full(ReSort(StringSort)))
+                    return FContainPredicate(expr, regexp)
                 case 'like':
                     # only support 'ABC', 'ABC%', '%ABC', 'ABC%DEF', 'date%'
                     # e.g., FULL_NAME LIKE 'JOHN%', LABORATORY.DATE LIKE '1991%'
                     if isinstance(operands[1], int):
                         operands[1] = {"literal": str(operands[1])}
 
+                    if isinstance(operands[1], dict) and 'concat' in operands[1] and len(operands[1]['concat']) == 3 and (
+                            is_literal(operands[1]['concat'][0]) and operands[1]['concat'][0]['literal'] == '%'
+                    ) and (
+                            is_literal(operands[1]['concat'][-1]) and operands[1]['concat'][-1]['literal'] == '%'
+                    ):
+                        return self.parse_expression({'contain': [operands[0], operands[1]['concat'][1]]}, ctx, **kwargs)
+
                     if is_literal(operands[1]):
                         pattern = operands[1]['literal'].strip()
 
                         num = re.findall(r"\%", pattern)
+                        if len(num) == 2 and pattern[0] == "%" and pattern[-1] == "%":
+                            return self.parse_expression({'contain': [operands[0], pattern[1:-1]]}, ctx, **kwargs)
+
                         assert len(num) <= 1, NotImplementedError(
                             f"VeriEQL only supports 4 like-cases: 'ABC', 'ABC%', '%ABC', 'ABC%DEF', but yours is {pattern}")
 
@@ -1559,6 +1622,18 @@ class Encoder:
                         raise NotImplementedError(f"Incorrect string pattern: {operands[1]}")
                 case 'not_like':
                     return self.parse_expression({'not': {'like': operands}}, ctx, **kwargs)
+                case 'concat':
+                    opds = [self.parse_expression(opd, ctx, **kwargs) for opd in operands]
+                    return FConcatePredicate(*opds)
+                case 'length':
+                    expr = self.parse_expression(operands, ctx, **kwargs)
+                    return FLengthPredicate(expr)
+                # case 'lower':
+                #     expr = self.parse_expression(operands, ctx, **kwargs)
+                #     return FLowerPredicate(expr)
+                # case 'upper':
+                #     expr = self.parse_expression(operands, ctx, **kwargs)
+                #     return FUpperPredicate(expr)
                 # -------------- z3's String theory -------------- #
                 case _:
                     raise NotImplementedError(expr)
@@ -1664,6 +1739,7 @@ class Encoder:
                     tables.append(table)
             else:
                 tables = [FFilterTable(self.scope, ctx.prev_database, conds, ctx.is_correlated_subquery)]
+                # tables = [FFilterTable(self.scope, ctx.prev_database, conds)]
             if len(tables) == 0:
                 table = FEmptyTable(self.scope, attributes=ctx.attributes)
             elif len(tables) == 1:
@@ -1823,6 +1899,8 @@ class Encoder:
             # alias expressions in select clauses
             def _alias(attributes):
                 for idx, attr in enumerate(attributes):
+                    if isinstance(attr, FDateAttribute):  # if this attribute is a native Date type, then skip
+                        continue
                     # we only alias expression including 1) Aggregations functions with nested expression, 2) expression, 3) expression in uninterpreted functions
                     if isinstance(attr, AggregationType | FExpression | FDigits | FNull):
                         attributes[idx] = attr.update_alias(
@@ -1852,22 +1930,28 @@ class Encoder:
                 condition = [sub_table.attributes, selected_clause]
                 if self._is_fake_projection(sub_table, selected_clause):
                     table = FFakeProjectionTable(self.scope, sub_table, condition, ctx.is_correlated_subquery)
+                    # table = FFakeProjectionTable(self.scope, sub_table, condition)
                 else:
                     table = FProjectionTable(self.scope, sub_table, condition, ctx.is_correlated_subquery)
+                    # table = FProjectionTable(self.scope, sub_table, condition)
                 # table = FProjectionTable(self.scope, sub_table, condition)
                 if DISTINCT:
                     table = FDistinctTable(self.scope, table, condition, ctx.is_correlated_subquery)
+                    # table = FDistinctTable(self.scope, table, condition)
                 tables.append(table)
             table = FUnionAllTable(self.scope, tables)
         else:
             condition = [ctx.attributes, selected_clause]
             if self._is_fake_projection(ctx.prev_database, selected_clause):
                 table = FFakeProjectionTable(self.scope, ctx.prev_database, condition, ctx.is_correlated_subquery)
+                # table = FFakeProjectionTable(self.scope, ctx.prev_database, condition)
             else:
                 table = FProjectionTable(self.scope, ctx.prev_database, condition, ctx.is_correlated_subquery)
+                # table = FProjectionTable(self.scope, ctx.prev_database, condition)
             # table = FProjectionTable(self.scope, ctx.prev_database, condition)
             if DISTINCT:
                 table = FDistinctTable(self.scope, table, condition, ctx.is_correlated_subquery)
+                # table = FDistinctTable(self.scope, table, condition)
                 # ctx.update_select_clause(table)
         ctx.update_select_clause(table)
         LOGGER.debug(table)
@@ -1955,7 +2039,7 @@ class Encoder:
             elif (limit_clause is None) and (offset_clause is None) and (fetch_clause is None):
                 pass
             else:
-                raise SyntaxError(f"Unknown `{limit_clause}`, `{offset_clause}`, `{fetch_clause}`")
+                raise SyntaxError(f"Unsupported LIMIT arguements: `{limit_clause}`, `{offset_clause}`, `{fetch_clause}`")
             if len(table) == 0:
                 table = FEmptyTable(self.scope, attributes=ctx.attributes)
         ctx.update_orderby_clause(table)
@@ -2030,6 +2114,8 @@ class Encoder:
         if group_by:
             clauses = []
             for clause in parsed_clauses:
+                # if isinstance(clause, FDateAttribute):
+                #     pass # allow grouping on date
                 if isinstance(clause, AggregationType):
                     # GOURPBY must be pure attributes
                     # raise NotImplementedError(f"Can't group on '{clause}'")
@@ -2134,6 +2220,9 @@ class Encoder:
                 LOGGER.debug(with_clause)
                 self.parse_with_clause(with_clause, ctx)
 
+            if 'with_recursive' in query:
+                raise NotSupportedError(f'Cannot support WITH RECURSIVE!')
+
             if ('select' in query) or ('select_distinct' in query):
                 # --------- FROM ---------#
                 if 'from' in query:
@@ -2142,7 +2231,62 @@ class Encoder:
                     LOGGER.debug(from_clause)
                     self.parse_from_clause(from_clause, ctx)
                 else:
-                    raise NotSupportedError("Query must have a FROM clause")
+                    columns = query['select']
+                    if isinstance(columns, dict):
+                        columns = [columns]
+
+                    exprs = [col['value'] for col in columns]
+                    is_subquery = [isinstance(col['value'], dict) and 'select' in col['value'] for col in columns]
+                    aliases = [col['name'] if 'name' in col else f"E{idx}" for idx, col in enumerate(columns, start=1)]
+                    if any(b for b in is_subquery):
+                        """
+                        `SELECT (subquery)`: subquery must be `SELECT AGG(XX) FROM T` or `SELECT ... LIMIT 1`
+                        because in these cases, Subquery must return 1 row with 1 column. However, #rows is non-deterministically determined in verification.
+                        Therefore, we only consider two cases, that must only return 1 row with 1 column.
+                        
+                        SQLite: allows return many rows, but only consider the 1st row.
+                        In this implementation, we follow the semantics of SQLite as #rows is non-deterministically determined.
+                        To implement this, we add `ORDER BY 1 LIMIT 1` <=> 'orderby': {'value': 1}, 'limit': 1
+                        """
+                        tables = []
+                        for expr, b in zip(exprs, is_subquery):
+                            if b:
+                                # query => `SELECT * FROM (query) ORDER BY 1 LIMIT 1`
+                                if 'select' in expr and 'orderby' not in expr:
+                                    expr['orderby'] = {'value': 1}
+                                    expr['limit'] = 1
+                                else:
+                                    expr = {'select': '*', 'from': expr, 'orderby': {'value': 1}, 'limit': 1}
+                                table = self.analyze(expr, with_databases=with_databases, outer_ctx=ctx).prev_database
+                                if len(table.attributes) != 1:
+                                    raise SyntaxError(f"Subquery in SELECT must only project out 1 column!")
+                                tables.append(table)
+                        table = FConcatTable(self.scope, tables)
+
+                        alias_table = f"alias_{table.name}"
+                        condition = [table.attributes, []]
+                        for src_attr, alias_name in zip(table.attributes, aliases):
+                            dst_attr = src_attr.update_alias(self.scope, alias_table, alias_name, type=src_attr.type)
+                            condition[-1].append(dst_attr)
+                        table = FAliasTable(self.scope, table, condition=condition, name=alias_table)
+                        ctx.prev_database = table
+                        ctx.attributes = table.attributes
+                        # clear saved alias info in attributes
+                        if ctx.prev_database is not None:
+                            ctx.prev_database.clear_alias_info()
+                        return ctx
+                    else:
+                        # `SELECT 1` => `SELECT * FROM (VALUES(1)) AS T(E1)`
+                        value_table = ValuesTable(name="T", rows=[exprs], attributes=aliases)
+                        subquery = {'select': '*', 'from': value_table}
+                        table = self.analyze(subquery, with_databases=with_databases, outer_ctx=ctx).prev_database
+                        ctx.prev_database = table
+                        ctx.attributes = table.attributes
+                        # clear saved alias info in attributes
+                        if ctx.prev_database is not None:
+                            ctx.prev_database.clear_alias_info()
+                        return ctx
+                    # raise NotSupportedError("Query must have a FROM clause")
                 # --------- WHERE ---------#
                 if 'where' in query:  # WHERE FALSE is valid
                     # where_clause = query.pop('where')
@@ -2206,7 +2350,12 @@ class Encoder:
                     else:
                         ctx.prev_database.update_having_clause(having_clause)
                 # --------- ORDER BY ---------#
-                if 'orderby' in query and not kwargs.get("skip_orderby", False):
+                limit_clause = None if query.get('limit', None) is None else query['limit']
+                offset_clause = None if query.get('offset', None) is None else query['offset']
+                fetch_clause = None if query.get('fetch', None) is None else query['fetch']
+                # if this query is followed by limit/offset/fetch, then do ORDER BY
+                skip_orderby = limit_clause is None and offset_clause is None and fetch_clause is None
+                if 'orderby' in query and not (kwargs.get("skip_orderby", False) and skip_orderby):
                     # skip_orderby will skip orderby that is not outermost
                     # Q: Why parse orderby first?
                     # A: The orderby clause can use both attributes from FROM, GROUP-BY, SELECT clauses.
@@ -2231,12 +2380,6 @@ class Encoder:
                         # if (query.get('limit', None) or query.get('offset', None) or query.get('fetch', None)):
                         #     raise NotSupportedError('limit/offset/fetch')
                         # self.parse_orderby_clause(orderby_clause, None, None, None, ctx)
-                        # limit_clause = None if query.get('limit', None) is None else query.pop('limit')
-                        # offset_clause = None if query.get('offset', None) is None else query.pop('offset')
-                        # fetch_clause = None if query.get('fetch', None) is None else query.pop('fetch')
-                        limit_clause = None if query.get('limit', None) is None else query['limit']
-                        offset_clause = None if query.get('offset', None) is None else query['offset']
-                        fetch_clause = None if query.get('fetch', None) is None else query['fetch']
                         self.parse_orderby_clause(orderby_clause, limit_clause, offset_clause, fetch_clause, ctx)
                 # end groupby operation
                 if ctx.groupby_clause is not None:
