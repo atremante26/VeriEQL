@@ -20,7 +20,8 @@ def execute_counterexample(counterexample_path):
 def get_bounds_info(question_id, folder, prediction_path, results_rows):
     bounds = []
     for b in range(K):
-        row = results_rows[int(question_id) * K + b]
+        row = results_rows[int(question_id) * b + question_id]
+        print(row)
         assert(int(row["question_id"]) == int(question_id))
         is_error = row["equivalent"] == "ERROR"
         is_correct = row["equivalent"] in ["True", True]
@@ -28,7 +29,10 @@ def get_bounds_info(question_id, folder, prediction_path, results_rows):
         is_timeout = row["equivalent"] == "Unknown"
         bound_size = int(row["bound_size"])
         counterexample_path = os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt")
-        results = execute_counterexample(counterexample_path)
+        if is_error:
+            results = None
+        else:
+            results = execute_counterexample(counterexample_path)
         if results is None:
             is_incorrect = False
         else:
@@ -78,65 +82,46 @@ def main():
     )
     ap.add_argument("input", help="Path to directory of VeriEQL results.")
     ap.add_argument("prediction", help="Path to the prediction.")
-    ap.add_argument("ex_input", help="Path to CSV with EX results.")
     ap.add_argument("output", help="Output CSV path.")
     ap.add_argument("--question-id", default=None, type=int, help="If set, only process this question ID.")
 
     
     args = ap.parse_args()
     folder = args.input
-    input_csv = args.ex_input
     output_csv = args.output
 
     with open(os.path.join(folder, "results.csv")) as results_file:
         results_rows = list(csv.DictReader(results_file))
 
-    with open(input_csv, newline='') as infile, open(output_csv, 'w', newline='') as outfile:
-        reader = csv.DictReader(infile)
-        fieldnames = ["question_id", "res", "verieql_res_orig", "verieql_res", "bound_size", "counterexample_path", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
+    with open(output_csv, 'w', newline='') as outfile:
+        fieldnames = ["question_id", "verieql_res_orig", "verieql_res", "bound_size", "counterexample_path", "runtime", "output1", "output2", "generated_sql", "gold_sql"]
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
-
-        for row in reader:
-            question_id = row["question_id"]
-            if args.question_id is not None and int(question_id) != args.question_id:
-                continue
-            res = row["res"]
-            if res == "incorrect":
-                writer.writerow({
-                    "question_id": question_id,
-                    "res": res,
-                    "verieql_res": DONT_CARE,
-                    "bound_size": -1,
-                    "runtime": 0
-                })
-            else:
-                assert(res == "correct")
-                print(f"Processing question_id {question_id} for {folder}")
-                bounds = get_bounds_info(question_id, folder, args.prediction, results_rows)
-                deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
-                valid_bounds = [b for b in bounds if b["result"] == INCORRECT]
-                bound_size = min([b["bound_size"] for b in valid_bounds], default=-1)
-                output1, output2 = "", ""
-                for b in valid_bounds:
-                    if b["bound_size"] == bound_size:
-                        output1, output2 = b["output1"], b["output2"]
-                        break
-                verieql_res = compute_verieql_res(bounds)
-                runtime = compute_runtime(bounds, verieql_res, bound_size)
-                writer.writerow({
-                    "question_id": question_id,
-                    "res": res,
-                    "verieql_res_orig": INCORRECT if deemed_incorrect else CORRECT,
-                    "verieql_res": verieql_res,
-                    "bound_size": bound_size,
-                    "counterexample_path": os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt"),
-                    "runtime": runtime,
-                    "output1": output1,
-                    "output2": output2,
-                    "generated_sql": bounds[0]["generated_sql"],
-                    "gold_sql": bounds[0]["gold_sql"],
-                })
+        for question_id in range(135):
+            print(f"Processing question_id {question_id} for {folder}")
+            bounds = get_bounds_info(question_id, folder, args.prediction, results_rows)
+            deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
+            valid_bounds = [b for b in bounds if b["result"] == INCORRECT]
+            bound_size = min([b["bound_size"] for b in valid_bounds], default=-1)
+            output1, output2 = "", ""
+            for b in valid_bounds:
+                if b["bound_size"] == bound_size:
+                    output1, output2 = b["output1"], b["output2"]
+                    break
+            verieql_res = compute_verieql_res(bounds)
+            runtime = compute_runtime(bounds, verieql_res, bound_size)
+            writer.writerow({
+                "question_id": question_id,
+                "verieql_res_orig": INCORRECT if deemed_incorrect else CORRECT,
+                "verieql_res": verieql_res,
+                "bound_size": bound_size,
+                "counterexample_path": os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt"),
+                "runtime": runtime,
+                "output1": output1,
+                "output2": output2,
+                "generated_sql": bounds[0]["generated_sql"],
+                "gold_sql": bounds[0]["gold_sql"],
+        })
 
 if __name__ == "__main__":
     main()

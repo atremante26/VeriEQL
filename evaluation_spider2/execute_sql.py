@@ -103,7 +103,6 @@ def execute_counterexample_(counterexample_path):
                 sql2 = line
     assert(sql1 is not None and sql2 is not None)
     
-    
     # Execute both queries
-    return execute_model(sql1.upper(), sql2.upper(), db_path, question_id)
+    return execute_model(sql1.upper(), sql2.upper(), db_path)
 
