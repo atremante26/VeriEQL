@@ -115,10 +115,10 @@ INT_LOWER_BOUND = IntVal('-2147483648')
 INT_UPPER_BOUND = IntVal('2147483647')
 
 PROJ_PATH = os.path.dirname(__file__)
-MIN_DATE = datetime.datetime(1000, 1, 1)
+MIN_DATE = datetime.datetime(0000, 1, 1)
 DATE_LOWER_BOUND = IntVal('1')
 MAX_DATE = datetime.datetime(9999, 12, 31)
-DATE_UPPER_BOUND = IntVal(f'{(MAX_DATE - MIN_DATE).days + 1}')  # avoid bool('1000-01-01') == 0
+DATE_UPPER_BOUND = IntVal(f'{(MAX_DATE - MIN_DATE).days + 1}')  # avoid bool('0000-01-01') == 0
 SQL_NULL = {"null": None}
 NumericType = int | float | ArithRef | IntNumRef | RatNumRef
 BACKUP_SUFFIX = '__BACKUP__'
@@ -130,7 +130,7 @@ IS_TRUE = "__IS_TRUE__"
 
 VARCHAR_LENGTH = 20
 TIMEOUT = 600  # 10 min
-MIN_YEAR = IntVal('1000')
+MIN_YEAR = IntVal('0000')
 MAX_YEAR = IntVal('9999')
 JULIANDATE_OFFSET = 2440586.5  # julianday('1970-01-01')=2440587.5, -1 because '1970-01-01' -> 1
 

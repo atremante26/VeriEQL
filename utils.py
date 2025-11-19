@@ -407,7 +407,7 @@ def z3_floor_div(dividend, divisor):
     return If(module == Z3_0, dividend / divisor, (dividend - module) / divisor)
 
 
-def z3_days_since_0(year, month, day):
+def z3_days_since_0(year, month, day):  # consider a fake start point 0000-00-00
     leap_days = z3_floor_div(year, Z3_4) - z3_floor_div(year, Z3_100) + z3_floor_div(year, Z3_400)
     return Z3_365 * year + leap_days + day + z3_month_days(year, month)
 
