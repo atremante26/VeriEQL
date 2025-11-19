@@ -115,7 +115,7 @@ INT_LOWER_BOUND = IntVal('-2147483648')
 INT_UPPER_BOUND = IntVal('2147483647')
 
 PROJ_PATH = os.path.dirname(__file__)
-MIN_DATE = datetime.datetime(0000, 1, 1)
+MIN_DATE = datetime.datetime(1, 1, 1)
 DATE_LOWER_BOUND = IntVal('1')
 MAX_DATE = datetime.datetime(9999, 12, 31)
 DATE_UPPER_BOUND = IntVal(f'{(MAX_DATE - MIN_DATE).days + 1}')  # avoid bool('0000-01-01') == 0
