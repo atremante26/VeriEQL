@@ -36,7 +36,7 @@ def execute_sql(predicted_sql, ground_truth, db_path, calculate_func):
     res = calculate_func(predicted_res, ground_truth_res)
     return res, predicted_res, ground_truth_res
 
-def execute_model(predicted_sql, ground_truth, db_place, idx):
+def execute_model(predicted_sql, ground_truth, db_place):
     try:
         res, predicted_res, ground_truth_res = execute_sql(
             predicted_sql, ground_truth, db_place, calculate_ex
@@ -57,6 +57,8 @@ def execute_counterexample_(counterexample_path):
     # Load files
     with open(counterexample_path, "r") as f:
         counterexample = f.read()
+    print(counterexample_path)
+    # Replace "SQLITE_SEQUENCE" with "sqlite_sequence"
 
     # Extract question_id from filename
     basename = os.path.basename(counterexample_path)
@@ -65,17 +67,20 @@ def execute_counterexample_(counterexample_path):
         raise ValueError("Filename does not match expected pattern.")
 
     database = open(counterexample_path, 'r').readlines()[1:]
+
     # find the line that starts with "--"
     separator_index = next(i for i, line in enumerate(database) if line.startswith("--"))
     db_def = database[:separator_index]
 
     new_db_def = []
     for line in db_def:
-        if line.startswith("CREATE TABLE"):
-            new_db_def.append(line)
+        line = line.replace("SQLITE_SEQUENCE", "DB_SQLITE_SEQUENCE")
+        line = line.replace("INDEX", "INDEX_T")
+        line = line.replace("TABLE VARCHAR", "TABLE_T VARCHAR")
+        line = line.replace("UNNAMED: ", "UNNAMED_")
+        new_db_def.append(line)
     db_def = "\n".join(new_db_def)
     # Dump to sqlite database
-
     db_path = "temp.db"
     if os.path.exists(db_path):
         os.remove(db_path)
@@ -84,7 +89,6 @@ def execute_counterexample_(counterexample_path):
     for stmt in db_def.split(";"):
         stmt = stmt.strip()
         if stmt:
-            #print(question_id, stmt)
             cursor.execute(stmt)
     conn.commit()
     conn.close()
@@ -98,9 +102,9 @@ def execute_counterexample_(counterexample_path):
             lookForSQL = True
         if lookForSQL and not line.startswith("--"):
             if sql1 is None:
-                sql1 = line
+                sql1 = line.replace("INDEX", "INDEX_T").replace("TABLE", "TABLE_T")
             else:
-                sql2 = line
+                sql2 = line.replace("INDEX", "INDEX_T").replace("TABLE", "TABLE_T")
     assert(sql1 is not None and sql2 is not None)
     
     # Execute both queries

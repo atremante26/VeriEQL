@@ -20,23 +20,41 @@ def execute_counterexample(counterexample_path):
 def get_bounds_info(question_id, folder, prediction_path, results_rows):
     bounds = []
     for b in range(K):
-        row = results_rows[int(question_id) * b + question_id]
-        print(row)
+        row = results_rows[int(question_id) * K + b]
         assert(int(row["question_id"]) == int(question_id))
         is_error = row["equivalent"] == "ERROR"
+        if is_error:
+            if "not found in prediction file" in row["error"]:
+                output = "SKIPPED"
+            else:
+                output = "ERROR"
+            bounds.append({
+                "bound_size": int(row["bound_size"]), 
+                "result": output,
+                "original_result": row["equivalent"],
+                "time_cost": 0,
+                "counterexample_path": "",
+                "output1": "",
+                "output2": "",
+                "generated_sql": row["generated_sql"],
+                "gold_sql": row["gold_sql"],
+            })
+            return bounds
         is_correct = row["equivalent"] in ["True", True]
         is_incorrect = row["equivalent"] in ["False", False]
         is_timeout = row["equivalent"] == "Unknown"
         bound_size = int(row["bound_size"])
         counterexample_path = os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt")
-        if is_error:
-            results = None
+        if is_incorrect and row["time_cost"] == "":
+            row["time_cost"] = 0
+            output1, output2 = "", ""
+            results = ("", "")
         else:
             results = execute_counterexample(counterexample_path)
-        if results is None:
-            is_incorrect = False
-        else:
-            output1, output2 = results
+            if results is None:
+                is_incorrect = False
+            else:
+                output1, output2 = results
 
         if is_error:
             result = ERROR
@@ -101,6 +119,11 @@ def main():
             print(f"Processing question_id {question_id} for {folder}")
             bounds = get_bounds_info(question_id, folder, args.prediction, results_rows)
             deemed_incorrect = any(b["original_result"] in [False, "False"] for b in bounds)
+            error = all(b["result"] == "ERROR" for b in bounds)
+            if error:
+                orig_result = "ERROR"
+            else:
+                orig_result = INCORRECT if deemed_incorrect else CORRECT
             valid_bounds = [b for b in bounds if b["result"] == INCORRECT]
             bound_size = min([b["bound_size"] for b in valid_bounds], default=-1)
             output1, output2 = "", ""
@@ -112,7 +135,7 @@ def main():
             runtime = compute_runtime(bounds, verieql_res, bound_size)
             writer.writerow({
                 "question_id": question_id,
-                "verieql_res_orig": INCORRECT if deemed_incorrect else CORRECT,
+                "verieql_res_orig": orig_result,
                 "verieql_res": verieql_res,
                 "bound_size": bound_size,
                 "counterexample_path": os.path.join(folder, f"counterexample_{question_id}_bound{bound_size}.txt"),
