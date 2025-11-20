@@ -586,6 +586,8 @@ class Environment:
                     DEFAULT_STRING_LENGTH = int(DEFAULT_STRING_LENGTH)
                 elif attr_type == DATE:
                     pass
+                elif attr_type in {"ARRAY", "VARIANT", "GEOMETRY", "GEOGRAPHY", "STRUCT"}:
+                    raise NotSupportedError(f"Cannot support data type: {attr_type}")
                 else:
                     attr_type = 'INTEGER'
                 self.sql_code['tables'][name][attr] = attr_type
