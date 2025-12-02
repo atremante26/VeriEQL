@@ -62,7 +62,8 @@ def main():
             filtered_count_orig, _, filtered_freq = count_correct_and_not_incorrect(rows, True)
         filtered_count, _, filtered_freq = count_correct_and_not_incorrect(rows, False)
         print(f'EX + VeriEQL + Validation": {filtered_count}/{total_count} ({filtered_freq:.2%})')
-        print(f"Verification success rate: {(filtered_count_orig / filtered_count):.2%}")
+        if args.orig:
+            print(f"Verification success rate: {(filtered_count_orig / filtered_count):.2%}")
 
         # 3. If prediction file is provided, execute counterexample DBs and confirm result is not None
         if args.prediction is not None:
