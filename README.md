@@ -1,6 +1,48 @@
 VeriEQL
 =======
 
+## 🚀 SpotIt Quick Start
+
+### Installation
+```bash
+# Clone the repository (extension branch with SpotIt enhancements)
+git clone -b extension https://github.com/YOUR_USERNAME/VeriEQL.git
+cd VeriEQL
+
+# Install dependencies (Python 3.10+ required, 3.11 recommended)
+pip install -r requirements.txt
+
+# Optional: Replace z3 files for 10-20% performance improvement
+mv ./z3py_libs/*.py $(python -c "import site; print(site.getsitepackages()[0])")/z3/
+
+```
+
+### Running VeriEQL
+
+**Verify a SQL query pair:**
+```bash
+# Example: Verify question 42 from BIRD benchmark with bound size 2
+python run.py predictions/csc-32b_sql.json --question 42 --bound 2
+```
+
+**Parameters:**
+- `prediction_path`: Path to JSON file containing predicted SQL queries
+- `--question`: Question ID to verify (integer)
+- `--bound`: Bound size for model checking (typically 1-5)
+- `--vanilla`: (Optional) Run original VeriEQL without SpotIt enhancements (need to clone main branch)
+
+### Example Prediction File Format
+```json
+{
+  "0": "SELECT name FROM students WHERE age > 18",
+  "1": "SELECT COUNT(*) FROM orders WHERE status = 'completed'"
+}
+```
+
+For more detailed usage, see sections below.
+
+---
+
 `/home/hwu/.conda/envs/py310/bin/python /home/hwu/txt2sql-verieql/VeriEQL/run_spider.py predictions_spider2/omni_portfolio.json 5 1`
 
 ## 📝 Introduction

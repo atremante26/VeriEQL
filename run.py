@@ -59,8 +59,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    base_dir = "/home/hwu/txt2sql-verieql/VeriEQL"
-    sys.path.insert(0, base_dir)
+    CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, CURRENT_PATH)
     if args.vanilla:
         from VeriEQL_vanilla.verieql import verify_sql_equivalence
         from VeriEQL_vanilla.constants import DIALECT
@@ -71,9 +71,9 @@ if __name__ == '__main__':
     question_idx = args.question
     bound_size = args.bound
 
-    BENCHMARKS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/dev.json"
-    DEV_CONSTRAINTS_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/table_constraints.json"
-    DEV_TABLE_DEF_PATH = "/home/hwu/txt2sql-verieql/VeriEQL/BIRD_schemas/table_to_columns.json"
+    BENCHMARKS_PATH = os.path.join(CURRENT_PATH, "BIRD_schemas", "dev.json")
+    DEV_CONSTRAINTS_PATH = os.path.join(CURRENT_PATH, "BIRD_schemas", "table_constraints.json")
+    DEV_TABLE_DEF_PATH = os.path.join(CURRENT_PATH, "BIRD_schemas", "table_to_columns.json")
 
     print(f"Running question {question_idx} with bound {bound_size}")
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
                 DATE_KEYS = ["STRFTIME", "JULIANDAY"]
                 config["encode_date"] = config.get("encode_date", False) or any(
                     any(map(lambda query: key in str.upper(query), [generated_sql, gold_sql])) for key in DATE_KEYS) or \
-                            any(re.search(DATE_SHIFT_PATTERN, str.upper(sql)) is not None for sql in [sql1, sql2])
+                            any(re.search(DATE_SHIFT_PATTERN, str.upper(sql)) is not None for sql in [generated_sql, gold_sql])
                 # encode_string = True: must encode strings as Z3 builtin strings;
                 # encode_string = False: only follow this encoding if queries involve SUBSTR, LIKE
                 # since date involves arithmetic operations, once encode_date = True, encode_string must be True.
