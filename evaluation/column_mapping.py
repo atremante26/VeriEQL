@@ -41,8 +41,8 @@ def main():
         dev_tables = json.load(f)
 
     # Load verieql_table_definitions.json
-    with open("../BIRD_schemas/table_definitions.json", "r") as f:
-        verieql_table_definitions = json.load(f)
+    #with open("../BIRD_schemas/table_definitions.json", "r") as f:
+    #    verieql_table_definitions = json.load(f)
 
     table = {}
     constraints = {}
@@ -115,19 +115,19 @@ def main():
         }, f, indent=4)
 
     # Compare verieql_table_definitions with table
-    for db_id in verieql_table_definitions:
-       for table_name in verieql_table_definitions[db_id]:
-            if table_name not in table[db_id]:
-                print(f"Table {table_name} in verieql but not in processed table for db {db_id}")
-            else:
-                verieql_columns = verieql_table_definitions[db_id][table_name]
-                processed_columns = table[db_id][table_name]
-                for col in verieql_columns:
-                    if col not in processed_columns:
-                        print(f"Column {col} in verieql but not in processed table {table_name} for db {db_id}")
-                for col in processed_columns:
-                    if col not in verieql_columns:
-                        print(f"Column {col} in processed table but not in verieql table {table_name} for db {db_id}")
+    #for db_id in verieql_table_definitions:
+    #   for table_name in verieql_table_definitions[db_id]:
+    #        if table_name not in table[db_id]:
+    #            print(f"Table {table_name} in verieql but not in processed table for db {db_id}")
+    #        else:
+    #            verieql_columns = verieql_table_definitions[db_id][table_name]
+    #            processed_columns = table[db_id][table_name]
+    #            for col in verieql_columns:
+    #                if col not in processed_columns:
+    #                    print(f"Column {col} in verieql but not in processed table {table_name} for db {db_id}")
+    #            for col in processed_columns:
+    #                if col not in verieql_columns:
+    #                    print(f"Column {col} in processed table but not in verieql table {table_name} for db {db_id}")
 
 if __name__ == "__main__":
     main()
