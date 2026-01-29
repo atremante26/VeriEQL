@@ -105,6 +105,10 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
                 line = line.replace("JOURNEY INTO NYX HERO'S PATH", "JOURNEY INTO NYX HERO''S PATH")
             if "ANCESTOR'S CHOSEN" in line:
                 line = line.replace("ANCESTOR'S CHOSEN", "ANCESTOR''S CHOSEN")
+            if "Woman's" in line:
+                line = line.replace("Woman's", "Woman''s")
+            if "Women's" in line:
+                line = line.replace("Women's", "Women''s")
             new_db_def.append(line)
     db_def = "\n".join(new_db_def)
     # Dump to sqlite database
@@ -117,8 +121,15 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
     for stmt in db_def.split(";"):
         stmt = stmt.strip()
         if stmt:
-            #print(question_id, stmt)
-            cursor.execute(stmt)
+            try:
+                #print(question_id, stmt)
+                cursor.execute(stmt)
+            except sqlite3.OperationalError as e:
+                print(f"=== SQL ERROR for question {question_id} ===")
+                print(f"Error: {e}")
+                print(f"Statement: {stmt}")
+                print("=" * 50)
+                raise
     conn.commit()
     conn.close()
 
