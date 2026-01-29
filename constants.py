@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import re
 
 from z3 import (
     Context,
@@ -27,8 +28,15 @@ from z3 import (
     SeqRef as Z3_SeqRef,
     StrToInt,
     IntToStr,
+    Concat,
+    Replace,
+    InRe,
+    Re as Z3_Re,
+    Full,
+    ReSort,
 
     ToReal,
+    ToInt,
     IntNumRef,
     RatNumRef,
     BoolRef,
@@ -50,7 +58,7 @@ Sum = lambda *args: Z3_Sum(*args, ctx=Z3_CONTEXT)
 And = lambda *args: Z3_And(*args, ctx=Z3_CONTEXT)
 Or = lambda *args: Z3_Or(*args, ctx=Z3_CONTEXT)
 Implies = lambda a, b: Z3_Implies(a, b, ctx=Z3_CONTEXT)
-
+Re = lambda a: Z3_Re(a, ctx=Z3_CONTEXT)
 TupleSort = Z3_DeclareSort('TupleSort', ctx=Z3_CONTEXT)
 BooleanSort = Z3_BoolSort(Z3_CONTEXT)
 VarSort = IntSort = Z3_IntSort(Z3_CONTEXT)
@@ -92,6 +100,8 @@ Z3_EMPTY_STRING = StringVal("")
 Z3_SPACE_STRING = StringVal(" ")
 Z3_R0 = RealVal('0.0')
 Z3_R1 = RealVal('1.0')
+Z3_DATE_SEP = StringVal("-")
+
 VARCHAR = "VARCHAR"
 DATE = "DATE"
 INTEGER = "INTEGER"
@@ -105,10 +115,10 @@ INT_LOWER_BOUND = IntVal('-2147483648')
 INT_UPPER_BOUND = IntVal('2147483647')
 
 PROJ_PATH = os.path.dirname(__file__)
-MIN_DATE = datetime.datetime(1000, 1, 1)
+MIN_DATE = datetime.datetime(1, 1, 1)
 DATE_LOWER_BOUND = IntVal('1')
 MAX_DATE = datetime.datetime(9999, 12, 31)
-DATE_UPPER_BOUND = IntVal(f'{(MAX_DATE - MIN_DATE).days + 1}')  # avoid bool('1000-01-01') == 0
+DATE_UPPER_BOUND = IntVal(f'{(MAX_DATE - MIN_DATE).days + 1}')  # avoid bool('0000-01-01') == 0
 SQL_NULL = {"null": None}
 NumericType = int | float | ArithRef | IntNumRef | RatNumRef
 BACKUP_SUFFIX = '__BACKUP__'
@@ -120,10 +130,12 @@ IS_TRUE = "__IS_TRUE__"
 
 VARCHAR_LENGTH = 20
 TIMEOUT = 600  # 10 min
-MIN_YEAR = IntVal('1000')
+MIN_YEAR = IntVal('0000')
 MAX_YEAR = IntVal('9999')
 JULIANDATE_OFFSET = 2440586.5  # julianday('1970-01-01')=2440587.5, -1 because '1970-01-01' -> 1
 
+DATE_SHIFT_PATTERN = re.compile(r"([+-])\s*(\d+)\s*(DAY|DAYS|WEEK|WEEKS|MONTH|MONTHS|YEAR|YEARS)", re.IGNORECASE)
+PRINTF_FLOAT_PATTERN = re.compile(r"%\.(\d+)[fF]%%", re.IGNORECASE)
 
 class DIALECT:
     ALL = "all"

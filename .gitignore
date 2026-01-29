@@ -176,3 +176,9 @@ VeriEQL.pem
 distributed_run.sh
 rqs/mysql_config.yml
 train_rq4.py
+constraint_extraction/BIRD_*
+VeriEQL_vanilla/
+constraints_test_filter.py
+constraints_test.py
+test_database.py
+constraint_extraction/db_test_results/

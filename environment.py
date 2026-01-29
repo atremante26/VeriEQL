@@ -24,6 +24,8 @@ from z3 import (
 
     sat,
     unknown,
+
+    ExprRef
 )
 
 import utils
@@ -124,6 +126,7 @@ class Environment:
 
         self.attributes = {}
         self.variables = {}
+        self.tmp_variables = {}
         self.functions = {}
         self.COUNT_ALL_FUNCTION, self.COUNT_ALL_NULL_FUNCTION = self._define_COUNT_ALL()
         self.tuples = {}
@@ -139,6 +142,7 @@ class Environment:
             'tuple_sorts': OrderedSet(),
             'attributes': OrderedSet(),
             'variables': OrderedSet(),
+            'tmp_variables': OrderedSet(),
             'functions': OrderedSet(),
         }
         # only store the last OrderBy results, cuz intermediate OrderBy does not matter
@@ -201,6 +205,7 @@ class Environment:
         self.databases.clear()
         self.tuple_sorts.clear()
         self.variables.clear()
+        self.tmp_variables.clear()
         self.attributes.clear()
         del self.sql_parser
         del self.solver
@@ -298,6 +303,20 @@ class Environment:
     def _get_new_tuple_sort(self) -> str:
         new_tuple = f't{len(self.tuple_sorts) + 1}'
         return self._declare_tuple_sort(new_tuple)
+    
+    def _declare_tmp_variable(self, name: str = None, sort=None):
+        if name is None:
+            name = f"tmp{len(self.tmp_variables)}"
+        if sort is None:
+            sort = self.VarSort
+        var = Const(name, sort)
+        self.tmp_variables[name] = var
+        return var
+
+    def _declare_tmp_date(self):
+        vars = [self._declare_tmp_variable() for _ in ['y', 'm', 'd']]
+        self.DBMS_facts.extend(self.add_date_constraints(*vars))
+        return vars
 
     def _declare_variable(self, attribute: FAttribute, sort=None):
         if sort is None:
@@ -569,6 +588,8 @@ class Environment:
                     DEFAULT_STRING_LENGTH = int(DEFAULT_STRING_LENGTH)
                 elif attr_type == DATE:
                     pass
+                elif attr_type in {"ARRAY", "VARIANT", "GEOMETRY", "GEOGRAPHY", "STRUCT"}:
+                    raise NotSupportedError(f"Cannot support data type: {attr_type}")
                 else:
                     attr_type = 'INTEGER'
                 self.sql_code['tables'][name][attr] = attr_type
@@ -875,7 +896,10 @@ class Environment:
                         choices = []
                         for choice in operands[1]:
                             if isinstance(choice, str):
-                                choices.append(self._declare_value(FSymbol(choice), register=True))
+                                if self.encode_string:
+                                    choices.append(self._declare_value(FSymbol(choice), sort=self.StringSort, register=True))
+                                else:
+                                    choices.append(self._declare_value(FSymbol(choice), register=True))
                             elif isinstance(choice, int):
                                 choices.append(IntVal(str(choice)))
                             elif isinstance(choice, float):
@@ -909,23 +933,53 @@ class Environment:
                     case 'dependency':
                         det_col_name = operands['values'][0]
                         dep_col_name = operands['values'][1]
-                        mappings = operands['mappings']
-
-                        # Get attributes for both columns
-                        det_attrs = _f({'value': det_col_name})  # [FExpressionTuple(t1), ...]
-                        dep_attrs = _f({'value': dep_col_name})
-
-                        # Build implications for each tuple
                         out = []
-                        for det_attr, dep_attr in zip(det_attrs, dep_attrs):
-                            for det_value, dep_value in mappings.items():
-                                # Convert values to Z3
-                                det_z3 = self._declare_value(FSymbol(det_value), register=True)
-                                dep_z3 = self._declare_value(FSymbol(dep_value), register=True)
+
+                        if 'type' in operands and operands['type'] == 'ordering':
+                            det_attrs = _f({'value': det_col_name})
+                            dep_attrs = _f({'value': dep_col_name})
+
+                            # Check sorts BEFORE processing
+                            '''if len(det_attrs) > 0 and len(dep_attrs) > 0:
+                                det_sort = str(det_attrs[0].VALUE.sort())
+                                dep_sort = str(dep_attrs[0].VALUE.sort())
                                 
-                                # Add: Implies(COL_A == det_value, COL_B == dep_value)
-                                out.append(Implies(det_attr.VALUE == det_z3, dep_attr.VALUE == dep_z3))
-                        
+                                # Skip if sorts don't match
+                                if det_sort != dep_sort:
+                                    return None'''
+                            
+                            operator = operands['operator']
+
+                            for det_attr, dep_attr in zip(det_attrs, dep_attrs):
+                                out.append(Not(det_attr.NULL))
+                                out.append(Not(dep_attr.NULL))
+
+                                if operator == '>=':
+                                    out.append(det_attr.VALUE >= dep_attr.VALUE)
+                                elif operator == '<=':
+                                    out.append(det_attr.VALUE <= dep_attr.VALUE)
+                                else:
+                                    raise NotImplementedError(f"Ordering operator {operator} not supported.")
+   
+                        else: # Functional Dependency
+                            det_attrs = _f({'value': det_col_name})  # [FExpressionTuple(t1), FExpressionTuple(t2)]
+                            dep_attrs = _f({'value': dep_col_name})
+
+                            # For each pair of tuples (t1, t2)
+                            for i, det_attr1 in enumerate(det_attrs):
+                                for j, det_attr2 in enumerate(det_attrs):
+                                    if i < j:  # Only compare each pair once
+                                        dep_attr1 = dep_attrs[i]
+                                        dep_attr2 = dep_attrs[j]
+                                        
+                                        # If det_col(t1) == det_col(t2), then dep_col(t1) == dep_col(t2)
+                                        out.append(
+                                            Implies(
+                                                det_attr1.VALUE == det_attr2.VALUE,
+                                                dep_attr1.VALUE == dep_attr2.VALUE
+                                            )
+                                        )
+                            
                         return And(*out) if out else None
                     case _:
                         raise NotImplementedError(expr)
