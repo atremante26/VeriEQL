@@ -126,8 +126,6 @@ if __name__ == '__main__':
                       'show_counterexample': True, 
                       'dialect': DIALECT.MYSQL,
                       "all_null_is_deleted": True, 
-                      'encode_date': True,
-                      'encode_string': True
                       }
             if not args.vanilla:
                 DATE_KEYS = ["STRFTIME", "JULIANDAY"]
