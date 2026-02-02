@@ -109,6 +109,12 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
                 line = line.replace("Woman's", "Woman''s")
             if "Women's" in line:
                 line = line.replace("Women's", "Women''s")
+            if "': " in line and "{'" in line:
+                line = re.sub(r"'([^']+)':", r"''\1'':", line)
+            if "WOMAN'S" in line:
+                line = line.replace("WOMAN'S", "WOMAN''S")
+            if "WOMEN'S" in line:
+                line = line.replace("WOMEN'S", "WOMEN''S")
             new_db_def.append(line)
     db_def = "\n".join(new_db_def)
     # Dump to sqlite database
