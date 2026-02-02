@@ -1,0 +1,3 @@
+[submodule "VeriEQL_vanilla"]
+	path = VeriEQL_vanilla
+	url = https://github.com/atremante26/VeriEQL.git
