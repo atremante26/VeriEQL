@@ -182,8 +182,8 @@
           {
             "value": "POSTLINKS__ID"
           },
-          108,
-          3356789
+          1,
+          2147483647
         ]
       },
       {
@@ -191,8 +191,8 @@
           {
             "value": "POSTLINKS__POSTID"
           },
-          4,
-          115360
+          1,
+          2147483647
         ]
       },
       {
@@ -228,7 +228,7 @@
             "value": "POSTHISTORY__POSTHISTORYTYPEID"
           },
           1,
-          38
+          2147483647
         ]
       },
       {
@@ -245,7 +245,7 @@
           {
             "value": "POSTHISTORY__USERID"
           },
-          0,
+          -1,
           2147483647
         ]
       },
@@ -255,7 +255,7 @@
             "value": "BADGES__ID"
           },
           1,
-          2147483647
+          92240
         ]
       },
       {
@@ -297,15 +297,6 @@
       {
         "between": [
           {
-            "value": "POSTS__SCORE"
-          },
-          0,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "POSTS__VIEWCOUNT"
           },
           0,
@@ -317,7 +308,7 @@
           {
             "value": "POSTS__OWNERUSERID"
           },
-          0,
+          -1,
           2147483647
         ]
       },
@@ -353,7 +344,7 @@
           {
             "value": "POSTS__LASTEDITORUSERID"
           },
-          0,
+          1,
           2147483647
         ]
       },
@@ -362,8 +353,8 @@
           {
             "value": "POSTS__PARENTID"
           },
-          -2147483648,
-          115375
+          1,
+          2147483647
         ]
       },
       {
@@ -408,7 +399,7 @@
             "value": "USERS__DOWNVOTES"
           },
           0,
-          1920
+          2147483647
         ]
       },
       {
@@ -416,8 +407,8 @@
           {
             "value": "USERS__ACCOUNTID"
           },
-          -1,
-          5027354
+          0,
+          2147483647
         ]
       },
       {
@@ -425,7 +416,7 @@
           {
             "value": "USERS__AGE"
           },
-          13,
+          0,
           120
         ]
       },
@@ -452,8 +443,8 @@
           {
             "value": "TAGS__EXCERPTPOSTID"
           },
-          2331,
-          114058
+          1,
+          2147483647
         ]
       },
       {
@@ -461,8 +452,8 @@
           {
             "value": "TAGS__WIKIPOSTID"
           },
-          2254,
-          114057
+          1,
+          2147483647
         ]
       },
       {
@@ -489,7 +480,7 @@
             "value": "VOTES__VOTETYPEID"
           },
           1,
-          16
+          2147483647
         ]
       },
       {
@@ -497,7 +488,7 @@
           {
             "value": "VOTES__USERID"
           },
-          1,
+          0,
           2147483647
         ]
       },
@@ -507,7 +498,7 @@
             "value": "VOTES__BOUNTYAMOUNT"
           },
           0,
-          200
+          2147483647
         ]
       },
       {
@@ -516,7 +507,7 @@
             "value": "COMMENTS__ID"
           },
           1,
-          221292
+          2147483647
         ]
       },
       {
@@ -693,21 +684,6 @@
       },
       {
         "not_null": {
-          "value": "POSTHISTORY__TEXT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "POSTHISTORY__COMMENT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "POSTHISTORY__USERDISPLAYNAME"
-        }
-      },
-      {
-        "not_null": {
           "value": "BADGES__ID"
         }
       },
@@ -778,6 +754,21 @@
       },
       {
         "not_null": {
+          "value": "USERS__VIEWS"
+        }
+      },
+      {
+        "not_null": {
+          "value": "USERS__UPVOTES"
+        }
+      },
+      {
+        "not_null": {
+          "value": "USERS__DOWNVOTES"
+        }
+      },
+      {
+        "not_null": {
           "value": "USERS__ACCOUNTID"
         }
       },
@@ -844,326 +835,6 @@
       {
         "dependency": {
           "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__POSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__RELATEDPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__REVISIONGUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__POSTTYPEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__ACCEPTEDANSWERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__SCORE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__VIEWCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__BODY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__OWNERUSERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__LASACTIVITYDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__TAGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__ANSWERCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__COMMENTCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__FAVORITECOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__LASTEDITORUSERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__COMMUNITYOWNEDDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__PARENTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ACCEPTEDANSWERID",
-            "POSTS__ANSWERCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__REPUTATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__DISPLAYNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__LASTACCESSDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__WEBSITEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__ABOUTME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__VIEWS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__UPVOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__ACCOUNTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__AGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__PROFILEIMAGEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ACCOUNTID",
-            "USERS__AGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ACCOUNTID",
-            "USERS__PROFILEIMAGEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__TAGNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__COUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__EXCERPTPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__TAGNAME",
-            "TAGS__COUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "TAGS__TAGNAME",
             "TAGS__EXCERPTPOSTID"
           ]
@@ -1174,46 +845,6 @@
           "values": [
             "TAGS__TAGNAME",
             "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__EXCERPTPOSTID",
-            "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__POSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__SCORE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__CREATIONDATE"
           ]
         }
       }

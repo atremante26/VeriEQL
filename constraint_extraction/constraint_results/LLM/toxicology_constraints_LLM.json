@@ -184,46 +184,6 @@
         "not_null": {
           "value": "CONNECTED__BOND_ID"
         }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BOND__BOND_ID",
-            "BOND__MOLECULE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BOND__BOND_ID",
-            "BOND__BOND_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MOLECULE__MOLECULE_ID",
-            "MOLECULE__LABEL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ATOM__ATOM_ID",
-            "ATOM__MOLECULE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ATOM__ATOM_ID",
-            "ATOM__ELEMENT"
-          ]
-        }
       }
     ]
   ]

@@ -134,17 +134,8 @@
           {
             "value": "TEAM_ATTRIBUTES__TEAM_FIFA_API_ID"
           },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TEAM_ATTRIBUTES__TEAM_API_ID"
-          },
-          1,
-          2147483647
+          0,
+          7270
         ]
       },
       {
@@ -234,7 +225,7 @@
             "value": "PLAYER__ID"
           },
           1,
-          2147483647
+          11075
         ]
       },
       {
@@ -242,17 +233,8 @@
           {
             "value": "PLAYER__PLAYER_API_ID"
           },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "PLAYER__PLAYER_FIFA_API_ID"
-          },
-          1,
-          2147483647
+          0,
+          743215
         ]
       },
       {
@@ -260,8 +242,8 @@
           {
             "value": "PLAYER__HEIGHT"
           },
-          140,
-          250
+          0,
+          2147483647
         ]
       },
       {
@@ -269,8 +251,8 @@
           {
             "value": "PLAYER__WEIGHT"
           },
-          117,
-          243
+          0,
+          2147483647
         ]
       },
       {
@@ -279,7 +261,7 @@
             "value": "MATCH__ID"
           },
           1,
-          2147483647
+          25979
         ]
       },
       {
@@ -288,7 +270,7 @@
             "value": "MATCH__COUNTRY_ID"
           },
           1,
-          2147483647
+          24558
         ]
       },
       {
@@ -296,8 +278,8 @@
           {
             "value": "MATCH__LEAGUE_ID"
           },
-          1,
-          2147483647
+          0,
+          56261
         ]
       },
       {
@@ -312,37 +294,10 @@
       {
         "between": [
           {
-            "value": "MATCH__MATCH_API_ID"
-          },
-          483129,
-          2216672
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_TEAM_API_ID"
-          },
-          1601,
-          274581
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_TEAM_API_ID"
-          },
-          4125,
-          14275
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__HOME_TEAM_GOAL"
           },
           0,
-          10
+          2147483647
         ]
       },
       {
@@ -351,7 +306,7 @@
             "value": "MATCH__AWAY_TEAM_GOAL"
           },
           0,
-          9
+          2147483647
         ]
       },
       {
@@ -386,8 +341,8 @@
           {
             "value": "MATCH__HOME_PLAYER_X4"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -396,7 +351,7 @@
             "value": "MATCH__HOME_PLAYER_X5"
           },
           1,
-          11
+          10
         ]
       },
       {
@@ -405,7 +360,7 @@
             "value": "MATCH__HOME_PLAYER_X6"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -414,7 +369,7 @@
             "value": "MATCH__HOME_PLAYER_X7"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -423,7 +378,7 @@
             "value": "MATCH__HOME_PLAYER_X8"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -432,7 +387,7 @@
             "value": "MATCH__HOME_PLAYER_X9"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -441,7 +396,7 @@
             "value": "MATCH__HOME_PLAYER_X10"
           },
           1,
-          11
+          10
         ]
       },
       {
@@ -450,7 +405,7 @@
             "value": "MATCH__HOME_PLAYER_X11"
           },
           1,
-          11
+          7
         ]
       },
       {
@@ -459,7 +414,7 @@
             "value": "MATCH__AWAY_PLAYER_X1"
           },
           1,
-          11
+          6
         ]
       },
       {
@@ -476,8 +431,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_X3"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -522,7 +477,7 @@
             "value": "MATCH__AWAY_PLAYER_X8"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -540,7 +495,7 @@
             "value": "MATCH__AWAY_PLAYER_X10"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -548,8 +503,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_X11"
           },
-          3,
-          8
+          0,
+          10
         ]
       },
       {
@@ -567,7 +522,7 @@
             "value": "MATCH__HOME_PLAYER_Y2"
           },
           0,
-          3
+          2147483647
         ]
       },
       {
@@ -584,8 +539,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y4"
           },
-          1,
-          11
+          3,
+          5
         ]
       },
       {
@@ -593,8 +548,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y5"
           },
-          1,
-          11
+          0,
+          2147483647
         ]
       },
       {
@@ -602,8 +557,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y6"
           },
-          1,
-          11
+          3,
+          9
         ]
       },
       {
@@ -611,8 +566,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y7"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -620,8 +575,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y8"
           },
-          3,
-          10
+          1,
+          11
         ]
       },
       {
@@ -638,8 +593,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y10"
           },
-          1,
-          11
+          0,
+          100
         ]
       },
       {
@@ -656,17 +611,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y1"
           },
-          1,
-          3
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y2"
-          },
-          3,
-          3
+          0,
+          8
         ]
       },
       {
@@ -674,8 +620,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y3"
           },
-          1,
-          11
+          0,
+          100
         ]
       },
       {
@@ -683,8 +629,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y4"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -692,8 +638,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y5"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -701,8 +647,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y6"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -710,7 +656,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y7"
           },
-          3,
+          0,
           10
         ]
       },
@@ -719,7 +665,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y8"
           },
-          3,
+          0,
           10
         ]
       },
@@ -728,7 +674,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y9"
           },
-          5,
+          0,
           11
         ]
       },
@@ -737,7 +683,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y10"
           },
-          6,
+          0,
           11
         ]
       },
@@ -753,73 +699,10 @@
       {
         "between": [
           {
-            "value": "MATCH__HOME_PLAYER_1"
-          },
-          0,
-          295538
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_2"
-          },
-          0,
-          541694
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__HOME_PLAYER_3"
           },
-          0,
-          420341
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_4"
-          },
-          0,
-          490363
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_5"
-          },
-          0,
-          540235
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_6"
-          },
-          0,
-          510665
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_7"
-          },
-          0,
-          474111
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_8"
-          },
-          0,
-          542719
+          2752,
+          705484
         ]
       },
       {
@@ -827,8 +710,8 @@
           {
             "value": "MATCH__HOME_PLAYER_9"
           },
-          0,
-          557919
+          2625,
+          730065
         ]
       },
       {
@@ -836,8 +719,8 @@
           {
             "value": "MATCH__HOME_PLAYER_10"
           },
-          0,
-          537737
+          2625,
+          742405
         ]
       },
       {
@@ -845,8 +728,8 @@
           {
             "value": "MATCH__HOME_PLAYER_11"
           },
-          0,
-          547283
+          2802,
+          726956
         ]
       },
       {
@@ -861,91 +744,10 @@
       {
         "between": [
           {
-            "value": "MATCH__AWAY_PLAYER_2"
-          },
-          0,
-          541791
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_3"
-          },
-          0,
-          392928
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_4"
-          },
-          0,
-          490363
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_5"
-          },
-          0,
-          543015
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_6"
-          },
-          0,
-          511205
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_7"
-          },
-          0,
-          487224
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__AWAY_PLAYER_8"
           },
           0,
           555858
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_9"
-          },
-          0,
-          556531
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_10"
-          },
-          0,
-          547283
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_11"
-          },
-          0,
-          548399
         ]
       },
       {
@@ -962,8 +764,8 @@
           {
             "value": "MATCH__B365D"
           },
-          1.4,
-          17.0
+          1,
+          1e+308
         ]
       },
       {
@@ -971,8 +773,8 @@
           {
             "value": "MATCH__B365A"
           },
-          1.08,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -981,7 +783,7 @@
             "value": "MATCH__BWH"
           },
           1.0,
-          34.0
+          1e+308
         ]
       },
       {
@@ -989,8 +791,8 @@
           {
             "value": "MATCH__BWD"
           },
-          1.65,
-          19.5
+          1.0,
+          1e+308
         ]
       },
       {
@@ -998,8 +800,8 @@
           {
             "value": "MATCH__BWA"
           },
-          1.1,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1008,7 +810,7 @@
             "value": "MATCH__IWH"
           },
           1.0,
-          20.0
+          1e+308
         ]
       },
       {
@@ -1016,8 +818,8 @@
           {
             "value": "MATCH__IWD"
           },
-          1.5,
-          11.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1026,7 +828,7 @@
             "value": "MATCH__IWA"
           },
           1.0,
-          25.0
+          1e+308
         ]
       },
       {
@@ -1034,8 +836,8 @@
           {
             "value": "MATCH__LBH"
           },
-          1.04,
-          26.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1043,8 +845,8 @@
           {
             "value": "MATCH__LBD"
           },
-          1.4,
-          19.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1052,8 +854,8 @@
           {
             "value": "MATCH__LBA"
           },
-          1,
-          100
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1061,8 +863,8 @@
           {
             "value": "MATCH__PSH"
           },
-          1.04,
-          36.0
+          1,
+          1e+308
         ]
       },
       {
@@ -1070,8 +872,8 @@
           {
             "value": "MATCH__PSD"
           },
-          2.2,
-          29.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1079,8 +881,8 @@
           {
             "value": "MATCH__PSA"
           },
-          1.09,
-          47.5
+          1,
+          1e+308
         ]
       },
       {
@@ -1097,8 +899,8 @@
           {
             "value": "MATCH__WHD"
           },
-          1,
-          17
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1106,8 +908,8 @@
           {
             "value": "MATCH__WHA"
           },
-          1.08,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1115,8 +917,8 @@
           {
             "value": "MATCH__SJH"
           },
-          1.04,
-          23.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1124,8 +926,8 @@
           {
             "value": "MATCH__SJD"
           },
-          1.4,
-          15.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1133,8 +935,8 @@
           {
             "value": "MATCH__SJA"
           },
-          1.1,
-          41.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1142,8 +944,8 @@
           {
             "value": "MATCH__VCH"
           },
-          1.03,
-          36.0
+          1,
+          1e+308
         ]
       },
       {
@@ -1151,8 +953,8 @@
           {
             "value": "MATCH__VCD"
           },
-          1.62,
-          26.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1160,8 +962,8 @@
           {
             "value": "MATCH__VCA"
           },
-          0,
-          100
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1169,8 +971,8 @@
           {
             "value": "MATCH__GBH"
           },
-          1.0,
-          21.0
+          1,
+          1e+308
         ]
       },
       {
@@ -1178,8 +980,8 @@
           {
             "value": "MATCH__GBD"
           },
-          1.45,
-          11.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1187,8 +989,8 @@
           {
             "value": "MATCH__GBA"
           },
-          1.12,
-          34.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1197,7 +999,7 @@
             "value": "MATCH__BSH"
           },
           1.0,
-          20.0
+          1e+308
         ]
       },
       {
@@ -1205,8 +1007,8 @@
           {
             "value": "MATCH__BSD"
           },
-          1.33,
-          13.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1214,35 +1016,8 @@
           {
             "value": "MATCH__BSA"
           },
-          1.12,
-          34.0
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "LEAGUE__ID"
-          },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "LEAGUE__COUNTRY_ID"
-          },
-          1,
-          24558
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "COUNTRY__ID"
-          },
-          1,
-          2147483647
+          1.0,
+          1e+308
         ]
       },
       {
@@ -1252,15 +1027,6 @@
           },
           1,
           183978
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "PLAYER_ATTRIBUTES__PLAYER_FIFA_API_ID"
-          },
-          1,
-          2147483647
         ]
       },
       {
@@ -1502,7 +1268,7 @@
           {
             "value": "PLAYER_ATTRIBUTES__VISION"
           },
-          1,
+          0,
           100
         ]
       },
@@ -1593,16 +1359,7 @@
             "value": "TEAM__ID"
           },
           1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TEAM__TEAM_API_ID"
-          },
-          1,
-          2147483647
+          51606
         ]
       },
       {
@@ -1610,8 +1367,8 @@
           {
             "value": "TEAM__TEAM_FIFA_API_ID"
           },
-          1,
-          112513
+          0,
+          7106
         ]
       },
       {
@@ -1758,219 +1515,6 @@
       {
         "in": [
           {
-            "value": "MATCH__COUNTRY_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__LEAGUE_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__SEASON"
-          },
-          [
-            "2008/2009",
-            "2009/2010",
-            "2010/2011",
-            "2011/2012",
-            "2012/2013",
-            "2013/2014",
-            "2014/2015",
-            "2015/2016"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_TEAM_GOAL"
-          },
-          [
-            1,
-            0,
-            5,
-            2,
-            4,
-            3,
-            7,
-            6,
-            9,
-            8,
-            10
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_TEAM_GOAL"
-          },
-          [
-            1,
-            0,
-            3,
-            2,
-            4,
-            5,
-            6,
-            7,
-            9,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X1"
-          },
-          [
-            1,
-            2,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X2"
-          },
-          [
-            2,
-            4,
-            3,
-            1,
-            5,
-            6,
-            8,
-            7,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X3"
-          },
-          [
-            4,
-            6,
-            8,
-            5,
-            3,
-            7,
-            2,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X4"
-          },
-          [
-            6,
-            8,
-            4,
-            7,
-            5,
-            3,
-            2
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X5"
-          },
-          [
-            8,
-            6,
-            2,
-            7,
-            1,
-            3,
-            4,
-            9,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X6"
-          },
-          [
-            2,
-            6,
-            4,
-            1,
-            3,
-            9,
-            5,
-            7,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X7"
-          },
-          [
-            4,
-            8,
-            6,
-            5,
-            3,
-            7,
-            2,
-            9,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "MATCH__HOME_PLAYER_X8"
           },
           [
@@ -1982,108 +1526,6 @@
             5,
             4,
             9,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X9"
-          },
-          [
-            8,
-            4,
-            2,
-            6,
-            7,
-            3,
-            9,
-            5,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X10"
-          },
-          [
-            4,
-            6,
-            9,
-            5,
-            7,
-            8,
-            3,
-            2,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X11"
-          },
-          [
-            6,
-            4,
-            5,
-            7,
-            3,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X2"
-          },
-          [
-            2,
-            4,
-            3,
-            1,
-            6,
-            8,
-            5,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X3"
-          },
-          [
-            4,
-            6,
-            5,
-            3,
-            8,
-            2,
-            7,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X4"
-          },
-          [
-            6,
-            8,
-            2,
-            7,
-            5,
-            4,
-            3,
             1
           ]
         ]
@@ -2103,42 +1545,6 @@
             1,
             9,
             5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X6"
-          },
-          [
-            2,
-            4,
-            3,
-            9,
-            1,
-            5,
-            6,
-            7,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X7"
-          },
-          [
-            4,
-            6,
-            5,
-            3,
-            7,
-            8,
-            2,
-            1,
-            9
           ]
         ]
       },
@@ -2181,110 +1587,6 @@
       {
         "in": [
           {
-            "value": "MATCH__AWAY_PLAYER_X11"
-          },
-          [
-            6,
-            4,
-            3,
-            7,
-            5,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y1"
-          },
-          [
-            1,
-            3,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y2"
-          },
-          [
-            3,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y3"
-          },
-          [
-            3,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y4"
-          },
-          [
-            3,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y5"
-          },
-          [
-            3,
-            7,
-            6,
-            5,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y6"
-          },
-          [
-            7,
-            3,
-            6,
-            5,
-            8,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y7"
-          },
-          [
-            7,
-            6,
-            8,
-            5,
-            3,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "MATCH__HOME_PLAYER_Y10"
           },
           [
@@ -2295,193 +1597,6 @@
             6,
             11,
             3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y11"
-          },
-          [
-            10,
-            11,
-            1,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y1"
-          },
-          [
-            1,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y3"
-          },
-          [
-            3,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y4"
-          },
-          [
-            3,
-            5,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y8"
-          },
-          [
-            7,
-            8,
-            6,
-            5,
-            9,
-            3,
-            10
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y9"
-          },
-          [
-            7,
-            10,
-            8,
-            9,
-            6,
-            11,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y10"
-          },
-          [
-            10,
-            7,
-            8,
-            9,
-            11,
-            6
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y11"
-          },
-          [
-            10,
-            11,
-            8,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__COUNTRY_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__NAME"
-          },
-          [
-            "Belgium Jupiler League",
-            "England Premier League",
-            "France Ligue 1",
-            "Germany 1. Bundesliga",
-            "Italy Serie A",
-            "Netherlands Eredivisie",
-            "Poland Ekstraklasa",
-            "Portugal Liga ZON Sagres",
-            "Scotland Premier League",
-            "Spain LIGA BBVA",
-            "Switzerland Super League"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "COUNTRY__NAME"
-          },
-          [
-            "Belgium",
-            "England",
-            "France",
-            "Germany",
-            "Italy",
-            "Netherlands",
-            "Poland",
-            "Portugal",
-            "Scotland",
-            "Spain",
-            "Switzerland"
           ]
         ]
       },
@@ -2510,6 +1625,34 @@
             "norm",
             "stoc",
             "y"
+          ]
+        ]
+      },
+      {
+        "in": [
+          {
+            "value": "PLAYER_ATTRIBUTES__DEFENSIVE_WORK_RATE"
+          },
+          [
+            "medium",
+            "high",
+            "low",
+            "_0",
+            "5",
+            "ean",
+            "o",
+            "1",
+            "ormal",
+            "7",
+            "2",
+            "8",
+            "4",
+            "tocky",
+            "0",
+            "3",
+            "6",
+            "9",
+            "es"
           ]
         ]
       },
@@ -2565,22 +1708,22 @@
       },
       {
         "not_null": {
-          "value": "TEAM_ATTRIBUTES__CHANCECREATIONPASSING"
-        }
-      },
-      {
-        "not_null": {
           "value": "TEAM_ATTRIBUTES__CHANCECREATIONPASSINGCLASS"
         }
       },
       {
         "not_null": {
-          "value": "TEAM_ATTRIBUTES__CHANCECREATIONCROSSING"
+          "value": "TEAM_ATTRIBUTES__CHANCECREATIONCROSSINGCLASS"
         }
       },
       {
         "not_null": {
           "value": "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTING"
+        }
+      },
+      {
+        "not_null": {
+          "value": "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTINGCLASS"
         }
       },
       {
@@ -2646,16 +1789,6 @@
       {
         "not_null": {
           "value": "PLAYER__BIRTHDAY"
-        }
-      },
-      {
-        "not_null": {
-          "value": "PLAYER__HEIGHT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "PLAYER__WEIGHT"
         }
       },
       {
@@ -2774,195 +1907,6 @@
         }
       },
       {
-        "not_null": {
-          "value": "TEAM__TEAM_SHORT_NAME"
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__TEAM_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYSPEED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYSPEEDCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYDRIBBLINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPASSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPOSITIONINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPASSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONCROSSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONCROSSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPOSITIONINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEPRESSURE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEPRESSURECLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEAGGRESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEAGGRESSIONCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCETEAMWIDTH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCETEAMWIDTHCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEDEFENDERLINECLASS"
-          ]
-        }
-      },
-      {
         "dependency": {
           "values": [
             "TEAM_ATTRIBUTES__BUILDUPPLAYSPEED",
@@ -3037,1088 +1981,8 @@
       {
         "dependency": {
           "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__PLAYER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "PLAYER__PLAYER_API_ID",
             "PLAYER__PLAYER_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LEAGUE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__HOME_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__AWAY_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__HOME_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__AWAY_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__B365H"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__B365A"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__IWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__SJH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__VCH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__VCA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BSD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BSA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__HOME_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__AWAY_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__HOME_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__AWAY_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365H"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365D"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365A"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X2",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X3",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X4",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X5",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X6",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X7",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X9",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X10",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X1",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X2",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X4",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X5",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X6",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X7",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X8",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X9",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X9",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X10",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X11",
-            "MATCH__AWAY_PLAYER_Y1"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__SHOTON",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__SHOTOFF",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__CROSS",
-            "MATCH__CORNER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__CROSS",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LEAGUE__ID",
-            "LEAGUE__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LEAGUE__COUNTRY_ID",
-            "LEAGUE__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COUNTRY__ID",
-            "COUNTRY__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__OVERALL_RATING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__POTENTIAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__PREFERRED_FOOT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__ATTACKING_WORK_RATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DEFENSIVE_WORK_RATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__CROSSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__FINISHING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__HEADING_ACCURACY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SHORT_PASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__VOLLEYS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DRIBBLING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__CURVE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__FREE_KICK_ACCURACY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__LONG_PASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__BALL_CONTROL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__ACCELERATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SPRINT_SPEED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__AGILITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__REACTIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__BALANCE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SHOT_POWER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__JUMPING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STAMINA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STRENGTH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__LONG_SHOTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__AGGRESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__INTERCEPTIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__POSITIONING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__VISION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__PENALTIES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__MARKING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STANDING_TACKLE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SLIDING_TACKLE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_DIVING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_HANDLING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_POSITIONING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_LONG_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_SHORT_NAME"
           ]
         }
       },

@@ -10,14 +10,14 @@
         3
       ],
       "custom_bounds": [
-        1,
-        3
+        0,
+        5
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column in the GENDER table has a small, fixed range of values (1 to 3) that correspond to specific genders. Since the observed data range matches the semantic bounds and is realistic given the context, strict bounds are appropriate.",
+        "reasoning": "GENDER.ID is a small, enumerated primary key for a reference table with only 3 rows, so its valid values are exactly the existing IDs. The observed strict range [1, 3] matches the natural domain of this key, while the looser custom range [0, 5] would allow non-existent gender IDs. Therefore a BETWEEN constraint using the strict bounds [1, 3] is appropriate.",
         "chosen_bounds": [
           1,
           3
@@ -34,16 +34,16 @@
       ],
       "custom_bounds": [
         1,
-        167
+        null
       ],
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The ID column in the superpower table is a unique identifier for each superpower, which is naturally bounded by the observed range of 1 to 167. Since the observed data range matches the semantic meaning of the column, strict bounds are appropriate.",
+        "use_custom": 1,
+        "reasoning": "SUPERPOWER.ID is a primary key\u2013like identifier that should be positive and non-zero. While current data ranges from 1 to 167, future inserts will legitimately exceed 167, so an upper bound would be incorrect. A one-sided custom constraint ID >= 1 (i.e., [1, +\u221e]) is semantically appropriate to prevent non-positive IDs without restricting growth.",
         "chosen_bounds": [
           1,
-          167
+          null
         ]
       }
     },
@@ -62,11 +62,11 @@
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The ID column in the publisher table is a unique identifier for each publisher, which is naturally bounded by the observed data range of [1, 25]. Since IDs are typically sequential and do not have negative values or zero, the strict bounds are appropriate and realistic given the current data. Custom bounds would not be necessary as the observed range is sufficient.",
+        "use_custom": 1,
+        "reasoning": "PUBLISHER.ID is a primary key\u2013like identifier that should be positive and non-zero. While current data ranges from 1 to 25, future inserts will legitimately exceed 25, so an upper bound based on current data would be too restrictive. A one-sided custom constraint ID BETWEEN 1 AND +\u221e (i.e., ID >= 1) correctly enforces positivity without blocking new publishers.",
         "chosen_bounds": [
           1,
-          25
+          null
         ]
       }
     },
@@ -79,14 +79,14 @@
         756
       ],
       "custom_bounds": [
-        1,
-        null
+        0,
+        1691
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column is a unique identifier for superheroes and should have a BETWEEN constraint to ensure valid IDs are used. The strict bounds [1, 756] are realistic given the observed data range, and since IDs are typically sequential and unique, using strict bounds is appropriate.",
+        "reasoning": "ID is a primary-key\u2013like identifier and should be constrained to positive integers within the actually used key space. The observed strict range [1, 756] is consistent with an auto-incrementing surrogate key and there is no semantic upper bound beyond current data, but for data-quality validation on this snapshot, enforcing [1, 756] is appropriate. The much looser custom range [0, 1691] would allow clearly invalid IDs (0, negatives, and unrealistically large gaps) and provides no real benefit here, so a strict BETWEEN [1, 756] is preferable.",
         "chosen_bounds": [
           1,
           756
@@ -102,17 +102,17 @@
         3
       ],
       "custom_bounds": [
-        1,
-        3
+        0,
+        5
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The GENDER_ID column has a limited and defined range of values (1 to 3) that correspond to specific genders. Since the observed data range matches the semantic bounds, strict bounds are appropriate to ensure only valid gender IDs are used.",
+        "use_custom": 1,
+        "reasoning": "GENDER_ID is a foreign key\u2013like identifier referencing the GENDER table, so valid values are a small, discrete set of positive integers. The observed range [1,3] likely reflects current reference data, but future inserts could legitimately add new genders with IDs beyond 3. Using the looser custom bounds [0,5] enforces that IDs stay in a small, non-negative range while allowing for modest schema evolution, making it safer than locking to the current strict range.",
         "chosen_bounds": [
-          1,
-          3
+          0,
+          5
         ]
       }
     },
@@ -125,17 +125,17 @@
         35
       ],
       "custom_bounds": [
-        1,
-        null
+        0,
+        33
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The EYE_COLOUR_ID column represents identifiers for eye colors, which are typically bounded by the number of distinct colors available. The observed data range of [1, 35] is realistic and reflects the actual data. Since the values are identifiers, they should not exceed the maximum observed value, making strict bounds appropriate.",
+        "use_custom": 1,
+        "reasoning": "EYE_COLOUR_ID is a foreign-key-like identifier referencing COLOUR(ID), so it should be a non-negative small integer within the valid colour ID domain. The custom bounds [0, 33] are safer than the strict [1, 35]: they allow 0 if used as a sentinel/missing value and avoid overfitting to the current max/min IDs, which may change as new colours are added. Using a loose upper bound (33) still keeps values in a reasonable range for a lookup ID while reducing the risk of rejecting future valid IDs just outside the current observed range.",
         "chosen_bounds": [
-          1,
-          35
+          0,
+          33
         ]
       }
     },
@@ -148,16 +148,16 @@
         33
       ],
       "custom_bounds": [
-        1,
+        0,
         33
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The HAIR_COLOUR_ID column is an identifier for hair colors, which is a naturally bounded value. The observed data range is realistic and matches the semantic meaning of the column, as it represents specific hair color IDs. Since the strict bounds cover the entire observed range without any gaps, it is appropriate to use these bounds.",
+        "use_custom": 1,
+        "reasoning": "HAIR_COLOUR_ID is a foreign-key-like identifier referencing the COLOUR table, so it should be a non-negative integer within the valid ID domain. The observed IDs are 1\u201333, and the IQR-based custom lower bound of 0 is semantically reasonable to allow for a potential future colour with ID 0 or placeholder/system values, while still preventing negative IDs. Using custom bounds [0, 33] is safer than strict [1, 33], which might be too tight if a valid 0 ID exists or is added later.",
         "chosen_bounds": [
-          1,
+          0,
           33
         ]
       }
@@ -172,13 +172,13 @@
       ],
       "custom_bounds": [
         1,
-        33
+        1
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The SKIN_COLOUR_ID column is an identifier that maps to a specific set of skin colors, which is naturally bounded by the observed data range. The strict bounds [1, 33] accurately reflect the valid range of IDs based on the current data, and there is no need for custom bounds as the observed range is realistic and covers all possible values.",
+        "reasoning": "SKIN_COLOUR_ID is a foreign-key-like identifier referencing COLOUR(ID), so it is naturally bounded to the valid set of colour IDs. The observed range [1, 33] is reasonable for a lookup table and there is no semantic reason to expect values outside this range if the reference data is stable. The IQR-based custom bounds [1, 1] are clearly distorted by skew and would incorrectly reject many valid IDs. Therefore, a BETWEEN constraint using the strict observed bounds [1, 33] is appropriate, while also expecting a foreign key constraint to COLOUR(ID) at the schema level.",
         "chosen_bounds": [
           1,
           33
@@ -194,14 +194,14 @@
         61
       ],
       "custom_bounds": [
-        1,
-        61
+        0,
+        93
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The RACE_ID column is an integer that represents a specific identifier for races, which is naturally bounded by the observed data range. The strict bounds [1, 61] accurately reflect the valid range of values based on the current data, and there is no indication that a broader range is necessary. Therefore, using strict bounds is appropriate.",
+        "reasoning": "RACE_ID is a foreign-key-like identifier referencing the RACE table, so it should be constrained to valid positive IDs. The observed strict range [1, 61] is consistent with a finite set of race records and is safer than the looser custom range [0, 93], which would allow invalid IDs (e.g., 0 or non-existent races). Thus, a BETWEEN constraint using the strict bounds is appropriate.",
         "chosen_bounds": [
           1,
           61
@@ -217,14 +217,14 @@
         25
       ],
       "custom_bounds": [
-        1,
-        25
+        0,
+        40
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The PUBLISHER_ID column is an integer that represents a unique identifier for publishers. The observed data range is realistic and matches the semantic meaning of the column, which is bounded by the number of publishers. Since the strict bounds [1, 25] accurately reflect the observed data and there are no edge cases or additional context suggesting a need for custom bounds, strict bounds should be used.",
+        "reasoning": "PUBLISHER_ID is a foreign key to PUBLISHER.ID, so valid values must match existing publisher records. The observed range [1, 25] is small and realistic for a lookup table of publishers, while the custom range [0, 40] would allow IDs that do not correspond to any known publisher (e.g., 0 or >25). A BETWEEN constraint using the strict bounds [1, 25] is appropriate, with referential integrity (FK) ideally enforcing exact validity; the looser custom bounds would be unnecessarily permissive.",
         "chosen_bounds": [
           1,
           25
@@ -246,8 +246,8 @@
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The ALIGNMENT_ID column represents a categorical identifier for the alignment of superheroes, which is naturally bounded to the values 1, 2, and 3. The observed data range matches the semantic bounds, and since the values are discrete and limited, strict bounds are appropriate.",
+        "use_custom": 1,
+        "reasoning": "ALIGNMENT_ID is a foreign-key-like categorical reference to ALIGNMENT(ID), which in this domain is naturally limited to a small, fixed set of alignments (e.g., good/neutral/bad). The observed range [1,3] matches the semantic expectation that only these three IDs are valid. Using a BETWEEN 1 AND 3 constraint is appropriate and safer as a custom semantic bound rather than relying solely on current data, since additional numeric IDs outside this range would not correspond to valid alignments.",
         "chosen_bounds": [
           1,
           3
@@ -264,16 +264,16 @@
       ],
       "custom_bounds": [
         0,
-        300
+        null
       ],
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The HEIGHT_CM column represents the height of superheroes, which is a naturally bounded value. While the observed data range includes a maximum of 30480 cm, this is unrealistic for human or superhero heights. Custom bounds of [0, 300] are more appropriate as they reflect a reasonable maximum height for superheroes, ensuring that edge cases are handled correctly.",
+        "reasoning": "HEIGHT_CM is a physical measurement that is naturally non-negative, but the observed upper bound of 30480 cm (~305 meters) is clearly unrealistic for a superhero\u2019s height and likely represents data errors or a different unit. A BETWEEN constraint enforcing a lower bound of 0 is semantically correct, but using the strict upper bound from current data would incorrectly legitimize outliers. Therefore, apply a one-sided custom constraint [0, \u221e] rather than the strict observed range.",
         "chosen_bounds": [
           0,
-          300
+          null
         ]
       }
     },
@@ -292,11 +292,11 @@
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The WEIGHT_KG column represents the weight of superheroes, which is a naturally bounded value that should not be negative. The observed data range includes a value of 0, which may indicate missing or unrecorded data. However, the upper bound of 90000000 is unrealistic for human or superhero weights. Therefore, while a BETWEEN constraint is appropriate, the strict bounds should be adjusted to a more realistic upper limit based on domain knowledge, such as [0, 500] or similar, but since the task specifies using strict bounds, we will use the observed range.",
+        "use_custom": 1,
+        "reasoning": "Weight in kilograms is naturally non-negative, so a lower bound of 0 is semantically correct. However, the observed upper value of 90,000,000 kg is clearly unrealistic for any character\u2019s body weight and likely represents bad data or a placeholder, so using the strict observed upper bound would incorrectly legitimize such outliers. A one-sided custom constraint [0, \u221e] enforces the meaningful non-negativity rule without making unsafe assumptions about a maximum possible superhero weight.",
         "chosen_bounds": [
           0,
-          90000000
+          null
         ]
       }
     },
@@ -309,14 +309,14 @@
         35
       ],
       "custom_bounds": [
-        1,
-        35
+        0,
+        77
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column in the COLOUR table is a unique identifier for each color, and the observed data range is well-defined and realistic. Since the values are strictly bounded between 1 and 35, using strict bounds is appropriate to ensure valid IDs are used.",
+        "reasoning": "COLOUR.ID is a small, dense surrogate key for a lookup table with 35 rows and observed IDs 1\u201335. As a primary/foreign key, it is conceptually bounded to the existing set of IDs; allowing up to 77 (custom bounds) would permit invalid keys that do not correspond to any colour. The strict observed range [1, 35] is appropriate and safer than the looser IQR-based bounds.",
         "chosen_bounds": [
           1,
           35
@@ -332,14 +332,14 @@
         6
       ],
       "custom_bounds": [
-        1,
-        null
+        0,
+        12
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column in the ATTRIBUTE table is a unique identifier for attributes, which are typically assigned sequentially. The observed data range is [1, 6], which is realistic and reflects the actual data. Since IDs are not expected to be negative or exceed the maximum observed value, strict bounds are appropriate.",
+        "reasoning": "ATTRIBUTE.ID is a small, dense, surrogate key with observed values 1\u20136 and total rows = 6, indicating a complete, contiguous ID set. As a primary/foreign key identifier, it is naturally bounded to the existing key range, and the sample fully covers all IDs. Using the strict bounds [1, 6] is appropriate; the custom bounds [0, 12] are unnecessarily loose and would allow non-existent IDs.",
         "chosen_bounds": [
           1,
           6
@@ -362,7 +362,7 @@
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The HERO_ID column represents unique identifiers for superheroes, which are naturally bounded to positive integers starting from 1. While the observed data range is [1, 756], using custom bounds [1, +\u221e] is more appropriate as it accounts for potential future entries beyond the current maximum observed value, ensuring that the constraint remains valid as new data is added.",
+        "reasoning": "HERO_ID is a foreign key to SUPERHERO.ID, so valid values must be positive integers that reference existing heroes. The observed upper bound 756 is just the current max hero ID, not a true semantic limit; future inserts may legitimately exceed 756. A one-sided custom bound [1, +\u221e] correctly enforces non-negative, non-zero IDs without incorrectly capping future hero IDs.",
         "chosen_bounds": [
           1,
           null
@@ -378,17 +378,17 @@
         167
       ],
       "custom_bounds": [
-        1,
-        167
+        0,
+        231
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The POWER_ID column is an identifier for superpowers, which is naturally bounded by the range of existing superpowers in the database. The observed data range is realistic and matches the semantic meaning of the column, making strict bounds appropriate.",
+        "use_custom": 1,
+        "reasoning": "POWER_ID is a foreign key to SUPERPOWER.ID, so it should be a positive integer within the valid ID domain. The custom bounds [0, 231] safely allow for current and near-future SUPERPOWER IDs while still excluding clearly invalid negatives, whereas the strict bounds [1, 167] are tied to the current dataset and would break if new powers are added with higher IDs. A one-sided lower bound (>= 1) would be ideal conceptually, but given the provided options, the looser custom two-sided range is safer and more future-proof than the strict range.",
         "chosen_bounds": [
-          1,
-          167
+          0,
+          231
         ]
       }
     },
@@ -401,14 +401,14 @@
         61
       ],
       "custom_bounds": [
-        1,
-        null
+        0,
+        136
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column in the RACE table is a unique identifier for each race entry, and it is naturally bounded by the observed data range of [1, 61]. Since IDs are typically sequential and do not have negative values or zero, the strict bounds are appropriate and realistic given the current data. Custom bounds would not be necessary as the observed range is sufficient.",
+        "reasoning": "RACE.ID is a primary/foreign key\u2013style identifier, so it should be constrained to valid existing IDs. The observed strict range [1, 61] matches the current set of race records and is semantically appropriate. The custom bounds [0, 136] are artificially loose and would allow non-existent IDs (e.g., 0 or >61), which is undesirable for an ID column. Therefore, apply a BETWEEN constraint with the strict bounds.",
         "chosen_bounds": [
           1,
           61
@@ -424,14 +424,14 @@
         4
       ],
       "custom_bounds": [
-        1,
-        4
+        0,
+        7
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ID column in the ALIGNMENT table has a small, fixed set of values (1 to 4) that represent distinct alignments. Since the observed data range matches the semantic bounds, strict bounds are appropriate to ensure valid alignment IDs are used.",
+        "reasoning": "ALIGNMENT.ID is a small, surrogate key for a lookup table with exactly 4 rows. Its domain is naturally the existing key set, and the observed strict range [1,4] matches that. The custom bounds [0,7] would incorrectly allow non-existent IDs (0,5,6,7). A BETWEEN constraint using the strict bounds is appropriate to keep IDs within the valid key range.",
         "chosen_bounds": [
           1,
           4
@@ -454,7 +454,7 @@
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The HERO_ID column represents the unique identifier of the superhero, which is a naturally bounded value starting from 1 and increasing. While the strict observed range is [1, 756], using custom bounds [1, +\u221e] is more appropriate as it accounts for potential future entries beyond the current maximum observed value, ensuring that the constraint remains valid as new data is added.",
+        "reasoning": "HERO_ID is a foreign key to SUPERHERO.ID, so it should be a positive integer referencing existing heroes. The lower bound of 1 is semantically correct; the upper bound of 756 is just the current max hero ID and may grow as new heroes are added, so using it as a strict upper bound would be brittle. A one-sided custom constraint [1, +\u221e] is appropriate to prevent non-positive IDs while allowing future hero IDs beyond the current observed maximum.",
         "chosen_bounds": [
           1,
           null
@@ -470,14 +470,14 @@
         6
       ],
       "custom_bounds": [
-        1,
-        6
+        0,
+        14
       ],
-      "custom_bounds_type": "semantic",
+      "custom_bounds_type": "loose",
       "decision": {
         "should_constrain": 1,
         "use_custom": 0,
-        "reasoning": "The ATTRIBUTE_ID column has a clearly defined range of observed values from 1 to 6, which aligns with the expected identifiers for attributes. Since the observed data range is realistic and matches the semantic meaning of the column, strict bounds are appropriate.",
+        "reasoning": "ATTRIBUTE_ID is a foreign key to ATTRIBUTE(ID), which is a small, enumerated lookup table. The observed strict range [1, 6] matches the plausible ID domain for that reference table, while the custom range [0, 14] is artificially widened by IQR logic and would allow invalid IDs (e.g., 0 or >6) that cannot exist in ATTRIBUTE. Since foreign-key-like IDs are naturally bounded by the referenced table\u2019s key set, a tight BETWEEN [1, 6] is appropriate and safer than the looser custom bounds.",
         "chosen_bounds": [
           1,
           6
@@ -500,7 +500,7 @@
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The ATTRIBUTE_VALUE column represents a characteristic value that is semantically expected to be within a certain range. While the observed data range is [5, 100], using custom bounds of [0, 100] is safer to account for potential edge cases where values below 5 might be valid in the future. This ensures that the constraint accommodates all possible valid values while still being bounded.",
+        "reasoning": "ATTRIBUTE_VALUE represents a scored attribute level; semantically it behaves like a rating or stat that should not be negative and is commonly capped at 100. The observed minimum of 5 likely reflects current data usage, not a true lower bound. Using custom bounds [0, 100] allows valid future values between 0 and 4 while still preventing impossible negatives or values above 100.",
         "chosen_bounds": [
           0,
           100
@@ -520,8 +520,8 @@
       ],
       "category_count": 3,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The GENDER table has a limited and known set of values (1, 2, 3) that represent distinct categories of gender. Since there are only 3 rows and they are all unique, it is likely that this sample is complete. This column is categorical in nature, and an IN constraint would ensure that only valid gender values are used."
+        "should_constrain": 0,
+        "reasoning": "This is a surrogate key column for the GENDER lookup table, not the gender category itself. While the table currently has 3 rows (IDs 1, 2, 3), new genders could be added in the future, creating new IDs. An IN constraint on {1,2,3} would prevent legitimate future rows and break referential integrity as the dimension grows. The correct constraint here is a primary key/uniqueness constraint, not an IN enumeration of current values."
       }
     },
     {
@@ -536,7 +536,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The GENDER column has a limited and known set of values ('Male', 'Female', 'N/A'), which are likely complete given the context of gender classification. This is a true categorical column where an IN constraint makes sense, as it represents a controlled vocabulary for gender."
+        "reasoning": "Gender is inherently a categorical field and, in this schema, is modeled as a lookup/dimension table with only 3 rows, all of which are used as labels via foreign keys from SUPERHERO.GENDER_ID. That strongly indicates an intended controlled vocabulary. While real-world gender categories can be broader, within the context of this database the valid set appears to be exactly ['Male', 'Female', 'N/A'], and new categories would require explicit data model changes (adding rows to GENDER). Therefore, an IN constraint on GENDER makes sense and is unlikely to be too limiting for this schema\u2019s design."
       }
     },
     {
@@ -572,8 +572,8 @@
       ],
       "category_count": 25,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID column in the publisher table is a true categorical column with a complete set of unique values (1 to 25) representing distinct publishers. Since these IDs are fixed and correspond to specific publishers, an IN constraint is appropriate to ensure only valid publisher IDs are used."
+        "should_constrain": 0,
+        "reasoning": "PUBLISHER.ID is a surrogate primary key, not a fixed enumeration of categories. The fact that there are currently 25 distinct IDs only reflects the current number of publishers, not an exhaustive, immutable set. New publishers (and thus new IDs) can be added in the future, so an IN constraint on the existing 1\u201325 values would be overly restrictive. A primary key/uniqueness constraint is appropriate, but not an IN constraint on specific values."
       }
     },
     {
@@ -609,7 +609,7 @@
       "category_count": 24,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The PUBLISHER_NAME column contains a variety of publishers, including well-known entities and individuals. Given the nature of publishing, new publishers can emerge, and existing ones may change names or new works may be associated with different publishers. Therefore, it is not a true enumeration, and constraining it to the current unique values would be too limiting."
+        "reasoning": "PUBLISHER_NAME is a business entity/name field, not a fixed status/type code. The current 24 distinct publishers are just the ones present in this dataset; new publishers (or differently named imprints, mergers, spelling variants) could easily appear in future data. Treating this as an enumerated set and constraining it with an IN list would be too limiting and brittle. The true key is the ID column; PUBLISHER_NAME should remain unconstrained beyond general string rules (e.g., NOT NULL, length), not a fixed value list."
       }
     },
     {
@@ -623,8 +623,8 @@
       ],
       "category_count": 3,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The GENDER_ID column is a true categorical column with a limited and known set of values (1, 2, 3) representing distinct genders. Given the context of the superhero database, it is reasonable to assume that these are the only valid values, making an IN constraint appropriate."
+        "should_constrain": 0,
+        "reasoning": "GENDER_ID is a foreign key\u2013like reference to the GENDER table, not a standalone enumerated integer. The true controlled vocabulary is in GENDER.ID, which can legitimately gain new rows (e.g., additional gender categories) over time. Constraining SUPERHERO.GENDER_ID to the currently observed values [1,2,3] would block valid future genders and conflict with the purpose of the lookup table. Instead, enforce a FOREIGN KEY constraint to GENDER(ID), not an IN constraint on the current set of values."
       }
     },
     {
@@ -656,8 +656,8 @@
       ],
       "category_count": 21,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EYE_COLOUR_ID column represents a specific set of eye colors, which are likely to be limited and known. Given that there are only 21 unique values in a dataset of 750 rows, it suggests that this is a controlled vocabulary. Eye colors are typically finite and do not change frequently, making it reasonable to enforce an IN constraint to restrict values to this known set."
+        "should_constrain": 0,
+        "reasoning": "EYE_COLOUR_ID is a foreign-key-like reference to COLOUR.ID, not an intrinsic enumeration whose full set of values can be inferred from the 21 values currently present in SUPERHERO. The true valid domain is whatever IDs exist (or will exist) in COLOUR, and new eye colours/IDs can be added over time. Constraining EYE_COLOUR_ID to the current 21 observed values would be too limiting and break future inserts; the correct constraint is a foreign key to COLOUR(ID), not an IN list of the values seen in this sample."
       }
     },
     {
@@ -695,7 +695,7 @@
       "category_count": 26,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While there are 26 unique values, hair colors can vary widely and new colors may emerge in the future. This suggests that the column is not a true enumeration and could have more valid values beyond the current dataset."
+        "reasoning": "HAIR_COLOUR_ID is a foreign-key-like reference to COLOUR.ID, not a closed enumeration defined by the current 26 observed values. Hair colors (and thus COLOUR rows/IDs) can be extended in the COLOUR table over time, so constraining HAIR_COLOUR_ID to the currently seen IDs would be too limiting. The correct constraint is a foreign key to COLOUR(ID), not an IN list of the present values."
       }
     },
     {
@@ -722,8 +722,8 @@
       ],
       "category_count": 16,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The SKIN_COLOUR_ID column appears to represent a controlled vocabulary of skin colors, which is likely limited to a specific set of known values. Given that there are only 16 unique values in a dataset of 750 rows, it suggests that this is a categorical column with a defined set of valid options. It is reasonable to impose an IN constraint to restrict values to these known identifiers, as new skin colors are unlikely to be added frequently."
+        "should_constrain": 0,
+        "reasoning": "SKIN_COLOUR_ID is a foreign-key-like reference to COLOUR.ID, not a self-contained enumeration. The 16 values seen in 750 rows are just the subset currently used, not the full set of valid colours (COLOUR.ID can contain more, and new colours/IDs can be added). An IN constraint on these 16 values would incorrectly reject future valid skin colours and any existing but unused COLOUR IDs. The correct constraint is a foreign key to COLOUR(ID), not an IN list of the observed values."
       }
     },
     {
@@ -759,8 +759,8 @@
       ],
       "category_count": 25,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The PUBLISHER_ID column is likely a true categorical column as it maps to a specific set of publishers, which are limited and known. The presence of 25 unique values suggests a controlled vocabulary, and since publishers are typically fixed entities, it is reasonable to enforce an IN constraint to restrict values to these known identifiers."
+        "should_constrain": 0,
+        "reasoning": "PUBLISHER_ID is a foreign key reference to the PUBLISHER table, not a fixed enumeration. The 25 distinct IDs in the current data just reflect the publishers present so far, not all publishers that could ever exist. New publishers (new rows in PUBLISHER with new IDs) are entirely plausible, so constraining PUBLISHER_ID to this current list of 25 values via an IN constraint would be too limiting. The correct constraint here is a foreign key to PUBLISHER(ID), not an IN list of the observed values."
       }
     },
     {
@@ -774,8 +774,8 @@
       ],
       "category_count": 3,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ALIGNMENT_ID column has a limited and known set of unique values (1, 2, 3) that represent distinct alignments (e.g., good, neutral, bad). Given that there are only 3 unique values in 750 rows, it is likely that this is a complete enumeration of possible alignments for superheroes, making an IN constraint appropriate."
+        "should_constrain": 0,
+        "reasoning": "ALIGNMENT_ID is a foreign-key-like integer pointing to the ALIGNMENT table, which holds the actual categorical enumeration (e.g., good/neutral/bad). The true controlled vocabulary is on ALIGNMENT.ID, not on SUPERHERO.ALIGNMENT_ID itself. While the current data only uses 1, 2, and 3, additional alignments (new rows in ALIGNMENT) could be added in the future. An IN constraint on {1,2,3} at the SUPERHERO level would be too limiting and would conflict with the intended extensibility of the reference table; a proper FOREIGN KEY constraint to ALIGNMENT(ID) is the appropriate restriction instead of a hard-coded IN list."
       }
     },
     {
@@ -792,8 +792,8 @@
       ],
       "category_count": 6,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID column in the ATTRIBUTE table is a true categorical column with a complete set of unique values (1 to 6) that represent distinct attributes. Since these IDs are fixed and correspond to specific attributes, an IN constraint is appropriate to ensure only valid IDs are used."
+        "should_constrain": 0,
+        "reasoning": "ATTRIBUTE.ID is a primary-key style identifier for the ATTRIBUTE table, not a fixed enumeration of all possible attributes. The fact that there are currently 6 rows and 6 unique IDs just reflects the current contents of the table, not a logically closed set of allowed IDs. New attributes (and thus new IDs) can be added in the future, so an IN constraint on the current values would be overly limiting. Referential integrity should instead be enforced via foreign keys, not an IN list of existing IDs."
       }
     },
     {
@@ -811,7 +811,7 @@
       "category_count": 6,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_NAME column contains a fixed set of known superhero attributes that are unlikely to change or expand significantly. Given that there are only 6 unique values and they represent distinct categories of attributes, it makes sense to enforce an IN constraint to ensure data integrity and consistency."
+        "reasoning": "ATTRIBUTE_NAME represents a fixed set of core superhero stats (Intelligence, Strength, Speed, Durability, Power, Combat), matching the well-known 6-attribute schema used in many superhero datasets. The table is clearly a lookup/enumeration table (ID + ATTRIBUTE_NAME), and the fact that there are exactly 6 rows and 6 unique values strongly suggests this is the complete, intentionally defined set rather than sparse data. New arbitrary attributes are unlikely to be added without a schema change, so an IN constraint (or equivalent controlled vocabulary constraint) is appropriate and not overly limiting."
       }
     },
     {
@@ -826,8 +826,8 @@
       ],
       "category_count": 4,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The column 'ID' in the 'alignment' table has a complete set of unique values (1, 2, 3, 4) corresponding to specific alignments. Since there are only 4 rows and they all have unique IDs, it is likely that these represent all valid alignments. This makes it a true categorical column where an IN constraint is appropriate to restrict values to these specific IDs."
+        "should_constrain": 0,
+        "reasoning": "ID is a surrogate primary key for the ALIGNMENT lookup table, not the alignment category itself. While current data has 4 IDs, these are implementation details and more rows (and thus more IDs) could be added in the future as new alignments are defined. The true categorical/enumerated column is ALIGNMENT.ALIGNMENT, not ALIGNMENT.ID. Constraining ID to IN (1,2,3,4) would block legitimate future values and is therefore too limiting."
       }
     },
     {
@@ -843,7 +843,7 @@
       "category_count": 4,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ALIGNMENT column has a limited and known set of values ('Good', 'Bad', 'Neutral', 'N/A') that represent distinct categories of moral alignment. Given that there are only 4 unique values in the data and they are likely exhaustive for this context, an IN constraint is appropriate to ensure data integrity and consistency."
+        "reasoning": "ALIGNMENT is explicitly described as a moral/ethical category (Good, Neutral, Bad) and functions as a controlled vocabulary, not an open\u2011ended text field. The table itself is a lookup/enumeration table, and the presence of a single extra code 'N/A' still fits the idea of a finite, predefined set of allowed values. With 4 rows and 4 unique values, and given the semantic role of alignment, it is reasonable to treat these as the complete set and enforce an IN constraint on ['Good','Bad','Neutral','N/A'] rather than expecting arbitrary new categories in future data."
       }
     },
     {
@@ -860,8 +860,8 @@
       ],
       "category_count": 6,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_ID column has a limited and known set of unique values (1 to 6), indicating it is a true categorical column. Given that there are only 6 unique values across 3738 rows, it is likely that this set is complete and represents all valid attributes. Therefore, an IN constraint is appropriate to restrict values to this specific set."
+        "should_constrain": 0,
+        "reasoning": "ATTRIBUTE_ID is a foreign key into ATTRIBUTE(ID), which is where the true controlled vocabulary lives. The fact that current data only uses IDs 1\u20136 (with 6 unique values over 3738 rows) does not guarantee those are the only valid attributes; new attributes can be added to ATTRIBUTE and then referenced here. An IN constraint on {1,2,3,4,5,6} would block legitimate future ATTRIBUTE_IDs. The correct constraint is a foreign key to ATTRIBUTE(ID), not an enumerated IN list on the current observed values."
       }
     },
     {
@@ -892,8 +892,8 @@
       ],
       "category_count": 20,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_VALUE column represents specific numerical values that likely correspond to defined levels of attributes for superheroes. Given that there are only 20 unique values and they appear to represent a finite set of possible attribute scores, it makes sense to constrain this column to these values. This is a controlled vocabulary for attribute scoring, and new values are unlikely to be valid in this context."
+        "should_constrain": 0,
+        "reasoning": "ATTRIBUTE_VALUE is a numeric score/measure of an attribute, not a named category. The observed values (5\u2013100 in steps of 5, plus a few others like 35) look like a rating scale or stat system, and the current 20 distinct values are just what happens to appear in this dataset, not an explicit, documented enumeration. It is very plausible that other integers (e.g., 0, intermediate values, or extended ranges) could be valid in future data or different scoring schemes. Imposing an IN constraint on exactly these 20 values would be an arbitrary restriction on a quantitative field rather than enforcing a true categorical domain."
       }
     }
   ],
@@ -905,7 +905,7 @@
       "total_rows": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is a primary key for the gender table, which is logically required for every record to uniquely identify each gender. Therefore, it should have a NOT NULL constraint."
+        "reasoning": "ID is described as the unique identifier of the gender and functions as the primary key of the GENDER table. Primary key/identifier columns must be present for every row to uniquely reference that gender and to support foreign key relationships from other tables (e.g., SUPERHERO.GENDER_ID). Future records should not omit this value, so a NOT NULL constraint is appropriate rather than the current completeness being merely coincidental."
       }
     },
     {
@@ -914,8 +914,8 @@
       "data_type": "VARCHAR",
       "total_rows": 3,
       "decision": {
-        "should_constrain": 0,
-        "reasoning": "The GENDER column is not logically required for every record, as indicated by the presence of 'N/A' in the sample values. This suggests that there may be cases where the gender is not applicable or not specified. Therefore, it should not have a NOT NULL constraint."
+        "should_constrain": 1,
+        "reasoning": "This table is a lookup/dimension for gender values, and the GENDER column holds the actual label for each ID. For every gender ID to be meaningful, it must have a corresponding non-empty gender name; a NULL here would represent a broken or unusable lookup value. While a special value like 'N/A' can represent unknown/other, the label itself should still be present. Therefore, logically every row in GENDER should have a non-null GENDER value, and a NOT NULL constraint is appropriate rather than the current completeness being merely coincidental."
       }
     },
     {
@@ -925,7 +925,7 @@
       "total_rows": 167,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is the unique identifier for the superpower, which is essential for distinguishing each record. As a primary key, it must always have a value, making it logically required for every record."
+        "reasoning": "ID is described as the unique identifier of the superpower, so every superpower record must have an ID to function as its primary key and to be referenced by HERO_POWER.POWER_ID. This makes it logically required for all rows, not just coincidentally complete, so it should be defined as NOT NULL (and typically as the primary key)."
       }
     },
     {
@@ -935,7 +935,7 @@
       "total_rows": 167,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The POWER_NAME field is essential for identifying the specific superpower associated with each record. Given that it serves as a key descriptor of the superpower, it logically requires a NOT NULL constraint to ensure that every superpower has a defined name. The column description indicates that it is a fundamental attribute of the superpower, making it necessary for all records."
+        "reasoning": "POWER_NAME is the defining attribute of a superpower and functions as its human-readable identifier. A superpower record without a name would be meaningless and unusable in the application, and there is no indication that unnamed powers are valid. The fact that all existing 167 rows are non-null aligns with the logical requirement that every superpower must have a name, so a NOT NULL constraint is appropriate rather than coincidental completeness."
       }
     },
     {
@@ -945,7 +945,7 @@
       "total_rows": 25,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is the unique identifier for the publisher, which is essential for distinguishing each record in the table. As a primary key, it must be present for every record, making it logically required and necessitating a NOT NULL constraint."
+        "reasoning": "ID is described as the unique identifier of the publisher, which makes it the logical primary key of the PUBLISHER table. Primary key/identifier columns must be present for every row to uniquely reference that publisher and to support foreign key relationships from other tables. Future records should not omit this identifier, so a NOT NULL constraint is appropriate and not just based on current data completeness."
       }
     },
     {
@@ -955,7 +955,7 @@
       "total_rows": 25,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The PUBLISHER_NAME field is logically required as it represents the name of the publisher, which is essential for identifying the publisher associated with each record. The column description indicates that it is a key identifier for the publisher, and having a null value would render the record incomplete. Additionally, the presence of an empty string in the sample values suggests that while current data is non-null, future records could potentially have this field omitted or incorrectly filled, thus a NOT NULL constraint is warranted."
+        "reasoning": "PUBLISHER_NAME is the core business identifier for each publisher row and is described as 'the name of the publisher'. A publisher record without a name is not meaningful, and there is no indication that this field is optional or that an unnamed publisher is valid. The table is a lookup/dimension table where the name is inherently required for every entry, so future records should also always provide it. The presence of an empty string in the sample suggests some data-quality issues, but that argues for enforcing NOT NULL (and ideally also disallowing empty strings), not for allowing NULLs."
       }
     },
     {
@@ -965,7 +965,7 @@
       "total_rows": 750,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is the unique identifier for each superhero, making it logically required for every record. As a primary key, it must not be null to ensure each superhero can be uniquely identified. Future records will also need this field to maintain data integrity."
+        "reasoning": "This column is described as the unique identifier of the superhero and functions as the primary key for the SUPERHERO table. A primary key/identifier must exist for every row to uniquely reference that superhero and to support foreign key relationships from HERO_ATTRIBUTE and HERO_POWER. Future records should not omit this ID, so it should be enforced as NOT NULL."
       }
     },
     {
@@ -975,7 +975,7 @@
       "total_rows": 750,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The SUPERHERO_NAME is logically required as it serves as the primary identifier for each superhero. The column description indicates that it is essential for identifying the superhero, and it is unlikely that a superhero would exist without a name. Therefore, a NOT NULL constraint is appropriate."
+        "reasoning": "SUPERHERO_NAME is the primary in-universe identifier of the superhero (their hero alias). For this table, at least one identifying name is logically required for every record; a superhero without a name would be unusable in queries, relationships, or UI. The description defines it as 'the name of the superhero', not as an optional or secondary label, and all existing 750 rows are non-null in practice. While FULL_NAME may be unknown or missing for some heroes, the hero name itself is fundamental to the entity, so future records should not reasonably omit it. Therefore a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -985,7 +985,7 @@
       "total_rows": 750,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The GENDER_ID column is a foreign key that links to the GENDER table, which is essential for identifying the gender of each superhero. Given that gender is a fundamental characteristic of a superhero, this field should always be present, making it logically required for every record."
+        "reasoning": "GENDER_ID is a core descriptive attribute of each superhero and is modeled as a foreign key to the GENDER table. The description explicitly ties it to 'the superhero's gender', implying every superhero is expected to have one. In a structured domain like this, gender is treated as a standard dimension (like race, alignment, publisher), all of which are typically required for each hero. The fact that all 750 existing rows are non-null supports that the data model already assumes gender is always present, and there is no clear use case where a superhero record would intentionally have no gender reference rather than using a generic/unknown gender row if needed. Therefore it should be constrained NOT NULL."
       }
     },
     {
@@ -994,8 +994,8 @@
       "data_type": "INTEGER",
       "total_rows": 750,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EYE_COLOUR_ID field is logically required as it represents a key characteristic of the superhero. The column description indicates that it is essential for identifying the superhero's eye color, which is a fundamental attribute. Even though current data is 100% non-null, the nature of the data suggests that every superhero should have an eye color, making it appropriate to enforce a NOT NULL constraint."
+        "should_constrain": 0,
+        "reasoning": "EYE_COLOUR_ID is a descriptive foreign-key-like attribute, not a core identifier. While current data happens to be complete, it is easy to imagine valid superheroes whose eye color is unknown, hidden, variable, or not applicable (e.g., masked characters, non-humanoid entities). The description does not state that eye color is mandatory, and business logic does not clearly require it for every superhero. Therefore, future records could reasonably omit this field, so it should remain nullable rather than be constrained NOT NULL."
       }
     },
     {
@@ -1004,8 +1004,8 @@
       "data_type": "INTEGER",
       "total_rows": 750,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The HAIR_COLOUR_ID is a foreign key that identifies the hair color of the superhero, which is a fundamental characteristic for defining a superhero's appearance. Given that it is essential for the identity of the superhero and logically required for every record, it should have a NOT NULL constraint."
+        "should_constrain": 0,
+        "reasoning": "HAIR_COLOUR_ID is a descriptive attribute, not a core identifier. Many superheroes canonically have unknown, changing, or non-applicable hair (e.g., masked, bald, energy beings, fully armored, or forms where hair color is never specified). The description frames it as a lookup to a colour, not as a mandatory property. The fact that current data is 100% non-null likely reflects how this dataset was populated, not a logical guarantee that every future superhero must have a known hair color. Therefore, future records could reasonably omit this field, so a NOT NULL constraint would be too strict."
       }
     },
     {
@@ -1014,8 +1014,8 @@
       "data_type": "INTEGER",
       "total_rows": 750,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The SKIN_COLOUR_ID field is likely required as it represents a fundamental characteristic of the superhero. Given that it is a foreign key mapping to the COLOUR table, it is essential for identifying the superhero's skin color. The column description indicates that it is a defining attribute, and logically, every superhero should have a skin color. Therefore, a NOT NULL constraint is appropriate."
+        "should_constrain": 0,
+        "reasoning": "SKIN_COLOUR_ID is a descriptive attribute of a superhero, not a core identifier or structural key. While current data happens to be 100% complete, there is no indication that every superhero must have a known or applicable skin color (e.g., robots, energy beings, abstract entities, or simply unknown/missing info). The description frames it as a characteristic, not a mandatory field, so future records could reasonably omit it. Therefore the current completeness looks incidental rather than a true logical requirement, and a NOT NULL constraint would be overly strict."
       }
     },
     {
@@ -1025,7 +1025,7 @@
       "total_rows": 35,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is a primary key, which is logically required for every record to uniquely identify each entry in the table. Therefore, it should have a NOT NULL constraint."
+        "reasoning": "ID is described as the unique identifier of the color and functions as the primary key of the COLOUR lookup table. Primary key/identifier columns must always be present to uniquely reference each row and to support foreign key relationships from other tables (e.g., eye, hair, skin colour IDs in SUPERHERO). Future records cannot reasonably omit this value, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1034,8 +1034,8 @@
       "data_type": "VARCHAR",
       "total_rows": 35,
       "decision": {
-        "should_constrain": 0,
-        "reasoning": "The COLOUR field is not logically required for every record, as it represents an optional characteristic of the superhero. Future records could reasonably omit this field, especially if a superhero does not have a defined color or if the color is not applicable. The column description does not indicate that it is essential, and the current non-null data does not imply a true requirement."
+        "should_constrain": 1,
+        "reasoning": "This table is a lookup/dimension table for colors, and COLOUR is the descriptive value corresponding to the ID. For every colour ID to be meaningful and usable as a foreign key target, it must have a non-null name; a row with a null COLOUR would be useless. The presence of a value like 'No Colour' shows that the design prefers an explicit label over using NULL to represent special cases. Given its role as the core descriptor in this lookup, COLOUR should be required and constrained NOT NULL."
       }
     },
     {
@@ -1045,7 +1045,7 @@
       "total_rows": 6,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is the unique identifier for the attribute, which is essential for distinguishing each record in the table. As a primary key, it must always have a value, making it logically required for every record."
+        "reasoning": "ID is described as the unique identifier of the attribute and is used as a key referenced from HERO_ATTRIBUTE. As a logical primary key/identifier, it must exist for every ATTRIBUTE row to be usable and referable, so future records should not omit it. This is not just coincidentally complete data; by design, the identifier should always be present, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1055,7 +1055,7 @@
       "total_rows": 6,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_NAME field is logically required as it represents essential characteristics that define a superhero's abilities. The column description indicates that attributes are fundamental qualities, and omitting them would undermine the purpose of the table. Therefore, a NOT NULL constraint is appropriate to ensure that every record has a valid attribute name."
+        "reasoning": "ATTRIBUTE_NAME is the core descriptive field of the ATTRIBUTE dimension; an attribute without a name would be meaningless and unusable in HERO_ATTRIBUTE. The description treats it as the defining label of the attribute, not an optional detail. Future records with unnamed attributes would not be useful, so logically every ATTRIBUTE row should require a non-null name. The fact that all existing rows are non-null aligns with this logical requirement rather than looking coincidental."
       }
     },
     {
@@ -1065,7 +1065,7 @@
       "total_rows": 5825,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The HERO_ID column is a foreign key that maps to the superhero table, making it essential for establishing the relationship between heroes and their powers. Since every hero must have at least one associated power, this field is logically required and should have a NOT NULL constraint."
+        "reasoning": "HERO_ID in HERO_POWER is a foreign key to SUPERHERO(ID) and represents which hero a given power belongs to. A hero-power relationship without a hero is meaningless, so every row must reference a specific hero. This is a core identifier for the relationship, not optional metadata, and future records should not omit it. Therefore it should be defined as NOT NULL (and typically as part of the primary key or a unique constraint with POWER_ID)."
       }
     },
     {
@@ -1075,7 +1075,7 @@
       "total_rows": 5825,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The POWER_ID column is a foreign key that maps to the superpower table, indicating that every hero must have at least one associated superpower. This makes it logically required for every record in the hero_power table, and the column description supports this necessity."
+        "reasoning": "HERO_POWER is a link table between heroes and powers, and POWER_ID is described as 'the id of the power' mapping to SUPERPOWER(ID). For any row in HERO_POWER to be meaningful, it must reference a specific power; a record with a NULL POWER_ID would represent a hero-power relationship with no power, which is logically invalid. As a foreign key in a pure association table, it should always be present, so a NOT NULL constraint is appropriate rather than the current completeness being merely coincidental."
       }
     },
     {
@@ -1085,7 +1085,7 @@
       "total_rows": 61,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is a primary key, which is logically required for every record to uniquely identify each entry in the race table. It is essential for maintaining data integrity and relationships with other tables."
+        "reasoning": "ID is described as the unique identifier of the race and functions as the primary key of the RACE table and as a target for foreign keys (e.g., SUPERHERO.RACE_ID). A primary key/identifier cannot be meaningfully null, and future race records would also require an ID to be referenced. The 100% non-null data aligns with its logical requirement, so this column should be NOT NULL."
       }
     },
     {
@@ -1095,7 +1095,7 @@
       "total_rows": 61,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The RACE column is logically required as it defines the race of the superhero, which is a fundamental characteristic. The column description indicates that it is essential for identifying the superhero's background. Future records should not reasonably omit this field, as it is critical for the context of the superhero's identity."
+        "reasoning": "This column stores the race name for each race ID, effectively making it the natural key/label of the dimension. A race record without a race name would be meaningless and unusable as a lookup, so logically every row must have a non-empty race value. The fact that 100% of existing rows are non-null aligns with this requirement rather than looking incidental. Future race entries without a name would not make sense, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1105,7 +1105,7 @@
       "total_rows": 4,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ID column is a primary key for the alignment table, which logically requires it to be non-null for every record. It serves as a unique identifier for each alignment, making it essential for the integrity of the data."
+        "reasoning": "ID is described as the unique identifier of the alignment and functions as the primary key of the ALIGNMENT lookup table. Primary key/identifier columns must always be present to uniquely reference rows (e.g., from SUPERHERO.ALIGNMENT_ID), so future records should not omit this field. The 100% non-null data aligns with its logical requirement, not just coincidence, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1115,7 +1115,7 @@
       "total_rows": 4,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ALIGNMENT field is logically required as it defines the moral and ethical stance of a superhero, which is essential for understanding their character. The column description indicates that alignment is a fundamental aspect of a superhero's identity, and it is unlikely that future records would reasonably omit this field."
+        "reasoning": "ALIGNMENT is the core descriptive value of the alignment lookup table; each row represents a specific alignment and must have its name to be meaningful. The presence of an explicit 'N/A' value already covers cases where no real alignment applies, so future records should still store some string rather than NULL. As a dimension/lookup label, it is logically required for every record and should be NOT NULL."
       }
     },
     {
@@ -1125,7 +1125,7 @@
       "total_rows": 3738,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "HERO_ID is a foreign key that maps to the superhero table, making it essential for identifying which superhero the attribute belongs to. It is logically required for every record in the HERO_ATTRIBUTE table, and the column description indicates that it is necessary for mapping attributes to superheroes."
+        "reasoning": "HERO_ID is described as 'the id of the hero, maps to superhero(id)', so it functions as a foreign key linking each hero_attribute row to a specific superhero. A hero_attribute record without a hero would be meaningless, so logically every row must have a HERO_ID. The fact that 100% of existing rows are non-null aligns with this design expectation rather than being coincidental. Future records should not omit this field if they are valid, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1135,7 +1135,7 @@
       "total_rows": 3738,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_ID is a foreign key that maps to the ATTRIBUTE table, making it essential for establishing relationships between heroes and their attributes. Since it is logically required for every record in the HERO_ATTRIBUTE table to have a corresponding attribute, a NOT NULL constraint is appropriate."
+        "reasoning": "HERO_ATTRIBUTE is a link table between SUPERHERO and ATTRIBUTE, and ATTRIBUTE_ID is the foreign key to ATTRIBUTE(ID). A hero-attribute record without an ATTRIBUTE_ID would be meaningless (you\u2019d have a hero with no specified attribute), so logically every row must reference some attribute. The 100% non-null data aligns with this design expectation, and there is no reasonable future case where a HERO_ATTRIBUTE row should exist without an ATTRIBUTE_ID. Therefore, ATTRIBUTE_ID should be constrained NOT NULL (and also be a foreign key)."
       }
     },
     {
@@ -1145,7 +1145,7 @@
       "total_rows": 3738,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATTRIBUTE_VALUE is essential for defining the strength or capability of a superhero in relation to their attributes. Since it is a key aspect of the HERO_ATTRIBUTE table, it should always have a value, making it logically required for every record."
+        "reasoning": "ATTRIBUTE_VALUE represents the actual numeric value of a specific attribute for a hero\u2013attribute pair. A row in HERO_ATTRIBUTE without a value would be semantically incomplete: you would know that the hero has that attribute but not how strong it is. The description frames it as the measure that differentiates heroes on that attribute, implying it is the core payload of the table, not optional metadata. All existing rows are non-null, and there is no clear, meaningful interpretation for a missing value distinct from simply not having a row at all. If an attribute value is unknown, the better design is to omit the HERO_ATTRIBUTE row rather than store a NULL. Therefore this column should be constrained NOT NULL."
       }
     }
   ],
@@ -1171,8 +1171,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 GENDER is meaningful as it establishes a clear relationship between a unique identifier and its corresponding gender value. The ID serves as a primary key, ensuring that each gender is uniquely associated with an ID. This constraint would help maintain data integrity and verify query correctness, as it prevents the possibility of having multiple gender values for the same ID."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary/unique key of the GENDER lookup table, so ID \u2192 GENDER is a trivial key-to-attribute dependency that is already guaranteed by the primary key constraint. While the mapping is semantic (code \u2192 label) and stable, adding an explicit functional dependency constraint on top of the key adds no real value and would be redundant for query verification."
       }
     },
     {
@@ -1196,8 +1196,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 POWER_NAME is meaningful as each unique ID corresponds to exactly one superpower name, establishing a clear semantic relationship. This is not a coincidence, as the mapping is consistent across all rows, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID \u2192 POWER_NAME is semantically meaningful (each power ID represents exactly one power name), but ID is the primary/unique key of SUPERPOWER, so this dependency is already guaranteed by the key constraint. Adding an explicit functional dependency constraint would be trivial and add little value beyond the existing PK, so it is not necessary to enforce it separately."
       }
     },
     {
@@ -1221,8 +1221,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 PUBLISHER_NAME is meaningful as each unique ID corresponds to exactly one publisher name, establishing a clear semantic relationship. The ID is a primary key, which ensures uniqueness, and enforcing this constraint would help maintain data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary/unique identifier of the publisher, so it will (by design) functionally determine PUBLISHER_NAME. While ID \u2192 PUBLISHER_NAME is a true and semantically natural dependency (code \u2192 name), it is trivial given the key and does not add extra semantic value beyond the primary key constraint. Enforcing it separately would be redundant and provide little additional benefit for query verification."
       }
     },
     {
@@ -1246,8 +1246,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a primary key in the SUPERHERO table, and it uniquely determines the SUPERHERO_NAME. This is a meaningful functional dependency as each superhero ID corresponds to exactly one superhero name, ensuring data integrity and consistency. Enforcing this constraint would help verify query correctness and maintain the relationship between IDs and superhero names."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines SUPERHERO_NAME (and all other columns). This is a trivial key\u2192attribute dependency that adds no extra semantic information beyond the primary key constraint. Enforcing it separately would be redundant and not especially useful for query verification, even though it is 100% reliable in the current 750-row dataset."
       }
     },
     {
@@ -1271,8 +1271,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a unique identifier for each superhero, and it consistently maps to a unique FULL_NAME across the dataset. This represents a meaningful semantic relationship where each superhero's ID corresponds to their full name, which is valuable for query verification and ensuring data integrity."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so ID \u2192 FULL_NAME is a trivial key-based dependency that will always hold by definition. While it is 100% consistent and semantically reasonable that each hero ID has at most one full name, enforcing this as a separate functional dependency adds no value beyond the primary key constraint and does not provide additional semantic validation (unlike, for example, a code \u2192 name mapping between two non-key columns)."
       }
     },
     {
@@ -1296,8 +1296,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 GENDER_ID is meaningful as it establishes a relationship between a superhero's unique identifier and their gender. Given that the mapping is consistent across 750 rows, it suggests a reliable relationship. This constraint would help ensure data integrity and verify query correctness, as each superhero should consistently map to a specific gender."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every other column, including GENDER_ID. That makes this dependency trivially true and not semantically interesting (unlike code \u2192 name mappings). Adding an explicit constraint for ID \u2192 GENDER_ID would add no value beyond the primary key and would not improve query verification; it would just duplicate the existing key semantics."
       }
     },
     {
@@ -1321,8 +1321,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 EYE_COLOUR_ID is meaningful as it establishes a consistent relationship between a superhero's unique identifier and their eye color. Given that ID is a primary key, it ensures that each superhero has a unique eye color ID associated with them. This constraint adds value for query verification by ensuring that any query involving a superhero's ID will consistently return the correct eye color ID."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so it trivially determines every non-key column, including EYE_COLOUR_ID. This is not a special semantic mapping like a code-to-name; it just reflects that each row describes one hero with one eye color at a time. Enforcing ID \u2192 EYE_COLOUR_ID as a separate functional dependency adds no meaningful constraint beyond the primary key and would not significantly help with query verification."
       }
     },
     {
@@ -1346,8 +1346,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a primary key in the superhero table, and it consistently determines the HAIR_COLOUR_ID for each superhero. This indicates a meaningful relationship where each superhero has a unique hair color associated with their ID. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents the possibility of multiple superheroes having the same ID with different hair colors."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every non-key column, including HAIR_COLOUR_ID. That makes this dependency trivially true rather than a meaningful semantic mapping like code \u2192 description. Enforcing it as a separate constraint adds no value beyond the primary key and does not improve query verification, so it should not be modeled as an explicit functional dependency constraint."
       }
     },
     {
@@ -1371,8 +1371,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a primary key, and it consistently determines the SKIN_COLOUR_ID across all rows, indicating a meaningful relationship between a superhero and their skin color. This constraint would help ensure data integrity and verify query correctness, as each superhero should have a specific skin color associated with their ID."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so it trivially determines every other column, including SKIN_COLOUR_ID. This is not a special semantic mapping like code \u2192 name; it just reflects that each row has one skin color value. Enforcing ID \u2192 SKIN_COLOUR_ID as a separate functional dependency adds no meaningful constraint beyond the primary key and would not improve query verification."
       }
     },
     {
@@ -1396,8 +1396,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 RACE_ID is meaningful as it establishes a consistent relationship between a superhero's unique identifier and their race. Given that ID is a primary key, this relationship is reliable across the 750 rows. Enforcing this constraint would help ensure data integrity and verify query correctness, as each superhero should consistently map to a specific race."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every non-key column, including RACE_ID. That makes ID \u2192 RACE_ID a trivial dependency that adds no semantic information beyond the primary key constraint. It will always hold as long as the row exists, and enforcing it separately would not improve data quality or query verification. The relationship is not a natural code\u2192description mapping; it is simply the row identifier determining one of its attributes."
       }
     },
     {
@@ -1421,8 +1421,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 PUBLISHER_ID is meaningful as each superhero (identified by ID) is associated with exactly one publisher (PUBLISHER_ID). This relationship is consistent across the dataset and reflects a natural mapping, as each superhero belongs to a specific publisher. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every other column, including PUBLISHER_ID. That makes this dependency trivially true rather than a meaningful semantic mapping like code \u2192 name. Enforcing ID \u2192 PUBLISHER_ID as a separate constraint adds no value beyond the primary key and does not improve query verification, even though it holds for all 750 rows."
       }
     },
     {
@@ -1446,8 +1446,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID column is a unique identifier for each superhero, and it consistently maps to a specific ALIGNMENT_ID. This indicates a meaningful relationship where each superhero has a defined alignment. Enforcing this constraint would help ensure data integrity and verify query correctness, as it establishes a clear link between superheroes and their alignments."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every other column, including ALIGNMENT_ID. That dependency is therefore trivial and adds no semantic information beyond the primary key constraint. It will always hold as long as the row model is correct, and encoding it explicitly would create noise rather than useful validation. The meaningful dependency here is ALIGNMENT.ID \u2192 ALIGNMENT.ALIGNMENT, not SUPERHERO.ID \u2192 SUPERHERO.ALIGNMENT_ID."
       }
     },
     {
@@ -1471,8 +1471,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a unique identifier for each superhero, and it consistently maps to a specific HEIGHT_CM value. This is a meaningful dependency as it reflects the relationship between a superhero's unique ID and their height, which is a relevant attribute. Enforcing this constraint would help ensure data integrity and verify query correctness, as each superhero should have a unique height associated with their ID."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines every other column, including HEIGHT_CM. That makes this dependency trivial rather than a meaningful semantic rule like a code-to-name mapping. Enforcing ID \u2192 HEIGHT_CM adds no value beyond the primary key constraint and would not help with query verification; it would also be too rigid if height data is corrected or updated in the future."
       }
     },
     {
@@ -1496,8 +1496,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID is a primary key in the superhero table, and it uniquely determines the WEIGHT_KG for each superhero. This is a meaningful functional dependency as it ensures that each superhero has a specific weight associated with their unique ID, which is essential for data integrity and query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID is the primary key of SUPERHERO, so by definition it functionally determines all other columns, including WEIGHT_KG. That makes this a trivial key\u2192attribute dependency, not a special semantic mapping like code\u2192name. Enforcing it as a separate functional dependency adds no value beyond the primary key constraint and does not improve query verification, so it should not be modeled as an additional constraint."
       }
     },
     {
@@ -1522,7 +1522,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, the determinant 'SUPERHERO_NAME' is not a unique identifier, as multiple superheroes share the same skin color (SKIN_COLOUR_ID). This suggests that the relationship is not meaningful as a functional dependency, but rather coincidental. Enforcing this as a constraint would not add value for query verification."
+        "reasoning": "SUPERHERO_NAME \u2192 SKIN_COLOUR_ID is not a semantically stable dependency. A hero\u2019s name does not inherently determine their skin color: the same named character can be depicted with different skin tones across storylines, universes, or reboots, and different characters could share the same hero name. The current 100% consistency over 750 rows is likely incidental to this dataset, not a natural code\u2192description-style mapping. Also, SUPERHERO_NAME is effectively an identifier here, so enforcing this would add little semantic value and could easily break with future data updates."
       }
     },
     {
@@ -1546,8 +1546,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 COLOUR is meaningful as each unique ID corresponds to exactly one colour, establishing a clear semantic relationship. The consistency observed across 35 rows supports the reliability of this mapping, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID is the surrogate primary key of the COLOUR lookup table, so by design it uniquely determines COLOUR. While the dependency ID \u2192 COLOUR is real and reliable (35 rows is enough to see it\u2019s not accidental), it is a trivial consequence of the primary key and does not add semantic value beyond the existing uniqueness of ID. Enforcing it as an additional functional dependency constraint would be redundant and provide little extra benefit for query verification."
       }
     },
     {
@@ -1571,8 +1571,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 ATTRIBUTE_NAME is meaningful as each unique ID corresponds to exactly one attribute name, which is a semantic relationship. This mapping is reliable given the consistent data observed, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "ID \u2192 ATTRIBUTE_NAME is semantically meaningful (an attribute code mapping to its name), but ID is already the natural primary key of ATTRIBUTE. As a result, the dependency is trivial from a database-design perspective: the primary key already functionally determines all other columns. Adding an explicit functional dependency constraint here would not add practical value beyond the existing PK/unique constraint and would mostly create noise rather than help with query verification, even though the mapping is stable and meaningful."
       }
     },
     {
@@ -1596,8 +1596,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ID column is a primary key that uniquely identifies each race, and each ID consistently maps to exactly one race name. This is a meaningful semantic relationship, as it provides a clear mapping from a unique identifier to a descriptive attribute, which is valuable for query verification and data integrity."
+        "should_constrain": 0,
+        "reasoning": "ID \u2192 RACE is fully consistent and clearly semantic (a lookup ID mapping to a race name), but ID is the primary/unique key of the RACE table, so this dependency is trivial and already guaranteed by the key constraint. Adding an explicit functional-dependency constraint would not add meaningful value beyond the existing primary key definition or help much with query verification."
       }
     },
     {
@@ -1621,8 +1621,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ID \u2192 ALIGNMENT is meaningful as it establishes a clear mapping between unique identifiers and their corresponding alignment values. This relationship is not coincidental, as the ID serves as a primary key, ensuring that each alignment type is consistently associated with a specific ID. Enforcing this constraint would help maintain data integrity and verify query correctness, especially in scenarios where alignment information is critical."
+        "should_constrain": 0,
+        "reasoning": "ID is the (implied) primary key of ALIGNMENT, so ID \u2192 ALIGNMENT is a trivial key-based dependency rather than an additional semantic rule. The mapping is meaningful (code \u2192 label) and clearly stable, but enforcing it as a separate functional dependency adds no value beyond the primary key/unique constraint already guaranteeing that each ID has exactly one ALIGNMENT. It would not materially improve query verification beyond what the PK already provides."
       }
     }
   ]

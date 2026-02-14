@@ -54,8 +54,8 @@
           {
             "value": "CUSTOMERS__CUSTOMERID"
           },
-          3,
-          53314
+          0,
+          123819
         ]
       },
       {
@@ -63,8 +63,8 @@
           {
             "value": "GASSTATIONS__GASSTATIONID"
           },
-          1,
-          2147483647
+          0,
+          12923
         ]
       },
       {
@@ -72,8 +72,8 @@
           {
             "value": "GASSTATIONS__CHAINID"
           },
-          1,
-          290
+          0,
+          123
         ]
       },
       {
@@ -81,8 +81,8 @@
           {
             "value": "PRODUCTS__PRODUCTID"
           },
-          1,
-          630
+          0,
+          1356
         ]
       },
       {
@@ -99,17 +99,8 @@
           {
             "value": "YEARMONTH__CONSUMPTION"
           },
-          -15040.792500000001,
-          21352.0325
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TRANSACTIONS_1K__TRANSACTIONID"
-          },
-          1,
-          2147483647
+          0,
+          1e+308
         ]
       },
       {
@@ -117,8 +108,8 @@
           {
             "value": "TRANSACTIONS_1K__CUSTOMERID"
           },
-          1,
-          2147483647
+          96,
+          49838
         ]
       },
       {
@@ -126,8 +117,8 @@
           {
             "value": "TRANSACTIONS_1K__CARDID"
           },
-          26228,
-          775970
+          12150,
+          1173565
         ]
       },
       {
@@ -135,8 +126,8 @@
           {
             "value": "TRANSACTIONS_1K__GASSTATIONID"
           },
-          1,
-          2147483647
+          0,
+          11667
         ]
       },
       {
@@ -144,8 +135,8 @@
           {
             "value": "TRANSACTIONS_1K__PRODUCTID"
           },
-          1,
-          2147483647
+          2,
+          352
         ]
       },
       {
@@ -175,28 +166,6 @@
             "SME",
             "LAM",
             "KAM"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CUSTOMERS__CURRENCY"
-          },
-          [
-            "EUR",
-            "CZK"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "GASSTATIONS__COUNTRY"
-          },
-          [
-            "CZE",
-            "SVK"
           ]
         ]
       },
@@ -281,11 +250,6 @@
       },
       {
         "not_null": {
-          "value": "TRANSACTIONS_1K__TIME"
-        }
-      },
-      {
-        "not_null": {
           "value": "TRANSACTIONS_1K__CUSTOMERID"
         }
       },
@@ -317,112 +281,8 @@
       {
         "dependency": {
           "values": [
-            "CUSTOMERS__CUSTOMERID",
-            "CUSTOMERS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CUSTOMERS__CUSTOMERID",
-            "CUSTOMERS__CURRENCY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__CHAINID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "GASSTATIONS__CHAINID",
             "GASSTATIONS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PRODUCTS__PRODUCTID",
-            "PRODUCTS__DESCRIPTION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__TIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__CUSTOMERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__CARDID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__GASSTATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__PRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__PRICE"
           ]
         }
       }

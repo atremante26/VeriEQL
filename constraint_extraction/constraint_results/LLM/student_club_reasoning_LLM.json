@@ -17,7 +17,7 @@
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The AMOUNT column represents the amount of funds received, which is naturally bounded to be non-negative. While the observed data range is [50, 3000], using custom bounds of [0, +\u221e] is more appropriate to account for potential future entries that may be lower than the current minimum observed value, ensuring that all valid income amounts are captured.",
+        "reasoning": "AMOUNT represents a dollar amount of income, which is naturally non-negative but has no meaningful fixed upper limit. The observed upper bound of 3000 comes from only 36 rows and is not a reliable maximum for future income records. A BETWEEN constraint enforcing AMOUNT >= 0 (one-sided lower bound) is semantically correct and safer than using the strict observed range, which could incorrectly reject larger but valid income amounts.",
         "chosen_bounds": [
           0,
           null
@@ -39,11 +39,11 @@
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The SPENT column represents the amount of money spent, which is naturally bounded at 0 (cannot be negative). The observed data range shows a realistic upper limit of 327.07, but since it is a financial figure, it is safer to use custom bounds of [0, +\u221e] to account for future expenses that may exceed current observations.",
+        "use_custom": 1,
+        "reasoning": "SPENT is a dollar amount derived from expenses, so it is naturally non-negative and has no realistic fixed upper limit because event costs can vary widely. A lower bound of 0 is semantically required (negative spending is invalid), but constraining the upper bound to the current maximum 327.07 would be too brittle and likely to reject valid future data. Therefore, apply a one-sided custom BETWEEN-style constraint [0, \u221e] rather than strict observed bounds.",
         "chosen_bounds": [
-          0.0,
-          327.07
+          0,
+          null
         ]
       }
     },
@@ -57,16 +57,16 @@
       ],
       "custom_bounds": [
         null,
-        0
+        null
       ],
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 1,
-        "reasoning": "The REMAINING column represents the amount of budget remaining, which can logically be negative if expenses exceed the budget. Therefore, it should have a custom bound of [-\u221e, 0] to account for potential overspending, rather than strict bounds which do not reflect the semantic meaning of the data.",
+        "use_custom": 0,
+        "reasoning": "REMAINING is a dollar balance computed as AMOUNT \u2212 SPENT and can legitimately be negative when costs exceed budget. There is no natural upper cap on how much budget could remain, and no strong semantic lower bound beyond what is observed (overspending). With only 52 rows and no domain rule like 'remaining must be \u2265 -X', we cannot safely impose a tighter, domain-based range. However, we can still use the observed strict bounds as a BETWEEN constraint to catch obvious outliers relative to current data, acknowledging that this may need adjustment if future budgets are much larger or overspending grows beyond -24.25 or 150.0.",
         "chosen_bounds": [
-          null,
-          0
+          -24.25,
+          150.0
         ]
       }
     },
@@ -85,11 +85,11 @@
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
-        "use_custom": 0,
-        "reasoning": "The AMOUNT column represents a budgeted amount, which is naturally bounded to be non-negative. The observed data range shows a realistic range of values from 10 to 350, but since budgets cannot be negative, using strict bounds [10, 350] is appropriate. Custom bounds [0, +\u221e] would be too broad and not reflective of the actual data observed.",
+        "use_custom": 1,
+        "reasoning": "AMOUNT is a budgeted dollar amount, which is naturally non\u2011negative but has no meaningful fixed upper limit. The observed max of 350 comes from only 52 rows and is clearly not a true semantic cap on possible budgets. A strict [10, 350] constraint would wrongly reject valid future budgets outside this range. A custom lower bound of 0 with no upper bound ([0, \u221e]) correctly enforces that budgets cannot be negative while allowing any larger positive amount.",
         "chosen_bounds": [
-          10,
-          350
+          0,
+          null
         ]
       }
     },
@@ -102,16 +102,16 @@
         99950
       ],
       "custom_bounds": [
-        10000,
+        0,
         99999
       ],
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The ZIP_CODE column represents a five-digit number identifying a US post office, which is naturally bounded between 10000 and 99999. The strict observed range includes values that are not valid ZIP codes (e.g., 501 and 99950), so using custom bounds is safer to ensure only valid ZIP codes are included.",
+        "reasoning": "ZIP codes are 5\u2011digit numeric codes, so they are naturally bounded between 0 and 99999. The observed lower bound 501 is just the minimum present in this dataset, not the true domain minimum, and future data could legitimately include smaller valid ZIPs (e.g., 00501). Using strict bounds [501, 99950] would incorrectly reject valid ZIP codes outside the current sample. A custom two\u2011sided constraint [0, 99999] matches the semantic domain of US ZIP codes and is safer and more accurate.",
         "chosen_bounds": [
-          10000,
+          0,
           99999
         ]
       }
@@ -132,7 +132,7 @@
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The COST column represents monetary values, which are naturally bounded to be non-negative. While the observed data range is [6.0, 295.12], using custom bounds of [0, +\u221e] is more appropriate to account for potential future expenses that may fall outside the current observed range. This ensures that all valid monetary values are included.",
+        "reasoning": "COST is a monetary expense amount and should not be negative, so a lower bound of 0 is semantically required. There is no natural upper limit on how large an expense could be, so the upper side should remain unbounded. The observed max of 295.12 comes from only 32 rows and is not a meaningful natural cap on expenses, so strict bounds would be too restrictive. Therefore, apply a one-sided custom BETWEEN-style constraint [0, \u221e] rather than the strict observed range.",
         "chosen_bounds": [
           0,
           null
@@ -148,16 +148,16 @@
         98290
       ],
       "custom_bounds": [
-        1000,
+        0,
         99999
       ],
       "custom_bounds_type": "semantic",
       "decision": {
         "should_constrain": 1,
         "use_custom": 1,
-        "reasoning": "The ZIP column represents postal codes, which are naturally bounded within a specific range. The strict bounds observed (1020 to 98290) are realistic, but the custom bounds (1000 to 99999) are safer as they encompass all valid ZIP codes in the US, ensuring that edge cases are handled. Given the small sample size of 33 rows, relying on custom bounds is prudent to avoid excluding valid ZIP codes.",
+        "reasoning": "ZIP is a US ZIP code and is naturally bounded to 5-digit non-negative integers. The observed range [1020, 98290] is based on a small sample (33 rows) and excludes valid low and high ZIPs (e.g., 00001, 99999). Using strict bounds would incorrectly reject valid ZIPs outside the current data. A custom two-sided constraint [0, 99999] matches the semantic domain of US ZIP codes and safely accommodates all valid values, including those not yet present in the data.",
         "chosen_bounds": [
-          1000,
+          0,
           99999
         ]
       }
@@ -202,7 +202,7 @@
       "category_count": 29,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "DATE_RECEIVED is a date field and can have many valid values beyond the current unique entries. Dates are not categorical in nature, and new dates will continue to appear as time progresses, making an IN constraint inappropriate."
+        "reasoning": "DATE_RECEIVED is a date field, not a categorical enumeration. The many unique values relative to row count and the semantic meaning ('the date that the fund received') indicate it can take any valid date, not just the 29 seen in this sample. Using an IN constraint on these specific dates would incorrectly block future valid dates and be overly restrictive."
       }
     },
     {
@@ -218,7 +218,7 @@
       "category_count": 4,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The AMOUNT column represents monetary values, which can vary widely and are not limited to the four unique values observed. While the current dataset shows only a few amounts, it is likely that more values could appear in the future, making it inappropriate to impose an IN constraint."
+        "reasoning": "AMOUNT is a numeric measure of money, not a status or category. The 4 observed values are just what happens to appear in this small sample; future income records could reasonably have many other dollar amounts. Treating these as an exhaustive enumeration would be arbitrarily restrictive and incorrect, so an IN constraint is not appropriate."
       }
     },
     {
@@ -233,8 +233,8 @@
       ],
       "category_count": 4,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The SOURCE column has a limited and known set of values that represent distinct categories of income. Given the context of income sources, it is reasonable to assume that these are the primary categories, making it a true categorical column suitable for an IN constraint."
+        "should_constrain": 0,
+        "reasoning": "SOURCE is a categorical/type-like field, but the description (\u201cwhere the funds come from such as dues, or the annual university allocation\u201d) and the current values (Dues, Fundraising, School Appropration, Sponsorship) suggest examples, not an exhaustive list. New sources (e.g., Grants, Donations, University Allocation) are plausible in future data. With only 36 rows, the 4 observed values are unlikely to represent all valid possibilities, so an IN constraint on exactly these values would be too restrictive. A looser control (e.g., reference table or soft validation) would be more appropriate than a hard IN list."
       }
     },
     {
@@ -249,7 +249,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The NOTES column contains free-text descriptions that can vary widely and are not limited to a specific set of known values. While there are currently 3 unique values, it is likely that more diverse notes could be added in the future, making it inappropriate to enforce an IN constraint."
+        "reasoning": "NOTES is explicitly described as a free-text field for details about funds, so it is inherently open-ended. The three observed values are just examples in a small dataset, not an exhaustive set of valid notes. New, arbitrary descriptions are expected over time, so an IN constraint on the current values would be overly restrictive and incorrect."
       }
     },
     {
@@ -265,8 +265,8 @@
       ],
       "category_count": 5,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The CATEGORY column has a limited and known set of values (Advertisement, Food, Speaker Gifts, Parking, Club T-Shirts) that are likely to represent all valid categories for budgeting purposes. This suggests it is a true categorical column where an IN constraint is appropriate to ensure data integrity."
+        "should_constrain": 0,
+        "reasoning": "CATEGORY is clearly a categorical field (advertisement, food, parking, etc.), but the description and semantics suggest it is an open-ended list of budget categories, not a fixed, closed enumeration. New categories (e.g., Travel, Equipment, Printing) are very plausible in future budgets. The current 5 values over 52 rows likely reflect current usage, not the full allowed domain. Imposing an IN constraint on just these values would be too limiting and require schema changes whenever a new category is needed; a softer control (e.g., reference table or application-level validation) would be more appropriate than a hard IN constraint."
       }
     },
     {
@@ -295,7 +295,7 @@
       "category_count": 17,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The SPENT column represents monetary amounts and is not a true categorical column. The unique values indicate a range of possible expenditures, and new values could easily appear in future data. Therefore, an IN constraint would be too limiting."
+        "reasoning": "SPENT is a numeric measure of money spent, not a status or code. The observed 17 values in 52 rows are just the amounts that happen to appear in this sample; many other dollar amounts are clearly possible in future budgets. This is not an enumeration but a continuous/measure field, so an IN constraint on the current distinct values would be arbitrarily limiting and incorrect."
       }
     },
     {
@@ -329,7 +329,7 @@
       "category_count": 22,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The REMAINING column contains real numbers representing calculated values, which can vary based on budget adjustments and expenses. Since these values are not fixed categories and can change with new data, an IN constraint would be too limiting."
+        "reasoning": "REMAINING is a numeric measure (dollar amount left in a budget), not a status or category. The description defines it as a calculated value (amount budgeted minus amount spent), so in principle it can take many possible real values, including new ones as amounts change. The 22 unique values in 52 rows are just current data points, not an exhaustive list of allowed values. Applying an IN constraint to these specific numbers would incorrectly block valid future values and is therefore too limiting."
       }
     },
     {
@@ -350,7 +350,7 @@
       "category_count": 9,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The AMOUNT column contains a limited set of unique values, but it is not a true categorical column as it represents budget amounts which can vary widely. New amounts could be added in the future, making it inappropriate to restrict to the current unique values."
+        "reasoning": "AMOUNT is a numeric budgeted dollar value, not a status/type code. The description implies it can be any dollar amount equal to spent + remaining, and future events could easily have different budget amounts. The fact that 52 rows currently use only 9 values just reflects current budgeting practices, not a fixed enumeration. An IN constraint on these 9 values would be arbitrarily limiting and incorrect for future data."
       }
     },
     {
@@ -365,7 +365,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EVENT_STATUS column has a limited and defined set of values ('Closed', 'Open', 'Planning') that represent the status of an event. Since these values are likely exhaustive for the context of event statuses in this database, an IN constraint is appropriate to ensure data integrity and consistency."
+        "reasoning": "The description explicitly defines EVENT_STATUS as a three-value status field with values Closed, Open, and Planning, and explains the meaning of each. Status fields are classic enumerations, and the text strongly implies these are the only valid states. With 52 rows and exactly these 3 values, plus the semantic definition, this is a true categorical column and an IN constraint (e.g., CHECK (EVENT_STATUS IN ('Closed','Open','Planning'))) is appropriate and not overly limiting."
       }
     },
     {
@@ -400,7 +400,7 @@
       "category_count": 23,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_EVENT column contains unique identifiers for events, which are likely generated dynamically and can change over time. This means that new event IDs can be created, making it impractical to enforce an IN constraint. The current unique values do not represent a complete or fixed set of valid values."
+        "reasoning": "LINK_TO_EVENT is a foreign-key-like reference to EVENT.EVENT_ID, not an intrinsic category. The values are opaque IDs and new events (and thus new IDs) can be added over time, so the current 23 values are clearly not a complete, fixed enumeration. An IN constraint on the observed values would block valid future data; a proper foreign key constraint to the EVENT table is appropriate instead of an IN list."
       }
     },
     {
@@ -415,7 +415,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The TYPE column has a limited and known set of valid values ('Unique', 'Standard', 'PO Box'), making it a true categorical column suitable for an IN constraint. The small number of unique values relative to the total rows suggests that this is likely a complete enumeration of the possible types."
+        "reasoning": "The description explicitly defines TYPE as the kind of ZIP code with three well-known USPS categories: Standard, PO Box, and Unique. With 41,877 rows and only 3 distinct values, this strongly indicates a true, closed enumeration rather than sparse data. In the USPS system, these are the canonical ZIP code types, so adding an IN constraint on these three values matches the domain and is unlikely to be too limiting."
       }
     },
     {
@@ -439,7 +439,7 @@
       "category_count": 12,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The EXPENSE_DESCRIPTION column contains a variety of descriptions that are not strictly enumerated and can vary widely based on specific events or purchases. New expense descriptions could easily arise, making it impractical to enforce an IN constraint."
+        "reasoning": "EXPENSE_DESCRIPTION is free-text describing what money was spent on (e.g., 'Pizza', 'Post Cards, Posters', 'Water, Veggie tray, supplies'). The current 12 values are clearly not an exhaustive, predefined list; many other descriptions could reasonably appear in future data. This is not a status/type code but a narrative description, so using an IN constraint on the observed values would be overly restrictive and inappropriate."
       }
     },
     {
@@ -468,7 +468,7 @@
       "category_count": 17,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "EXPENSE_DATE is not a true categorical column as it represents dates, which are not limited to a specific set of values. New dates can always appear in future data, making it inappropriate to impose an IN constraint."
+        "reasoning": "EXPENSE_DATE represents calendar dates, not a fixed set of categories. The 17 unique values just reflect the limited sample; future expenses can occur on any valid date. Treating these as an enumeration and constraining to the current values would incorrectly block new, valid dates, so an IN constraint is not appropriate."
       }
     },
     {
@@ -501,7 +501,7 @@
       "category_count": 21,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The COST column is a numerical value representing expenses, which can vary widely and is not limited to a specific set of known values. New costs can arise in future data, making it inappropriate to impose an IN constraint."
+        "reasoning": "COST is a numeric measure of money spent, not a status or category. The many distinct real values (21 out of 32 rows) indicate continuous/quantitative data, and future expenses can take essentially any positive amount. The current unique values are clearly not a complete, predefined list, so an IN constraint would be arbitrarily restrictive and incorrect."
       }
     },
     {
@@ -516,7 +516,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_MEMBER column contains unique identifiers for members, which are not a fixed set of values. New members can be added, leading to new unique identifiers. Therefore, it is not a true categorical column suitable for an IN constraint."
+        "reasoning": "LINK_TO_MEMBER is a foreign-key-like reference to MEMBER.MEMBER_ID, not an intrinsic enumeration. The 3 observed IDs are just the members present in this sample of 32 expense rows, not the complete set of valid members. New members (and thus new IDs) can and should appear in future data. An IN constraint to these 3 values would incorrectly block valid future references; the correct constraint here is a foreign key to MEMBER, not an enumerated IN list."
       }
     },
     {
@@ -552,7 +552,7 @@
       "category_count": 24,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_BUDGET column contains unique identifiers that are likely generated dynamically and can vary widely. Given the nature of these values, it is not a true categorical column with a limited set of known values, and new identifiers could be created in the future, making an IN constraint inappropriate."
+        "reasoning": "LINK_TO_BUDGET is a foreign-key-like identifier pointing to BUDGET.BUDGET_ID, not an enumerated status or type. The 24 observed IDs in 32 rows are just the subset of budget records currently referenced by expenses, not the full set of valid values. New budget IDs will appear over time, so constraining this column to the current list of values via an IN constraint would be incorrect and too limiting. A proper constraint here would be a foreign key to the BUDGET table, not an IN enumeration."
       }
     },
     {
@@ -570,7 +570,7 @@
       "category_count": 6,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The POSITION column contains a limited and defined set of roles within the club, which are likely to remain consistent. The unique values suggest a controlled vocabulary, making it appropriate to enforce an IN constraint to ensure data integrity."
+        "reasoning": "POSITION is clearly a role/status field (President, Vice President, Treasurer, Secretary, Member, Inactive), which is typically governed by club bylaws and not expected to change frequently. The values are classic role names plus a status-like value (Inactive), all of which look intentional and controlled rather than free text. While additional roles (e.g., Historian, Webmaster) could be added in the future, that would usually be a deliberate schema/business-rule change, at which point the IN list can be updated. Given the semantics and the small, coherent set of values, treating this as an enumerated column with an IN constraint is appropriate rather than assuming arbitrary text."
       }
     },
     {
@@ -586,7 +586,7 @@
       "category_count": 4,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The T_SHIRT_SIZE column has a limited and known set of valid values (Small, Medium, Large, X-Large) that are commonly used for clothing sizes. Given that these sizes are standard and unlikely to change, an IN constraint is appropriate to ensure data integrity."
+        "reasoning": "T-shirt size is a classic enumerated attribute with a small, well-defined set of valid values (e.g., Small, Medium, Large, X-Large, possibly a few adjacent sizes). The description explicitly frames it as a size choice, not free text. While the current data only shows 4 sizes, in practice you might want to define a slightly broader allowed set (e.g., XS, S, M, L, XL, XXL) rather than constraining strictly to the 4 observed values. So an IN constraint makes sense, but it should be based on the intended size scale, not just the current sample."
       }
     },
     {
@@ -624,7 +624,7 @@
       "category_count": 26,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_MAJOR column contains unique identifiers for majors, which are likely to change or expand over time as new majors are introduced. The current unique values do not represent a complete set of possible majors, indicating that this is not a true categorical column suitable for an IN constraint."
+        "reasoning": "LINK_TO_MAJOR is a foreign-key-like reference to MAJOR.MAJOR_ID, not a small fixed enumeration. The 26 observed IDs in 33 rows are just the majors currently used by members, not the complete set of valid majors, and new majors/IDs can be added over time. An IN constraint on the current values would incorrectly block future valid majors; a proper FOREIGN KEY constraint to MAJOR is appropriate instead of an IN list."
       }
     },
     {
@@ -653,7 +653,7 @@
       "category_count": 17,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_EVENT column contains unique identifiers for events, which are likely generated dynamically. While there are currently 17 unique values, new events can be created in the future, meaning the set of valid values is not fixed. Therefore, an IN constraint would be too limiting."
+        "reasoning": "LINK_TO_EVENT is a foreign-key-like reference to EVENT.EVENT_ID, not an intrinsic category. The 17 distinct IDs just reflect the events present in this sample, and new events (with new IDs) will be added over time. An IN constraint on the current 17 values would block valid future references. The correct constraint here is a foreign key to EVENT.EVENT_ID, not an enumerated IN list."
       }
     },
     {
@@ -695,7 +695,7 @@
       "category_count": 30,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LINK_TO_MEMBER column contains unique identifiers for members, which are likely generated dynamically and can change over time. This means that while the current dataset has 30 unique values, new members can be added in the future, leading to new unique identifiers. Therefore, it is not a true categorical column suitable for an IN constraint."
+        "reasoning": "LINK_TO_MEMBER is a foreign-key-like reference to MEMBER.MEMBER_ID, not an intrinsic category. The 30 observed IDs are just the members who appear in this sample of attendance records, not the full set of valid members. New members (and thus new IDs) can and should appear in future data, so constraining this column to the current 30 values via an IN list would be incorrect. A proper constraint here would be a foreign key to MEMBER, not an enumerated IN constraint."
       }
     },
     {
@@ -714,8 +714,8 @@
       ],
       "category_count": 8,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The TYPE column contains a limited set of known event types that are likely to remain consistent, making it a true categorical column suitable for an IN constraint. While new event types could theoretically be introduced, the current values represent distinct categories that are relevant to the context of events, suggesting that an enumeration is appropriate."
+        "should_constrain": 0,
+        "reasoning": "TYPE is clearly a categorical field (kind of event), but the description only gives examples (\u201csuch as game, social, election\u201d) and does not define a closed list. The current 8 values look like a small sample of possible event types, and it is very plausible that new types (e.g., Workshop, Fundraiser, Training) will be needed later. Imposing an IN constraint on just these observed values would be too limiting and brittle; a looser convention (e.g., optional check against a broader, maintainable reference list) is more appropriate than a hard IN constraint."
       }
     },
     {
@@ -742,7 +742,7 @@
       "category_count": 15,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The NOTES column contains free-text descriptions of events, which are not limited to a specific set of known values. The unique values suggest a variety of potential notes that could change over time, indicating that new descriptions could appear in future data. Therefore, it is not appropriate to impose an IN constraint."
+        "reasoning": "NOTES is a free-text description field; the sample values are narrative sentences about specific events, not a closed set of codes. New events will naturally require new, arbitrary text. The 15 unique values among 42 rows are clearly not an exhaustive or controlled vocabulary, so an IN constraint on specific strings would be overly restrictive and inappropriate."
       }
     },
     {
@@ -766,7 +766,7 @@
       "category_count": 12,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The LOCATION column contains specific addresses and venue names, which can vary widely and are not limited to a fixed set. New locations may be added in the future, making it inappropriate to enforce an IN constraint."
+        "reasoning": "LOCATION holds free-form place names/addresses (rooms, stadiums, street addresses, 'Various locations'). The current 12 values are just the locations used so far, not a closed set of all possible event locations. New rooms, buildings, or off-campus addresses could appear at any time. This is not a fixed status/type/category enumeration, so an IN constraint on the observed values would be overly restrictive and inappropriate."
       }
     },
     {
@@ -781,7 +781,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The STATUS column has a limited and defined set of values ('Open', 'Planning', 'Closed') that represent the state of an event. These values are likely exhaustive for the context of event management, making it a true categorical column suitable for an IN constraint."
+        "reasoning": "The column is explicitly documented as an enumeration: 'One of three values indicating if the event is in planning, is opened, or is closed [Open/ Closed/ Planning]'. The observed data (3 unique values across 42 rows) matches this exactly, and the semantics of an event lifecycle make additional statuses unlikely without a deliberate schema change. This is a true categorical status field, so an IN constraint on ('Open','Closed','Planning') is appropriate and not overly limiting."
       }
     },
     {
@@ -800,8 +800,8 @@
       ],
       "category_count": 8,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The COLLEGE column contains a limited and defined set of unique values that represent the colleges within the institution. Given that there are only 8 unique values and they are likely to remain stable, an IN constraint is appropriate to ensure data integrity and consistency."
+        "should_constrain": 0,
+        "reasoning": "COLLEGE is categorical, but the current 8 values are institution-specific and could change over time (new colleges, renames, reorganizations, or additional schools like a Graduate School). The description does not define a fixed, closed enumeration, only that it is 'the name of the college.' With only 113 rows, the observed 8 values are unlikely to be a guaranteed complete list for all future data. An IN constraint on exactly these values would be too rigid; a looser constraint (e.g., reference table or validation against a configurable list) would be more appropriate than a hard-coded IN."
       }
     }
   ],
@@ -813,7 +813,7 @@
       "total_rows": 36,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The INCOME_ID serves as a unique identifier for each record of income, making it essential for distinguishing between different income entries. As a primary key, it logically requires a NOT NULL constraint to ensure data integrity and uniqueness."
+        "reasoning": "INCOME_ID is described as a unique identifier for each income record, which makes it the logical primary key of the INCOME table. Primary key/identifier columns must be present for every row to uniquely reference, update, or relate records, so future records should not omit this field. The 100% non-null current data aligns with this logical requirement rather than being coincidental, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -823,7 +823,7 @@
       "total_rows": 36,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The DATE_RECEIVED field is logically required as it indicates when the funds were received, which is essential for tracking income. The column description supports this necessity, and it is reasonable to conclude that future records should always include this information."
+        "reasoning": "DATE_RECEIVED represents when the income was received, which is a core attribute of any income record for financial tracking, reporting, and reconciliation. The description treats it as an inherent property of the income (not an optional note), and all existing rows have values, suggesting it is consistently captured. It would be unusual and of limited use to have an income record with no received date, so future records should also be required to include this field."
       }
     },
     {
@@ -833,7 +833,7 @@
       "total_rows": 36,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The AMOUNT field represents the amount of funds received, which is essential for tracking income. It is logically required for every record of income, as it directly relates to the financial aspect of the club. The column description indicates that it is a necessary value, and future records would not make sense without this information."
+        "reasoning": "AMOUNT is the core numeric value of each income record and is needed to know how much money was received; an income entry without an amount is not meaningful. The description defines it as the dollar amount of funds, implying every income record should specify this. While current completeness alone is not proof, the business logic of an income table makes null amounts unreasonable for future records, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -843,7 +843,7 @@
       "total_rows": 36,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The SOURCE column is logically required as it indicates where the funds come from, which is essential for understanding the income's origin. The description emphasizes its importance, and while current data is complete, future records should also include this information to maintain data integrity."
+        "reasoning": "SOURCE identifies where the funds came from (e.g., dues, allocation, fundraising) and is essential to interpreting each income record. The description treats it as a core attribute, not an optional note, and financial tracking normally requires a source for every income entry. While current completeness alone doesn\u2019t prove necessity, the business meaning strongly suggests every income record should have a source, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -853,7 +853,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The BUDGET_ID is a unique identifier for each budget entry, which logically requires it to be present for every record. As a primary key, it should not allow null values, ensuring each budget entry can be distinctly identified."
+        "reasoning": "BUDGET_ID is described as a unique identifier for each budget entry, which makes it the logical primary key of the BUDGET table. Primary keys must always be present to uniquely reference and relate records (e.g., from EXPENSE via LINK_TO_BUDGET). Future records without a BUDGET_ID would be unusable as distinct budget entries, so this field is inherently required and should be constrained NOT NULL."
       }
     },
     {
@@ -863,7 +863,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The CATEGORY field is logically required as it defines the area for which the budgeted amount is allocated. The description indicates that it is essential for categorizing budget entries, and future records would not make sense without this information."
+        "reasoning": "CATEGORY describes what the budget line is for (e.g., food, parking) and is essential to interpreting AMOUNT, SPENT, and REMAINING. A budget entry without a category would be ambiguous and not practically useful. The description frames it as a defining attribute of each budget record, not an optional note. The fact that all existing rows are non-null aligns with this logical requirement rather than looking coincidental, so CATEGORY should be enforced as NOT NULL."
       }
     },
     {
@@ -873,7 +873,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The SPENT column represents the total amount spent in a budgeted category for an event, which is essential for tracking expenses. It is logically required for every budget entry to have a value, as it directly impacts financial reporting and budget management. The column description indicates that it summarizes expenses, reinforcing its necessity."
+        "reasoning": "SPENT is defined as \u201cthe total amount spent in the budgeted category for an event\u201d and participates in the core budget logic (AMOUNT = SPENT + REMAINING). Every budget line conceptually has some spent amount, even if it is 0.0, and using NULL would blur the distinction between \u2018no spending yet\u2019 and \u2018unknown\u2019. The description does not suggest that SPENT is optional, and a default of 0 is a natural representation for new or planning budgets. Given its role in calculations and that every existing row has a value, this column should be required (NOT NULL) with 0.0 used when nothing has been spent."
       }
     },
     {
@@ -883,7 +883,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The REMAINING column represents a calculated value that indicates the amount left in a budget category after expenses. Since it is essential for understanding the financial status of a budget entry, it should always have a value. The column description implies that it is a necessary field for budget management, and logically, every budget entry should have a remaining amount calculated."
+        "reasoning": "REMAINING is defined as a calculated value (amount budgeted minus amount spent) and is conceptually essential for every budget record. It participates in core budget logic (e.g., checking if remaining < 0 to detect overspending). A budget line without a remaining balance would be incomplete or invalid rather than merely missing optional information. The fact that all existing rows are non-null aligns with this: future valid budget entries should always have a numeric remaining value, even if it is 0 or negative, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -893,7 +893,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The AMOUNT field represents the budgeted amount for a specified category and event, which is essential for the budget's functionality. It is logically required for every budget entry to have a defined amount, as it directly impacts financial planning and tracking. The column description indicates that it is a fundamental part of the budget entry, making it necessary to enforce a NOT NULL constraint."
+        "reasoning": "AMOUNT is the core budgeted dollar value for each budget entry and is used in the defined relationship AMOUNT = SPENT + REMAINING. A budget record without an AMOUNT would be meaningless and would break this calculation and any financial reporting. The description treats it as an inherent property of every budget line, not an optional note, so future records should always supply it. The fact that all existing rows are non-null aligns with this logical requirement rather than looking accidental."
       }
     },
     {
@@ -903,7 +903,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EVENT_STATUS column indicates the current status of an event, which is essential for understanding the budget's context. Since it categorizes the event as Open, Planning, or Closed, it is logically required for every budget entry to have a status. Future records would need this information to maintain clarity and functionality in the database."
+        "reasoning": "EVENT_STATUS encodes the lifecycle state of the budget line (Open/Closed/Planning) and is used to interpret SPENT and REMAINING. The description treats it as a categorical status, not an optional note, and business logic clearly depends on knowing whether the budget is still changing. A budget row without any status would be ambiguous and hard to handle in queries or application logic. The fact that all existing 52 rows are non-null aligns with this logical requirement rather than looking accidental, so it should be enforced as NOT NULL."
       }
     },
     {
@@ -913,7 +913,7 @@
       "total_rows": 52,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LINK_TO_EVENT column serves as a foreign key linking budget entries to specific events, making it logically required for every budget record. The column description indicates that it references the Event table, which further supports the necessity of this field being non-null to maintain data integrity."
+        "reasoning": "Each budget row represents a budget line for a specific event, and the description explicitly says this column is the unique identifier of the event to which the budget line applies and references the Event table. A budget entry without an associated event would be meaningless in this schema, so logically every BUDGET record must have a LINK_TO_EVENT. The fact that 100% of existing rows are non-null aligns with this design expectation rather than being coincidental, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -923,7 +923,7 @@
       "total_rows": 41877,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ZIP_CODE field is essential for identifying the location associated with each record. Given that it is a unique identifier for a US post office and is logically required for any address-related data, it should have a NOT NULL constraint to ensure data integrity."
+        "reasoning": "This column represents the ZIP code itself and is the core identifier of each row in the ZIP_CODE table. Conceptually, a ZIP code record without a ZIP_CODE value is meaningless, and future records would not be valid without it. The description treats it as the defining attribute (effectively a primary key candidate), so it should be required and constrained as NOT NULL rather than relying on coincidentally complete data."
       }
     },
     {
@@ -933,7 +933,7 @@
       "total_rows": 41877,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The TYPE column categorizes ZIP codes into essential classifications (Standard, Unique, PO Box), which are logically required for understanding the nature of the ZIP code. The column description indicates that it provides important information about the ZIP code, suggesting it should always be present. Therefore, a NOT NULL constraint is appropriate."
+        "reasoning": "TYPE classifies what kind of ZIP code it is (Standard, PO Box, Unique), which is a fundamental attribute of every ZIP code in this reference table. The description treats it as an inherent property, not an optional note, and all existing 41,877 rows have a value. There is no clear, realistic case where a ZIP code in this table would legitimately lack a type, so future records should also be required to provide it. A NOT NULL constraint is appropriate."
       }
     },
     {
@@ -943,7 +943,7 @@
       "total_rows": 41877,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The CITY field is logically required as it identifies the city associated with a ZIP code, which is essential for accurate postal addressing. The column description indicates that it pertains to the ZIP code, suggesting that every ZIP code must have a corresponding city. Future records would reasonably require this field to ensure completeness and accuracy in the database."
+        "reasoning": "CITY is a core attribute of a ZIP code record (the city to which the ZIP pertains), not an optional detail. For any ZIP code to be meaningful in this reference table, it must be associated with a city. The description implies every ZIP has a corresponding city, and there is no clear use case where a ZIP row without a city would be valid. The fact that all 41,877 existing rows are non-null supports that this is treated as required, not just coincidentally complete. Therefore CITY should be constrained NOT NULL."
       }
     },
     {
@@ -953,7 +953,7 @@
       "total_rows": 41877,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The STATE column is logically required as it identifies the state associated with the ZIP code, which is essential for accurate geographic representation. The column description indicates that it pertains to the state related to the ZIP code, suggesting it should always be present. Future records would reasonably require this information to maintain data integrity."
+        "reasoning": "STATE is a core attribute of a ZIP code and is needed for correct geographic interpretation and joins (e.g., with SHORT_STATE). Every valid ZIP in the U.S. belongs to exactly one state, so a ZIP record without a state would be incomplete and not practically useful. The description treats it as inherent to the ZIP, not optional metadata. Given the logical requirement and the fully populated existing data, this column should be enforced as NOT NULL rather than treated as coincidentally complete."
       }
     },
     {
@@ -963,7 +963,7 @@
       "total_rows": 41877,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The SHORT_STATE column represents the abbreviation of the state to which the ZIP code pertains. This information is essential for identifying the state associated with a ZIP code, making it logically required for every record. The column description indicates that it is a key attribute related to the ZIP code, and future records would reasonably need this field to maintain data integrity."
+        "reasoning": "SHORT_STATE is the two-letter state abbreviation corresponding to each ZIP code. For any valid U.S. ZIP, a state (and thus its abbreviation) always exists and is a core part of the geographic identity of the ZIP. The table already treats ZIP_CODE as a canonical reference dataset (all 41,877 rows populated), and other columns like CITY/STATE/SHORT_STATE are fundamental attributes rather than optional metadata. It is not meaningful to have a ZIP without knowing its state abbreviation, and future ZIP records should always be created with this value. The fact that 100% of existing rows are non-null aligns with the logical requirement, so a NOT NULL constraint is appropriate rather than coincidental."
       }
     },
     {
@@ -973,7 +973,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EXPENSE_ID is a unique identifier for each record of expense, which logically requires it to be present for every record. As a primary key, it should not allow null values to ensure each expense can be uniquely identified."
+        "reasoning": "EXPENSE_ID is described as a unique identifier for each expense record, which makes it the logical primary key of the EXPENSE table. Primary key/identifier columns must exist for every row to distinguish records and support relationships, so future records should not omit this field. The 100% non-null current data aligns with its conceptual role as a required identifier rather than being coincidentally complete."
       }
     },
     {
@@ -983,7 +983,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EXPENSE_DESCRIPTION field is logically required as it provides essential information about the nature of the expense. The description is crucial for understanding what the funds were spent on, and omitting this information would hinder the clarity and usefulness of the expense records. Therefore, it should have a NOT NULL constraint."
+        "reasoning": "This column is the primary human-readable explanation of what the money was spent for, effectively the core descriptive attribute of an expense record. For auditing, reporting, and distinguishing between expenses, every expense should have at least some description. The name and description imply it is always expected, and it would be unusual and unhelpful to allow an expense with no description at all. The fact that all existing rows are non-null aligns with this logical requirement rather than looking accidental, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -993,7 +993,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EXPENSE_DATE is logically required for each expense record as it indicates when the expense was incurred. The column description specifies that it is the date the expense was incurred, which suggests it is essential for tracking expenses accurately. Future records would reasonably need this field to maintain the integrity of the expense data."
+        "reasoning": "EXPENSE_DATE records when the expense was incurred, which is core to tracking and auditing expenses over time. For any valid expense entry, a date is logically required (for reporting by period, matching to budgets, and verifying approvals). The description treats it as an inherent attribute of every expense, not an optional note. While current completeness alone isn\u2019t proof, the semantics of an expense record make a missing date unreasonable for future rows, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1003,7 +1003,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The COST field represents the dollar amount of the expense, which is essential for understanding the financial implications of each expense record. It is logically required for every expense entry, as an expense without a cost does not make sense. The column description indicates that it is a critical attribute, and future records should not reasonably omit this field."
+        "reasoning": "COST is the core numeric value of an expense record (\u201cThe dollar amount of the expense\u201d). An expense without a cost is not meaningful, and the table already has separate columns for description, date, approval, and links, so there is no clear use case for a costless expense placeholder. The description does not suggest that COST is optional, and all existing rows have values, which aligns with the logical requirement that every expense must have a dollar amount. Therefore COST should be enforced as NOT NULL."
       }
     },
     {
@@ -1013,7 +1013,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LINK_TO_MEMBER column is essential as it links each expense to a specific member, making it a required foreign key for maintaining data integrity. Without this link, it would be impossible to identify who incurred the expense, which is critical for accountability and tracking purposes."
+        "reasoning": "Each expense is defined as being incurred by a specific member (\u201cThe member who incurred the expense\u201d), and this column is also a foreign key to MEMBER. Logically, an expense without a responsible member would be incomplete and hard to manage (e.g., approvals, accountability). The fact that all existing rows are non-null aligns with this business rule rather than looking accidental. Future expenses should always be tied to some member, so LINK_TO_MEMBER should be NOT NULL."
       }
     },
     {
@@ -1023,7 +1023,7 @@
       "total_rows": 32,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LINK_TO_BUDGET column is essential as it serves as a foreign key linking expenses to their corresponding budget entries. Each expense must be associated with a budget to ensure proper tracking and accountability of funds, making this field logically required for every record."
+        "reasoning": "LINK_TO_BUDGET is described as the unique identifier of the related Budget record and explicitly references the Budget table, making it a foreign key that ties each expense to a budget line. Conceptually, an expense without any associated budget entry would be inconsistent with the design (spent and remaining in BUDGET are summarized from EXPENSE). The current data is 100% non-null and the business logic implies every expense should belong to some budget category/event, so this column should be required and constrained as NOT NULL."
       }
     },
     {
@@ -1033,7 +1033,7 @@
       "total_rows": 33,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The MEMBER_ID is a unique identifier for each member, which logically requires it to be present for every record. As a primary key, it should not allow null values to ensure each member can be distinctly identified."
+        "reasoning": "MEMBER_ID is described as the unique id of a member and functions as the logical primary key for the MEMBER table. Every member record must have an identifier to be referenced by other tables (e.g., ATTENDANCE, EXPENSE, INCOME), so allowing NULL would break referential integrity and make it impossible to uniquely identify some members. This is not just coincidentally complete data; by design, every member must have a non-null ID, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1043,7 +1043,7 @@
       "total_rows": 33,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The FIRST_NAME field is logically required for every member record as it is essential for identifying individuals. The column description indicates it is a member's first name, which suggests it should always be present. Future records would reasonably require this field to ensure proper identification and communication."
+        "reasoning": "FIRST_NAME is part of a member\u2019s core identity and is described simply as 'member's first name', implying every member is expected to have one. In most systems, creating a member without at least a first name would be considered incomplete or invalid. The fact that all existing 33 rows are non-null supports that it is treated as required in practice, and there is no indication that first name is optional (unlike, say, notes or secondary contact fields). While some real-world edge cases exist (e.g., single-name individuals), this schema clearly models FIRST_NAME as a standard required attribute, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1053,7 +1053,7 @@
       "total_rows": 33,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LAST_NAME field is logically required as it is a fundamental part of a member's identity. It is unlikely that future records would reasonably omit this field, and the column description implies that it is essential for identifying members."
+        "reasoning": "LAST_NAME is part of a member\u2019s core identity (full name = first_name + last_name per the description). For a student club membership system, every member is expected to have a last name, and it will typically be needed for identification, communication, and disambiguation between members. The 100% non-null data aligns with this logical requirement rather than looking accidental. Future records without a last name would likely be considered incomplete or invalid member records, so enforcing NOT NULL is appropriate."
       }
     },
     {
@@ -1063,7 +1063,7 @@
       "total_rows": 33,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EMAIL field is logically required as it serves as a primary means of communication with members. The column description indicates it is essential for identifying members, and it is reasonable to expect that future records will also require an email address for contact purposes."
+        "reasoning": "EMAIL is the primary electronic contact detail for a member and is described simply as 'member's email', implying each member has one. In a university club context, membership almost always assumes an email address for communication, announcements, and coordination. The fact that all existing 33 records have non-null values supports that this is treated as required, not incidental. It is unlikely that a valid member would legitimately have no email, so enforcing NOT NULL aligns with the intended use and helps maintain data quality."
       }
     },
     {
@@ -1072,8 +1072,8 @@
       "data_type": "VARCHAR",
       "total_rows": 33,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The POSITION field is logically required as it indicates the role of the member within the club, which is essential for understanding member responsibilities and organizational structure. The column description suggests that it is a key attribute of a member, and future records would likely need this information to maintain clarity in member roles."
+        "should_constrain": 0,
+        "reasoning": "POSITION describes the role a member holds in the club, but it is not inherently required for someone to be a member (e.g., general members, new members not yet assigned a role, or records where the role is unknown or not applicable). The description does not state it is mandatory, and many clubs have members without formal positions. The fact that current data is 100% filled likely reflects current data-entry practice, not a strict logical requirement. Future records could reasonably omit this field, so enforcing NOT NULL would be unnecessarily restrictive."
       }
     },
     {
@@ -1083,7 +1083,7 @@
       "total_rows": 33,
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The T_SHIRT_SIZE field is not logically required for every record, as it is an optional attribute related to member preferences. Future records could reasonably omit this field if a member does not wish to specify a t-shirt size."
+        "reasoning": "T_SHIRT_SIZE is a preference/attribute used only when shirts are ordered, not an essential identifier or key. The description does not indicate it is mandatory for membership, and it is easy to imagine valid members for whom a shirt size is unknown or not yet collected. The fact that all 33 current rows are non-null likely reflects current data collection practice, not a strict logical requirement, so future records could reasonably omit this field."
       }
     },
     {
@@ -1092,8 +1092,8 @@
       "data_type": "VARCHAR",
       "total_rows": 33,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The PHONE column is essential for contacting members, making it logically required for every record. The description indicates it is the best telephone to contact the member, suggesting it should always be present. Future records would likely need this information, so a NOT NULL constraint is appropriate."
+        "should_constrain": 0,
+        "reasoning": "PHONE is contact information, not a core identifier. Members can reasonably lack a phone number (e.g., choose not to share it, only provide email, or have no stable number). The description says it is the 'best telephone at which to contact the member', which implies a preferred/primary contact if available, not that it must always exist. The fact that current data is 100% complete is likely coincidental or due to current data entry practice, not a logical requirement. Therefore it should remain nullable."
       }
     },
     {
@@ -1102,8 +1102,8 @@
       "data_type": "INTEGER",
       "total_rows": 33,
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The ZIP column is likely required as it represents the zip code of the member's hometown, which is essential for identifying the member's location. The column description indicates it is a key piece of information, and it is reasonable to expect that every member would have a zip code associated with them."
+        "should_constrain": 0,
+        "reasoning": "ZIP is the member's hometown ZIP code, which is useful but not essential to the existence of a member record. A member can logically exist in the system without a known or provided hometown ZIP (e.g., missing data, international address, or not collected yet). The description does not state it is required, and it is not a key or critical foreign key (the MEMBER table stores ZIP as an integer, not as a declared reference to ZIP_CODE). The fact that current data is 100% complete is likely incidental and does not prove it must always be present, so enforcing NOT NULL would be unnecessarily strict."
       }
     },
     {
@@ -1113,7 +1113,7 @@
       "total_rows": 326,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LINK_TO_EVENT column is a foreign key that links attendance records to specific events. It is logically required for every attendance record to reference an event, making it essential for the integrity of the attendance data. The column description indicates that it is a unique identifier of the event attended, further supporting the need for a NOT NULL constraint."
+        "reasoning": "Each ATTENDANCE record represents a member attending a specific event, and LINK_TO_EVENT is described as the unique identifier of the event attended and a reference to the Event table. An attendance row without an associated event is meaningless, so logically every attendance record must have a valid event reference. The 100% non-null data aligns with this design expectation, and there is no reasonable future case where an attendance record would exist without an event. Therefore LINK_TO_EVENT should be NOT NULL (and ideally part of a foreign key and possibly a composite key with LINK_TO_MEMBER)."
       }
     },
     {
@@ -1123,7 +1123,7 @@
       "total_rows": 326,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LINK_TO_MEMBER column is essential as it serves as a foreign key linking attendance records to members. Each attendance record must reference a member to be meaningful, making this field logically required for every record."
+        "reasoning": "Each ATTENDANCE record represents a member attending an event, and LINK_TO_MEMBER is described as 'The unique identifier of the member who attended the event [References the Member table]'. An attendance row without a member makes no logical sense (you cannot record attendance with no attendee). This is effectively a foreign key to MEMBER and should always be present, so the column should be NOT NULL rather than relying on coincidentally complete data."
       }
     },
     {
@@ -1133,7 +1133,7 @@
       "total_rows": 42,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EVENT_ID is a unique identifier for each event, which logically requires it to be present for every record. As a primary key, it should not allow null values to ensure each event can be distinctly identified."
+        "reasoning": "EVENT_ID is described as a unique identifier for each event and functions as the primary key of the EVENT table. Every event record must have an identifier to be referenced by related tables (e.g., BUDGET, ATTENDANCE). It is not reasonable for any valid EVENT row to omit this value, so it should be enforced as NOT NULL rather than relying on coincidentally complete data."
       }
     },
     {
@@ -1143,7 +1143,7 @@
       "total_rows": 42,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EVENT_NAME field is logically required as it serves as a primary identifier for events. The column description indicates it is essential for understanding what the event is, and it is unlikely that future records would be meaningful without this information."
+        "reasoning": "EVENT_NAME is the human-readable identifier of an event and is essential for understanding and using each EVENT record. The description and sample values show it functions as a required attribute (an event without a name would be unusable in interfaces, reports, or communication). It is not a secondary or optional detail like NOTES; it is core metadata similar to a title. With 100% non-null existing data and no plausible use case for a nameless event, this column should be enforced as NOT NULL rather than treated as coincidentally complete."
       }
     },
     {
@@ -1153,7 +1153,7 @@
       "total_rows": 42,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The EVENT_DATE is logically required for every event record as it indicates when the event takes place. Omitting this field would make it impossible to determine the timing of events, which is essential for event management. The column description supports this requirement, indicating that it is a key attribute of an event."
+        "reasoning": "EVENT_DATE represents when the event took place or is scheduled, which is a core attribute of an event record, not an optional detail. The description and sample values show it is always populated and used to schedule/track events, and it would be difficult to meaningfully have an event with no date at all (even a tentative or placeholder date). While the current completeness alone is not proof, the semantics of an event entity strongly imply every EVENT row should have a date, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1163,7 +1163,7 @@
       "total_rows": 42,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The TYPE column categorizes the event, which is essential for understanding the nature of the event. Given that it serves as a key identifier for the event's purpose and the column description implies it is a required attribute, it should have a NOT NULL constraint to ensure all records have this critical information."
+        "reasoning": "TYPE classifies what kind of event it is (e.g., game, social, election) and is part of the core identity of an event, not an optional detail. The description treats it as a defining attribute, and all existing rows use it consistently. For scheduling, reporting, and budgeting, an event without a type would be ambiguous and hard to use. It is unlikely that a valid event would have no type at all, so future records should be required to provide it; the current 100% completeness supports that this is an intentional requirement rather than coincidence."
       }
     },
     {
@@ -1173,7 +1173,7 @@
       "total_rows": 42,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The STATUS field is logically required as it indicates the current state of the event (Open, Closed, Planning). This information is essential for understanding the event's lifecycle and management. Future records would need this field to determine the event's status, making it necessary to enforce a NOT NULL constraint."
+        "reasoning": "STATUS encodes the lifecycle state of every event (Open/Closed/Planning) and is described as one of three values, implying every event must always be in exactly one of these states. Many business rules (e.g., whether attendance/budget can change) depend on knowing the status, and having a NULL status would mean an undefined lifecycle state. The consistent 100% non-null data aligns with this logical requirement rather than being coincidental, so STATUS should be NOT NULL (with application logic ensuring it is always one of the allowed values)."
       }
     },
     {
@@ -1183,7 +1183,7 @@
       "total_rows": 113,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "MAJOR_ID is a unique identifier for each major, which logically requires it to be present for every record. As a primary key, it should have a NOT NULL constraint to ensure data integrity and uniqueness."
+        "reasoning": "MAJOR_ID is described as a unique identifier for each major and functions as the primary key of the MAJOR table. Every major must have an ID to be referenced by other tables (e.g., MEMBER.LINK_TO_MAJOR), so records without this value would be meaningless and break referential integrity. The 100% non-null data aligns with its logical role as a required identifier, so it should be constrained NOT NULL."
       }
     },
     {
@@ -1193,7 +1193,7 @@
       "total_rows": 113,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The MAJOR_NAME field is logically required as it represents the name of the major, which is essential for identifying the major in the context of the student club. The column description indicates that it is a key attribute of the major, and it is unlikely that a major would exist without a name. Therefore, a NOT NULL constraint is appropriate."
+        "reasoning": "MAJOR_NAME is the human-readable name of the major and is essential to the meaning of each MAJOR record. A major without a name would be unusable in the application and provide no meaningful information beyond the ID. The description treats it as a core attribute, not an optional note, and all existing rows are non-null in a domain where it is hard to justify a nameless major. Future records should not reasonably omit this field, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -1203,7 +1203,7 @@
       "total_rows": 113,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The DEPARTMENT field is logically required as it identifies the department offering the major, which is essential for categorizing majors. The column description implies that this information is necessary for each major, and it is unlikely that a major would exist without an associated department."
+        "reasoning": "Each major must belong to some department (or equivalent academic unit), and the description explicitly defines DEPARTMENT as 'The name of the department that offers the major.' This is a core identifying attribute of a major, not an optional detail. While current completeness alone is not proof, the semantics of the field make it logically required for every major; a major without any offering department would be ill-defined. Therefore a NOT NULL constraint is appropriate, even if some institutions might use a generic unit name (e.g., 'Interdisciplinary Studies Program') when there is no traditional department."
       }
     },
     {
@@ -1213,7 +1213,7 @@
       "total_rows": 113,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The COLLEGE field is logically required as it indicates the academic division that offers the major. This is essential information for categorizing majors and is likely to be necessary for every record in the MAJOR table. The column description supports this requirement, and it is reasonable to expect that future records will also need this information."
+        "reasoning": "Each major must belong to some college by definition of the schema and description ('The name college that houses the department that offers the major'). This is a core classification attribute, not an optional detail. The existing 100% completeness aligns with the logical model: a major without a college would be ill-defined in this system. Future majors should also always be associated with a college, so allowing NULL would represent incomplete or invalid data rather than a legitimate omission."
       }
     }
   ],
@@ -1239,8 +1239,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency INCOME_ID \u2192 DATE_RECEIVED is meaningful as each unique income record should have a specific date received. This relationship is consistent across the observed data and reflects a natural mapping. Since INCOME_ID is a unique identifier for each income record, enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "INCOME_ID is defined as a unique identifier for each income record, so it trivially determines DATE_RECEIVED along with all other columns in the row. This is just the standard primary-key-to-attribute relationship, not a special semantic mapping like code \u2192 name or zip \u2192 city. Enforcing INCOME_ID \u2192 DATE_RECEIVED as a separate functional dependency adds no value beyond the primary key constraint and does not improve query verification."
       }
     },
     {
@@ -1265,7 +1265,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While INCOME_ID is a unique identifier for each income record, the consistent mapping of INCOME_ID to AMOUNT does not indicate a meaningful semantic relationship. The AMOUNT could vary for different records, and enforcing this dependency may not add value for query verification as it is primarily a primary key relationship."
+        "reasoning": "INCOME_ID is a unique identifier for each income record, so it trivially determines AMOUNT along with all other columns. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 description. Enforcing INCOME_ID \u2192 AMOUNT as a separate functional dependency adds no value beyond the primary key constraint and does not improve query verification."
       }
     },
     {
@@ -1290,7 +1290,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping shows consistency, the relationship between INCOME_ID and SOURCE is not meaningful as a functional dependency. The SOURCE can have multiple values (e.g., 'Dues' and 'Fundraising') for different INCOME_IDs, indicating that the dependency is not reliable and could break with future data. Additionally, INCOME_ID is a unique identifier, making this dependency trivial."
+        "reasoning": "INCOME_ID is a unique identifier for each income record, so it trivially determines SOURCE along with all other columns. This is just the normal primary-key behavior, not a semantic mapping like code \u2192 description. Enforcing INCOME_ID \u2192 SOURCE adds no meaningful constraint or query-checking value beyond the primary key, and the relationship is not conceptually one-to-one (a given source like 'Dues' will appear on many different INCOME_IDs)."
       }
     },
     {
@@ -1315,7 +1315,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While INCOME_ID is a unique identifier for each income record, the NOTES field is often null, indicating that there is no consistent mapping of INCOME_ID to a specific value in NOTES. This suggests that the relationship is not meaningful or reliable, as it does not provide useful information for query verification."
+        "reasoning": "INCOME_ID is a unique identifier (effectively the primary key) for each income record, so it will trivially determine NOTES and every other column in the row. This is not a special semantic mapping like code \u2192 description; it\u2019s just the normal behavior of a primary key. Enforcing INCOME_ID \u2192 NOTES as a separate functional dependency would add no meaningful constraint or query-checking value beyond the primary key itself, and the fact that many NOTES are null further suggests it\u2019s optional free text, not something that should be rigidly tied by constraint."
       }
     },
     {
@@ -1339,8 +1339,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency INCOME_ID \u2192 LINK_TO_MEMBER is meaningful as each income record should be associated with exactly one member. This relationship is consistent across the observed data, and enforcing this constraint would help ensure data integrity and verify query correctness. Although there is one instance of LINK_TO_MEMBER being null, it does not negate the overall dependency since it indicates that not all income records must be linked to a member."
+        "should_constrain": 0,
+        "reasoning": "INCOME_ID is a unique identifier for each income record, so it trivially determines LINK_TO_MEMBER along with every other column in the row. This is just the standard primary-key-determines-all-columns relationship, not a special semantic mapping like code \u2192 name. Enforcing this as a separate functional dependency adds no real value beyond the primary key constraint and does not improve query verification."
       }
     },
     {
@@ -1365,7 +1365,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency DATE_RECEIVED \u2192 AMOUNT is not meaningful as it suggests that for each date, there is a fixed amount, which is not a natural mapping relationship. The observed data shows a consistent pattern, but it is likely coincidental and does not reflect a true functional dependency. The same amount can be received on different dates, indicating that DATE_RECEIVED is not a unique identifier for AMOUNT. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "DATE_RECEIVED \u2192 AMOUNT is not a meaningful semantic dependency. The same date can naturally have multiple income records of different amounts (e.g., multiple dues payments or different funding sources on the same day). The current 36-row pattern where each date happens to map to a single amount is likely coincidental and could easily break with future data. DATE_RECEIVED is not described as a unique identifier, and enforcing this constraint would incorrectly prevent valid data rather than add semantic value."
       }
     },
     {
@@ -1390,7 +1390,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency DATE_RECEIVED \u2192 SOURCE is not meaningful as it suggests that each date corresponds to a single source of income, which is not semantically valid. Multiple sources can occur on the same date, making this a coincidental pattern rather than a reliable functional dependency. Additionally, DATE_RECEIVED is not a unique key, and enforcing this constraint would not add value for query verification."
+        "reasoning": "DATE_RECEIVED \u2192 SOURCE is not semantically meaningful. A given date can reasonably have multiple income sources (e.g., dues and fundraising received on the same day), so the current 100% pattern in 36 rows is likely coincidental. DATE_RECEIVED is not a natural key for income records, and enforcing this dependency would be fragile and likely to break with future data, offering little value for query verification."
       }
     },
     {
@@ -1415,7 +1415,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency DATE_RECEIVED \u2192 NOTES is not meaningful as DATE_RECEIVED is not a unique identifier for income records; multiple records can share the same date but have different notes. Additionally, the presence of null values in NOTES suggests that this relationship is coincidental rather than a reliable mapping. Therefore, enforcing this as a constraint would not add value."
+        "reasoning": "DATE_RECEIVED is just the calendar date funds were received, and NOTES is free-text commentary. There is no natural semantic rule that a given date can only ever have one specific notes value; multiple income records on the same date could reasonably have different notes or some with notes and some null. The current 36-row pattern is likely coincidental and not a stable business rule, so enforcing DATE_RECEIVED \u2192 NOTES would be fragile and not meaningfully help with query verification."
       }
     },
     {
@@ -1440,7 +1440,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, the relationship between AMOUNT and SOURCE does not represent a meaningful semantic dependency. The same amount can come from different sources, and thus this dependency is not reliable or unique. Enforcing this constraint would not add value for query verification."
+        "reasoning": "The mapping AMOUNT \u2192 SOURCE is almost certainly coincidental, not semantic. The same dollar amount (e.g., 50 or 200) could reasonably come from multiple sources (dues, different fundraisers, sponsorships, etc.), and future data is very likely to violate this pattern. AMOUNT is not an identifier or code; it\u2019s a numeric measure that naturally repeats across different sources. With only 36 rows, the current 1-to-1 mapping is too weak to justify a constraint and would be brittle rather than helpful for query verification."
       }
     },
     {
@@ -1465,7 +1465,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency AMOUNT \u2192 NOTES is not meaningful as it does not represent a consistent semantic relationship. The NOTES field is free-text and can vary widely for the same AMOUNT, indicating that this is not a reliable functional dependency. Additionally, the AMOUNT is not a primary or unique key, and enforcing this constraint would not add value for query verification."
+        "reasoning": "The amount of income does not semantically determine the notes; many different receipts can have the same dollar amount but different explanations or details. The current 100% pattern over 36 rows is likely coincidental and not a stable business rule. AMOUNT is not a code or identifier, and enforcing AMOUNT \u2192 NOTES would incorrectly prevent multiple distinct income records with the same amount but different notes. This would not add meaningful semantic validation and could easily break with future data."
       }
     },
     {
@@ -1489,8 +1489,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency SOURCE \u2192 NOTES is meaningful as it establishes a clear relationship between the source of income and the associated notes providing context. The observed mapping is consistent, indicating reliability. This relationship is not trivial since SOURCE is not a primary or unique key, and enforcing this constraint would help ensure data integrity and correctness in queries related to income sources."
+        "should_constrain": 0,
+        "reasoning": "SOURCE \u2192 NOTES is not a stable semantic mapping. SOURCE is a general category (e.g., Dues, Fundraising), while NOTES is free-text explanation that can vary by transaction (e.g., different fundraising campaigns, different sponsorship details). The current 1:1 pattern over 36 rows is likely coincidental and could easily break as more income records are added with different notes for the same source. This is not like a code\u2192description relationship and enforcing it would be brittle rather than helpful."
       }
     },
     {
@@ -1514,8 +1514,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 CATEGORY is meaningful as each budget entry should correspond to a specific category of spending. The observed mapping is consistent, and enforcing this constraint would help ensure data integrity and verify query correctness, as each budget ID should uniquely determine its category."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is described as a unique identifier for each budget entry, so it (or the row\u2019s primary key) will already determine CATEGORY and all other columns. That makes BUDGET_ID \u2192 CATEGORY a trivial key-based dependency rather than a semantic mapping like code \u2192 label. Enforcing it as a separate constraint adds no real value beyond the primary key and would create noise rather than useful semantic validation."
       }
     },
     {
@@ -1539,8 +1539,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 SPENT is meaningful because each budget entry (identified by BUDGET_ID) should consistently track the amount spent. This relationship is not just coincidental; it reflects the logical structure of budgeting where each unique budget ID corresponds to a specific amount spent. Enforcing this constraint would help ensure data integrity and verify that the spending amounts are correctly associated with their respective budget entries."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is a unique identifier for each budget entry, so it trivially determines SPENT along with all other columns in the row. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 name. Enforcing BUDGET_ID \u2192 SPENT as a separate functional dependency adds no value beyond the key constraint and would create noise rather than useful semantic validation."
       }
     },
     {
@@ -1564,8 +1564,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 REMAINING is meaningful because each budget entry uniquely determines its remaining amount, which is a critical aspect of budget management. This relationship is consistent across the observed data and reflects a natural mapping that is essential for verifying the correctness of budget calculations. Enforcing this constraint would help ensure data integrity and accuracy in financial reporting."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is a unique identifier for each budget entry, so it trivially determines REMAINING along with all other columns in the row. This is just the normal primary-key-determines-all-columns behavior, not a special semantic mapping like code \u2192 name or zip \u2192 city. Enforcing BUDGET_ID \u2192 REMAINING as a separate functional dependency would add no real value beyond the primary key constraint and would create noise rather than meaningful semantic validation."
       }
     },
     {
@@ -1589,8 +1589,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 AMOUNT is meaningful because each budget entry (identified by BUDGET_ID) has a specific amount allocated, which is a natural mapping relationship. Since BUDGET_ID is a unique identifier for each budget entry, this constraint helps ensure data integrity and can verify query correctness by ensuring that each budget ID consistently maps to its corresponding amount."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is a unique identifier for each budget entry, so it trivially determines AMOUNT along with all other columns in the row. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 description. Enforcing BUDGET_ID \u2192 AMOUNT as a separate functional dependency would add no real value beyond the primary key constraint and would create noise rather than meaningful semantic validation."
       }
     },
     {
@@ -1614,8 +1614,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 EVENT_STATUS is meaningful because each budget entry is associated with a specific event status (Closed, Open, Planning). This relationship is not coincidental, as it reflects the actual state of the budget in relation to the event. Enforcing this constraint would help ensure data integrity and verify query correctness, as it guarantees that each budget ID corresponds to a valid event status."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is described as a unique identifier for each budget entry, so it is (or should be) a primary/unique key. Any column, including EVENT_STATUS, is therefore functionally dependent on BUDGET_ID by definition, which is a trivial key\u2192attribute dependency. This does not represent an additional semantic rule beyond the primary key constraint, and enforcing it separately would add noise rather than value for query verification."
       }
     },
     {
@@ -1639,8 +1639,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BUDGET_ID \u2192 LINK_TO_EVENT is meaningful as each budget entry is uniquely associated with a specific event. This relationship is consistent across the observed data and reflects a natural mapping where each budget is tied to one event. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "BUDGET_ID is a unique identifier for each budget entry, so it will (trivially) determine every other column in BUDGET, including LINK_TO_EVENT. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 name. Enforcing BUDGET_ID \u2192 LINK_TO_EVENT as a separate functional dependency adds no real value beyond the primary key constraint and does not improve query verification, so it should not be modeled as an additional constraint."
       }
     },
     {
@@ -1665,7 +1665,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The relationship between REMAINING and AMOUNT is not a meaningful functional dependency as it appears to be coincidental rather than a consistent semantic relationship. The values of AMOUNT are not uniquely determined by REMAINING, as multiple REMAINING values can correspond to the same AMOUNT. Additionally, the calculation of REMAINING as AMOUNT - SPENT suggests that it is derived rather than a standalone determinant, making this dependency unreliable for future data."
+        "reasoning": "REMAINING is defined as a derived/calculated value (AMOUNT \u2212 SPENT), not a natural identifier. Semantically, AMOUNT determines REMAINING given SPENT, not the other way around. Different budget lines could legitimately have the same remaining amount but different total amounts, so REMAINING \u2192 AMOUNT is not conceptually guaranteed and is likely coincidental in this small sample of 52 rows. Enforcing this as a functional dependency would be fragile and not add meaningful semantic validation."
       }
     },
     {
@@ -1690,7 +1690,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency ZIP_CODE \u2192 TYPE is meaningful as each ZIP code consistently maps to a specific type (Standard, Unique, PO Box) across a large dataset of 41877 rows. This relationship is not coincidental and reflects a semantic mapping that can help verify query correctness, ensuring that the type of ZIP code is accurately represented."
+        "reasoning": "ZIP_CODE \u2192 TYPE is a meaningful semantic dependency: each USPS ZIP code has exactly one type (Standard, PO Box, Unique, etc.). This is analogous to code \u2192 classification, not just a coincidental pattern. It is not merely a primary-key-to-arbitrary-column dependency; TYPE is an inherent attribute of the ZIP code itself and should not vary across rows. With 41,877 rows and 100% consistency, it is highly reliable and aligns with external domain rules. Enforcing this FD would help catch data errors (e.g., a ZIP recorded once as Standard and elsewhere as PO Box) and can be useful for query validation and data quality checks."
       }
     },
     {
@@ -1715,7 +1715,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency ZIP_CODE \u2192 CITY is meaningful as each ZIP code consistently maps to a specific city, which is a reliable semantic relationship. Given the large number of rows (41877), this dependency is unlikely to break in future data. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "reasoning": "ZIP codes are designed to map to a specific USPS-defined place name, so ZIP_CODE \u2192 CITY is a strong semantic code-to-name relationship, not just a coincidence. With 41,877 rows and 100% consistency, it appears reliable. ZIP_CODE is effectively a key in this reference table, but unlike generic PK\u2192column dependencies, this particular mapping (ZIP code to city name) is meaningful for data quality and query verification (e.g., catching invalid city/ZIP combinations), so it is reasonable to enforce as a functional dependency."
       }
     },
     {
@@ -1740,7 +1740,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency ZIP_CODE \u2192 COUNTY is meaningful as it establishes a clear relationship between ZIP codes and their corresponding counties. Although there are some null values for COUNTY, the majority of ZIP_CODE entries have consistent COUNTY mappings, indicating a reliable pattern. This relationship is not trivial, as ZIP_CODE is not a primary key in this context, and enforcing this constraint would help ensure data integrity and verify query correctness regarding geographic information."
+        "reasoning": "ZIP codes are designed to map to a specific geographic area, and in datasets like this they are typically associated with exactly one county (or county-equivalent). With 41,877 rows and 100% consistency, this looks like a stable, semantic code\u2192attribute relationship (ZIP_CODE \u2192 COUNTY), not a coincidence. ZIP_CODE is effectively a key in this reference table, but COUNTY is not a trivial attribute like a free-form note; it encodes geographic hierarchy and is useful for validating data and queries. Null COUNTY values for some ZIPs do not violate the functional dependency (they are still consistently null per ZIP), so the dependency remains meaningful. Enforcing this as a constraint would add value for data quality and query verification."
       }
     },
     {
@@ -1765,7 +1765,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency ZIP_CODE \u2192 STATE is meaningful as each ZIP code corresponds to exactly one state, which is a reliable semantic relationship. Given the large number of rows (41877), this dependency is consistent and not coincidental. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "reasoning": "ZIP codes are geographically defined and each ZIP_CODE naturally belongs to exactly one STATE. This is a stable, semantic code\u2192attribute relationship (like zip_code\u2192city/state), not just a coincidence. Although ZIP_CODE is effectively a key in this reference table, the dependency is meaningful beyond generic PK\u2192column: it encodes real-world geography and can catch data errors (e.g., a ZIP assigned to the wrong state). With 41,877 rows and 100% consistency, it is reliable enough to enforce as a functional dependency."
       }
     },
     {
@@ -1790,7 +1790,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency ZIP_CODE \u2192 SHORT_STATE is meaningful as each ZIP code consistently maps to a specific state abbreviation. This relationship is reliable given the large number of rows (41877) and reflects a natural mapping between ZIP codes and their corresponding state codes. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "reasoning": "In the U.S. ZIP code system, each ZIP code belongs to exactly one state, and SHORT_STATE is the state abbreviation. This is a stable, semantic code\u2192attribute relationship (ZIP_CODE \u2192 SHORT_STATE), not just a coincidence in the sample. ZIP_CODE is naturally unique in this reference table, so while ZIP_CODE as a key trivially determines all columns, the specific dependency to SHORT_STATE is meaningful and reflects real-world postal rules. Enforcing it (or at least modeling it as a documented functional dependency) would help catch data errors where a ZIP is assigned the wrong state abbreviation and would be reliable even as more rows are added."
       }
     },
     {
@@ -1815,7 +1815,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency STATE \u2192 SHORT_STATE is meaningful as each state consistently maps to its corresponding abbreviation. This relationship is reliable across a large dataset (41877 rows) and is not coincidental. Enforcing this constraint would help ensure data integrity and verify query correctness, as it establishes a clear semantic relationship between the full state name and its abbreviation."
+        "reasoning": "STATE \u2192 SHORT_STATE is a stable semantic relationship: each U.S. state name has exactly one official postal abbreviation. This is not based on a primary key, but on a real-world rule (e.g., 'New York' always maps to 'NY'). With 41k+ ZIP rows and 100% consistency, it is very unlikely to be coincidental, and enforcing this FD would help catch data entry errors (e.g., mismatched state name and abbreviation) and support query validation. It is therefore a meaningful dependency worth constraining."
       }
     },
     {
@@ -1839,8 +1839,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EXPENSE_ID is a unique identifier for each expense, and it consistently maps to a single EXPENSE_DESCRIPTION. This is a meaningful semantic relationship as each expense should have a distinct description associated with its ID. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "EXPENSE_ID is a unique identifier, so by definition it functionally determines all other columns in EXPENSE, including EXPENSE_DESCRIPTION. That makes this a trivial key\u2192attribute dependency, not a special semantic mapping like code\u2192name. The description text is free-form and could change (e.g., correcting or clarifying wording), so enforcing EXPENSE_ID \u2192 EXPENSE_DESCRIPTION as a separate constraint adds no real value and could create unnecessary rigidity. With only 32 rows, the observed 100% consistency is expected for a primary key and does not indicate a deeper semantic rule worth constraining."
       }
     },
     {
@@ -1864,8 +1864,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EXPENSE_ID \u2192 EXPENSE_DATE is meaningful because each unique expense ID corresponds to exactly one expense date, indicating a reliable mapping. This relationship is not coincidental, as it reflects the nature of expenses being recorded with a specific date. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents the possibility of having multiple dates for a single expense ID."
+        "should_constrain": 0,
+        "reasoning": "EXPENSE_ID is a unique identifier for each expense, so by design it functionally determines all other columns in EXPENSE, including EXPENSE_DATE. This is a trivial key\u2192attribute dependency, not a special semantic mapping like code\u2192name. The fact it holds for 32 rows is expected from the primary-key role and does not add meaningful validation or query-checking value beyond the existing uniqueness of EXPENSE_ID, so it should not be added as a separate functional dependency constraint."
       }
     },
     {
@@ -1889,8 +1889,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EXPENSE_ID \u2192 COST is meaningful because each unique EXPENSE_ID corresponds to exactly one COST value, which is a natural mapping in the context of expenses. Since EXPENSE_ID is a unique identifier for each expense record, this relationship is reliable and should be enforced as a constraint to ensure data integrity and correctness in queries."
+        "should_constrain": 0,
+        "reasoning": "EXPENSE_ID is a unique identifier for each expense, so it trivially determines COST along with all other columns. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 name. Enforcing EXPENSE_ID \u2192 COST as a separate functional dependency would add no real value beyond the primary key constraint and would create noise rather than meaningful validation."
       }
     },
     {
@@ -1915,7 +1915,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While EXPENSE_ID is a unique identifier for each expense, the APPROVED status can vary and is not guaranteed to be consistent across all records. The observed mapping shows that some expenses are approved while others are not, indicating that the relationship is not meaningful as a functional dependency. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "EXPENSE_ID is a unique identifier, so by definition it functionally determines every other column in the EXPENSE table, including APPROVED. That makes this a trivial key\u2192attribute dependency, not a special semantic relationship like code\u2192name. Enforcing it as a separate functional dependency adds no value beyond the primary key constraint and does not improve query verification; the 100% consistency in 32 rows is just a consequence of uniqueness, not a meaningful mapping to APPROVED."
       }
     },
     {
@@ -1939,8 +1939,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EXPENSE_ID \u2192 LINK_TO_MEMBER is meaningful because each expense is uniquely associated with a member who incurred it. This relationship is consistent across the observed data, and enforcing this constraint would help ensure data integrity and verify query correctness by confirming that each expense is linked to a valid member."
+        "should_constrain": 0,
+        "reasoning": "EXPENSE_ID is a unique identifier for each expense record, so it trivially determines LINK_TO_MEMBER along with every other column in the EXPENSE table. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 name. Enforcing EXPENSE_ID \u2192 LINK_TO_MEMBER as a separate functional dependency would add no real value beyond the primary key constraint and would not improve query verification, so it should not be added as an explicit constraint."
       }
     },
     {
@@ -1964,8 +1964,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EXPENSE_ID \u2192 LINK_TO_BUDGET is meaningful because each expense should be linked to exactly one budget entry, ensuring data integrity. This relationship is consistent across the observed data and reflects a natural mapping in the context of expenses and budgets. Enforcing this constraint would help verify query correctness and maintain the integrity of the data model."
+        "should_constrain": 0,
+        "reasoning": "EXPENSE_ID is (by definition) a unique identifier for each expense, so it will trivially determine LINK_TO_BUDGET along with every other column in the EXPENSE table. This is just the normal primary-key-determines-all-columns dependency, not a special semantic mapping like code \u2192 name. Enforcing EXPENSE_ID \u2192 LINK_TO_BUDGET adds no extra semantic value beyond the primary key constraint and would not meaningfully help with query verification."
       }
     },
     {
@@ -1990,7 +1990,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The relationship between EXPENSE_DESCRIPTION and APPROVED is not meaningful as a functional dependency because the same EXPENSE_DESCRIPTION can have different APPROVED values (e.g., 'Posters' has both true and null). This indicates that the mapping is not consistent and could break with future data, making it unreliable as a constraint."
+        "reasoning": "EXPENSE_DESCRIPTION is free-text describing what was bought, while APPROVED is a business decision that can vary for the same description (e.g., one 'Posters' expense approved, another not). The sample already shows conflicting values for 'Posters' (true and null), so the dependency does not even hold in current data. Even if it appeared consistent in a small sample of 32 rows, it would be coincidental, not a stable semantic mapping like code \u2192 name. Enforcing this as a functional dependency would be incorrect and brittle."
       }
     },
     {
@@ -2015,7 +2015,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The relationship between EXPENSE_DATE and APPROVED is not meaningful as a functional dependency because multiple expenses can occur on the same date, leading to different approval statuses. This suggests that the mapping is coincidental rather than a reliable semantic relationship. Additionally, EXPENSE_DATE is not a unique identifier, which further undermines the validity of this dependency."
+        "reasoning": "Approval status is not semantically determined by the calendar date of the expense. The same date could reasonably have both approved and not-approved expenses in future data, so the current 100% pattern over 32 rows is almost certainly coincidental. EXPENSE_DATE is not a natural key for APPROVED, and enforcing this would create invalid constraints rather than help verify correctness."
       }
     },
     {
@@ -2040,7 +2040,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The relationship between COST and APPROVED appears to be coincidental rather than a meaningful semantic dependency. The same COST can correspond to both approved and unapproved statuses, indicating that COST does not uniquely determine APPROVED. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "COST does not semantically determine whether an expense is APPROVED; approval is a business/authorization decision, not a function of the dollar amount. The sample already shows a violation (COST = 54.25 has both null and 'true'), so even current data is inconsistent. With only 32 rows and no natural rule that a given cost must always have the same approval status, this is clearly coincidental and not a meaningful functional dependency to enforce."
       }
     },
     {
@@ -2064,8 +2064,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 FIRST_NAME is meaningful as each member ID uniquely identifies a member's first name. This is a semantic relationship, and since MEMBER_ID is a primary key, it ensures that the mapping is reliable and consistent across the dataset. Enforcing this constraint would help verify query correctness by ensuring that each member ID corresponds to exactly one first name."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is a unique identifier for each member, so by definition it functionally determines all member attributes, including FIRST_NAME. This is a trivial primary-key-based dependency, not a special semantic mapping like code \u2192 name. Enforcing MEMBER_ID \u2192 FIRST_NAME adds no extra semantic value and would not meaningfully help with query verification beyond the existing key constraint."
       }
     },
     {
@@ -2089,8 +2089,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 LAST_NAME is meaningful as MEMBER_ID is a unique identifier for each member, and it consistently maps to a single LAST_NAME. This relationship is not coincidental, as it reflects the natural mapping of members to their last names. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is a unique identifier for each member, so by definition it functionally determines all member attributes, including LAST_NAME. That makes MEMBER_ID \u2192 LAST_NAME a trivial key-based dependency rather than a special semantic mapping like code \u2192 description. Enforcing it as a separate constraint adds no real value beyond the primary key and would not meaningfully help with query verification, even though it holds for all 33 current rows."
       }
     },
     {
@@ -2114,8 +2114,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 EMAIL is meaningful as each member should have a unique email address associated with their unique identifier. This relationship is reliable given the consistent mapping observed across 33 rows. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents multiple members from having the same email address."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is a unique identifier for each member, so by design it functionally determines all member attributes, including EMAIL. That makes MEMBER_ID \u2192 EMAIL a trivial key-based dependency rather than an additional semantic rule like code \u2192 name. Enforcing it as a separate constraint adds little value beyond the primary key and does not improve query verification, so it is not worth encoding as its own functional dependency."
       }
     },
     {
@@ -2139,8 +2139,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 POSITION is meaningful as it establishes a clear relationship between a member's unique identifier and their role within the club. Although the current data shows some members with the same position, the role of a member can vary, and thus it is not trivial. Enforcing this constraint would help ensure data integrity and verify that each member's position is consistently associated with their unique ID."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is (by definition) a unique identifier for each member, so it trivially determines POSITION along with every other attribute in the MEMBER table. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 description. Enforcing MEMBER_ID \u2192 POSITION as a separate functional dependency would add no real value and would create noise, since any change in a member\u2019s role (e.g., Member \u2192 President) is expected and should not be blocked by a constraint."
       }
     },
     {
@@ -2164,8 +2164,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 T_SHIRT_SIZE is meaningful as each member has a specific t-shirt size associated with their unique identifier. This relationship is consistent across the observed data, and enforcing this constraint would help ensure data integrity and correctness in queries related to member t-shirt sizes."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is (by definition) a unique identifier for each member, so it trivially determines all other member attributes, including T_SHIRT_SIZE. This is not a special semantic mapping like code \u2192 name; it\u2019s just the normal effect of a primary key. T-shirt size can also change over time, so enforcing MEMBER_ID \u2192 T_SHIRT_SIZE as a separate constraint adds no real value and could break with legitimate updates."
       }
     },
     {
@@ -2189,8 +2189,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 PHONE is meaningful as each member should have a unique phone number associated with their unique identifier. This relationship is reliable given the consistent mapping observed across 33 rows, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is (by design) a unique identifier for each member, so it trivially determines PHONE along with all other member attributes. This is not a special semantic mapping like code \u2192 name; it\u2019s just the normal effect of a primary key. Enforcing MEMBER_ID \u2192 PHONE as a separate functional dependency adds no real value and would be redundant with the primary key constraint, even though it holds for all 33 current rows."
       }
     },
     {
@@ -2214,8 +2214,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 ZIP is meaningful as each member should have a unique ZIP code associated with their ID. This relationship is consistent across the observed data and reflects a natural mapping where each member's ID corresponds to their hometown ZIP code. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents the possibility of multiple members sharing the same ZIP code without a valid reason."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is a unique identifier for each member, so it trivially determines all their attributes, including ZIP. This is just the normal primary-key behavior, not a semantic mapping like ZIP \u2192 CITY. Enforcing MEMBER_ID \u2192 ZIP as a separate functional dependency adds no value beyond the primary key and does not help with query verification."
       }
     },
     {
@@ -2239,8 +2239,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MEMBER_ID \u2192 LINK_TO_MAJOR is meaningful as it establishes a relationship between members and their respective majors. Each member should be linked to exactly one major, and the observed data supports this relationship, making it reliable. Although there is a null value for one member, this does not negate the overall dependency for the majority of the data. Enforcing this constraint would help ensure data integrity and verify query correctness regarding member-major associations."
+        "should_constrain": 0,
+        "reasoning": "MEMBER_ID is a unique identifier for each member, so by definition it functionally determines all other member attributes, including LINK_TO_MAJOR. That makes this dependency trivial from a database-design perspective rather than a special semantic mapping like major_id \u2192 major_name. Enforcing MEMBER_ID \u2192 LINK_TO_MAJOR as a separate functional dependency adds no real value beyond the primary key constraint and does not improve query verification, even though it is 100% consistent in the current 33 rows."
       }
     },
     {
@@ -2265,7 +2265,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 LAST_NAME is not meaningful as a functional dependency because first names are not unique identifiers; multiple individuals can share the same first name while having different last names. This relationship is coincidental in the current data and does not represent a reliable mapping that would hold true in future data. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "FIRST_NAME \u2192 LAST_NAME is not a meaningful semantic dependency; many different people can share the same first name but have different last names. The fact that it holds in 33 rows is coincidental and not reliable for future data. Enforcing this would incorrectly prevent valid members with the same first name but different last names from being stored, so it should not be modeled as a functional dependency."
       }
     },
     {
@@ -2290,7 +2290,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, using FIRST_NAME as a determinant for EMAIL is not meaningful as multiple members can share the same first name, leading to potential future conflicts. This dependency is not reliable and does not represent a unique mapping relationship."
+        "reasoning": "FIRST_NAME \u2192 EMAIL is not a meaningful semantic dependency. Many members can share the same first name but must have distinct email addresses, so the observed 1:1 mapping in 33 rows is coincidental and will likely break as data grows. FIRST_NAME is not a key, and enforcing this would incorrectly prevent multiple members with the same first name. This constraint would not add useful semantic validation for queries."
       }
     },
     {
@@ -2315,7 +2315,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 POSITION is not meaningful as a functional dependency because multiple members can share the same first name but have different positions. This is evident from the data where 'Angela', 'Grant', 'Luisa', and others all have the position 'Member', while 'Sacha' is 'President' and 'Phillip' is 'Vice President'. Therefore, this relationship is coincidental and not reliable for future data."
+        "reasoning": "FIRST_NAME does not uniquely determine POSITION in any real-world sense; many different members can share the same first name but hold different positions or statuses. The current 100% consistency over 33 rows is almost certainly coincidental and not a stable business rule. Enforcing FIRST_NAME \u2192 POSITION would be fragile and incorrect, and it would not add meaningful semantic value for query verification."
       }
     },
     {
@@ -2340,7 +2340,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 T_SHIRT_SIZE is not meaningful as a functional dependency because first names are not unique identifiers; multiple members can share the same first name, leading to potential inconsistencies in T_SHIRT_SIZE. This relationship appears coincidental and does not provide a reliable mapping for future data."
+        "reasoning": "First name clearly does not determine T-shirt size in general; many different people can share the same first name but have different sizes. The 100% consistency over 33 rows is almost certainly coincidental to this small dataset, not a stable semantic rule. Enforcing FIRST_NAME \u2192 T_SHIRT_SIZE would be fragile and incorrect for future data and would not add meaningful value for query verification."
       }
     },
     {
@@ -2365,7 +2365,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 PHONE is not meaningful as a functional dependency because first names are not unique identifiers; multiple members can share the same first name, leading to potential ambiguity in phone numbers. This makes the relationship coincidental rather than a reliable mapping. Enforcing this constraint would not add value for query verification."
+        "reasoning": "FIRST_NAME does not uniquely determine PHONE in any real-world sense; many people can share the same first name but have different phone numbers, and the same person can change phone numbers over time. The observed 100% mapping in 33 rows is almost certainly coincidental and not a stable semantic rule. Enforcing FIRST_NAME \u2192 PHONE would be fragile and incorrect, and it would not add meaningful value for query verification."
       }
     },
     {
@@ -2390,7 +2390,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 ZIP is not meaningful as a functional dependency because first names are not unique identifiers; multiple individuals can share the same first name, leading to potential inconsistencies in future data. This relationship appears coincidental in the current sample and does not provide a reliable mapping for query verification."
+        "reasoning": "FIRST_NAME does not semantically determine ZIP; many different people can share the same first name but live in different ZIP codes. The observed 100% mapping in 33 rows is coincidental and not reliable for future data. This is not like a code\u2192name or ID\u2192attribute relationship, and enforcing it would incorrectly restrict valid data rather than help verify correctness."
       }
     },
     {
@@ -2415,7 +2415,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency FIRST_NAME \u2192 LINK_TO_MAJOR is not meaningful as a functional dependency because first names are not unique identifiers; multiple members can share the same first name, leading to potential inconsistencies in future data. Additionally, the presence of a null value for Randy indicates that the relationship is not reliable. This dependency does not represent a semantic relationship like code to name, and enforcing it would not add value for query verification."
+        "reasoning": "FIRST_NAME is not an identifier and many different members can share the same first name but have different majors. The observed 1-to-1 mapping in 33 rows is almost certainly coincidental and not a semantic rule of the domain. Enforcing FIRST_NAME \u2192 LINK_TO_MAJOR would be fragile and quickly violated as data grows, so it should not be modeled as a functional dependency constraint."
       }
     },
     {
@@ -2440,7 +2440,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, using LAST_NAME as a determinant for EMAIL is not meaningful as multiple members can share the same last name, leading to potential conflicts. This dependency is not reliable and does not represent a unique mapping relationship."
+        "reasoning": "LAST_NAME \u2192 EMAIL is not a meaningful semantic dependency. Many members can share the same last name but have different email addresses, so the current 1\u2011to\u20111 pattern in 33 rows is almost certainly coincidental. Enforcing this would break as soon as two members with the same last name join. It is not like a code\u2192name mapping and would not add reliable value for query verification."
       }
     },
     {
@@ -2465,7 +2465,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency LAST_NAME \u2192 POSITION is not meaningful as a functional dependency because a last name does not uniquely determine a position within the member table. Multiple members can share the same last name but hold different positions, indicating that this relationship is coincidental rather than a reliable mapping. Additionally, last names are not unique identifiers, which further undermines the validity of this dependency."
+        "reasoning": "LAST_NAME \u2192 POSITION is not a meaningful semantic dependency. Many different members can share the same last name but hold different positions (e.g., two siblings or unrelated people named Smith could be Member and Treasurer). The current 33-row dataset is too small to treat this as anything but coincidence. LAST_NAME is not a key, and enforcing this would incorrectly prevent valid data where people with the same last name have different positions, so it should not be constrained."
       }
     },
     {
@@ -2490,7 +2490,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency LAST_NAME \u2192 T_SHIRT_SIZE is not meaningful as it is likely coincidental; multiple members can share the same last name but have different t-shirt sizes. This relationship does not represent a unique mapping and could break with future data, making it unreliable for constraint enforcement."
+        "reasoning": "LAST_NAME does not semantically determine T_SHIRT_SIZE; many different people can share a last name but have different shirt sizes. The observed 100% mapping over 33 rows is almost certainly coincidental and not reliable for future data. This is not like a code\u2192name mapping and enforcing it would incorrectly restrict valid data rather than help verify correctness."
       }
     },
     {
@@ -2515,7 +2515,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency LAST_NAME \u2192 PHONE is not meaningful as a functional dependency because last names are not unique identifiers; multiple members can share the same last name, leading to potential conflicts in phone numbers. This relationship appears coincidental in the current data and does not provide a reliable mapping for future data."
+        "reasoning": "A last name does not uniquely determine a phone number in general; many people can share the same last name but have different phones. The 100% consistency over 33 rows is almost certainly coincidental to this small dataset, not a true semantic rule. LAST_NAME is not a key and should not be treated as one, and enforcing LAST_NAME \u2192 PHONE would be fragile and likely to break as more members are added. This dependency would not add meaningful value for query verification."
       }
     },
     {
@@ -2540,7 +2540,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency LAST_NAME \u2192 ZIP is not meaningful as last names do not uniquely determine ZIP codes. Multiple individuals can share the same last name but live in different ZIP code areas, making this a coincidental pattern rather than a reliable functional dependency. Enforcing this constraint would not add value for query verification."
+        "reasoning": "LAST_NAME \u2192 ZIP is almost certainly coincidental in a 33-row sample and not a true semantic rule. Many different people with the same last name can live in different ZIP codes, so enforcing this would be incorrect and fragile. LAST_NAME is not a natural key for a person\u2019s hometown ZIP, and this dependency would likely break as more data is added, so it should not be constrained."
       }
     },
     {
@@ -2565,7 +2565,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency LAST_NAME \u2192 LINK_TO_MAJOR is not meaningful as a functional dependency because last names are not unique identifiers; multiple members can share the same last name, leading to potential inconsistencies. Additionally, the presence of a null value for one last name indicates that this relationship is not reliable or consistent across all data. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "LAST_NAME \u2192 LINK_TO_MAJOR is almost certainly coincidental in a 33-row sample. Many different people can share the same last name but have different majors, so there is no stable semantic rule that a last name determines a major. Enforcing this as a constraint would be fragile and incorrect for realistic data, and it does not represent a natural code\u2192description or similar mapping."
       }
     },
     {
@@ -2590,7 +2590,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, the relationship between EMAIL and POSITION is not inherently meaningful as a functional dependency. The POSITION can vary for different members with different EMAILs, and it is not a unique identifier for the member's role. Additionally, EMAIL is not a primary key in the context of this analysis, and enforcing this dependency may not add significant value for query verification."
+        "reasoning": "EMAIL is effectively a unique identifier for a member, so it will trivially determine POSITION along with all other attributes. However, POSITION is a role that can change over time (e.g., Member \u2192 President, Member \u2192 Inactive), so enforcing EMAIL \u2192 POSITION as a functional dependency would prevent valid updates. The current 100% consistency over 33 rows is likely coincidental and reflects the current state, not a stable semantic rule. This constraint would be both non-robust and not add meaningful value beyond the natural key behavior of EMAIL."
       }
     },
     {
@@ -2615,7 +2615,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent, the relationship between EMAIL and T_SHIRT_SIZE is not inherently meaningful as it does not represent a natural mapping like a code to a name. Additionally, T_SHIRT_SIZE can vary among members, and enforcing this dependency could lead to issues if a member changes their size preference. Therefore, it is not a reliable functional dependency to enforce."
+        "reasoning": "EMAIL is effectively a unique identifier for a member, so it will (trivially) determine all of that member\u2019s attributes, including T_SHIRT_SIZE. However, T_SHIRT_SIZE is not semantically fixed by email in the way a code determines a name; it can change over time and is just one of many attributes of the person. This is therefore a trivial/identifier-based dependency rather than a meaningful semantic one, and enforcing EMAIL \u2192 T_SHIRT_SIZE as a constraint would add little value and could easily be invalidated by future updates."
       }
     },
     {
@@ -2639,8 +2639,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EMAIL column serves as a unique identifier for each member, and it consistently maps to a single PHONE number across the observed data. This suggests a meaningful semantic relationship where each email address is associated with exactly one phone number. Enforcing this constraint would help maintain data integrity and verify query correctness, as it ensures that no two members can have the same email with different phone numbers."
+        "should_constrain": 0,
+        "reasoning": "EMAIL is effectively a unique identifier for a member, so it will trivially determine PHONE in this dataset, but there is no semantic rule that a given email address must always map to exactly one phone number over time. Members can change phone numbers, have multiple phones, or share a phone; enforcing EMAIL \u2192 PHONE would be brittle and not conceptually meaningful beyond the fact that EMAIL is unique. This is therefore a coincidental/trivial dependency rather than a stable semantic one, and it would not add useful query-validation value."
       }
     },
     {
@@ -2664,8 +2664,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EMAIL \u2192 ZIP is meaningful as it suggests a consistent mapping where each email corresponds to a specific ZIP code. Given that the observed mapping is 100% consistent across 33 rows, it indicates reliability. This relationship is not trivial since EMAIL is not a primary key in the context of the MEMBER table, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "EMAIL is effectively a unique identifier for a member, so EMAIL \u2192 ZIP will always hold trivially as long as EMAIL is unique. However, there is no semantic rule that an email address determines a specific hometown ZIP; ZIP is just one attribute of the person and can change over time. The observed 100% consistency over 33 rows is therefore coincidental and not a stable, meaningful mapping like code \u2192 name or zip_code \u2192 city. Enforcing this as a functional dependency would add no real semantic value and could cause issues if a member\u2019s ZIP changes while their email stays the same."
       }
     },
     {
@@ -2689,8 +2689,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EMAIL column serves as a unique identifier for members, and it consistently maps to a LINK_TO_MAJOR value, indicating a meaningful relationship between a member's email and their major. This dependency is not trivial, as it provides a semantic link that can help verify the correctness of queries related to member majors."
+        "should_constrain": 0,
+        "reasoning": "EMAIL is effectively a unique identifier for a member, so EMAIL \u2192 LINK_TO_MAJOR holds trivially because each member has at most one major link. This is not a semantic mapping like code \u2192 description; it\u2019s just an attribute of the member. The dependency could change if a member changes majors or has multiple majors, and enforcing it adds little value beyond a uniqueness constraint on EMAIL itself. With only 33 rows, the pattern may also be coincidental rather than a designed rule."
       }
     },
     {
@@ -2715,7 +2715,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While the observed mapping is consistent in the current data, the relationship between PHONE and ZIP is not semantically meaningful. A phone number does not uniquely determine a ZIP code, as multiple individuals can share the same ZIP code and have different phone numbers. This dependency is likely coincidental and may not hold true with future data, making it unreliable for enforcement as a constraint."
+        "reasoning": "PHONE \u2192 ZIP is not a meaningful semantic dependency. A phone number does not inherently determine a member\u2019s hometown ZIP; people can move, keep the same phone, or share a phone across different ZIPs. The current 33-row dataset is too small to treat this as anything but coincidence. PHONE is also likely to be unique per member, so enforcing this would just encode an accidental pattern and could easily break with future data, without adding real value for query verification."
       }
     },
     {
@@ -2740,7 +2740,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency PHONE \u2192 LINK_TO_MAJOR does not represent a meaningful semantic relationship. While there is a consistent mapping in the current data, the PHONE number is not a unique identifier for a member, as it can be shared or changed. Additionally, the presence of a null LINK_TO_MAJOR for one PHONE indicates that this relationship is not reliable and could break with future data. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "PHONE \u2192 LINK_TO_MAJOR is not a meaningful semantic dependency. A phone number does not determine a student\u2019s major in any real-world sense; the observed 1:1 mapping in 33 rows is almost certainly coincidental. PHONE is also effectively an identifier for a person, so any dependency from it to other attributes would be trivial or near-trivial and not useful as a semantic constraint. Enforcing this could easily break with future data (e.g., a student changing majors, two students sharing a phone, or data entry errors), so it should not be constrained."
       }
     },
     {
@@ -2765,7 +2765,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The dependency ZIP \u2192 LINK_TO_MAJOR does not represent a meaningful semantic relationship. ZIP codes do not inherently determine a specific major, as multiple majors can exist in the same ZIP code area. Additionally, the presence of null values for LINK_TO_MAJOR indicates that not all ZIP codes are associated with a major, further weakening the reliability of this dependency. Therefore, enforcing this as a constraint would not add value for query verification."
+        "reasoning": "ZIP (a geographic attribute) has no semantic reason to determine a member\u2019s major; many students from the same hometown ZIP can and will have different majors. The current 33-row pattern is almost certainly coincidental and will not hold as data grows. Enforcing ZIP \u2192 LINK_TO_MAJOR would be incorrect and brittle, and it is not analogous to a stable code\u2192description mapping. It also does not help with query verification in a meaningful way."
       }
     },
     {
@@ -2789,8 +2789,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "EVENT_ID is a unique identifier for each event, and it consistently maps to a single EVENT_NAME. This is a meaningful semantic relationship, as each event should have a unique name associated with its ID. Enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is already defined as a unique identifier for the event, so it trivially determines EVENT_NAME (and all other columns). While the mapping is semantically reasonable (ID \u2192 name), encoding this as an additional functional dependency adds no value beyond the primary key constraint and would create noise rather than meaningful semantic validation."
       }
     },
     {
@@ -2814,8 +2814,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The EVENT_ID is a unique identifier for each event, and it consistently maps to a single EVENT_DATE across all observed rows. This indicates a meaningful functional dependency, as each event should have a specific date associated with it. Enforcing this constraint would help ensure data integrity and verify query correctness regarding event scheduling."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is already a unique identifier for each event, so it trivially determines EVENT_DATE along with all other columns. This is not a special semantic mapping like code \u2192 name; it\u2019s just the primary key determining an attribute. Enforcing this as a separate functional dependency adds no real value beyond the primary key constraint and would not significantly help with query verification."
       }
     },
     {
@@ -2839,8 +2839,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EVENT_ID \u2192 TYPE is meaningful as each event has a specific type associated with it. Given that EVENT_ID is a unique identifier for events, this relationship is reliable and not coincidental. Enforcing this constraint would help ensure data integrity and verify query correctness, as it guarantees that each event type is consistently associated with its corresponding event ID."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is the unique identifier for each event, so by definition it functionally determines all other event attributes, including TYPE. That makes EVENT_ID \u2192 TYPE a trivial key-based dependency rather than a special semantic mapping like code \u2192 description. Enforcing it as a separate constraint adds no real value beyond the primary key and does not improve query verification."
       }
     },
     {
@@ -2864,8 +2864,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EVENT_ID \u2192 NOTES is meaningful because each event can have specific notes associated with it, and while some notes may be null, the relationship is consistent across the dataset. This constraint helps ensure that for each unique event, there is a clear mapping to its notes, which can aid in query verification and data integrity."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is the unique identifier for each event, so it trivially determines NOTES along with all other columns. NOTES is a free-text, optional description that can change over time and has no inherent one-to-one semantic mapping with the ID beyond the primary-key relationship. Enforcing EVENT_ID \u2192 NOTES adds no meaningful semantic constraint beyond the key and could hinder legitimate updates, so it should not be modeled as a separate functional dependency constraint."
       }
     },
     {
@@ -2889,8 +2889,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EVENT_ID \u2192 LOCATION is meaningful as each event should have a specific location associated with it. Although there are null values for LOCATION, the consistent mapping of EVENT_ID to LOCATION for non-null entries suggests a reliable relationship. Enforcing this constraint would help ensure that every event has a defined location, enhancing data integrity and query correctness."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is a unique identifier for each event, so it trivially determines LOCATION along with all other event attributes. This is just the normal primary-key behavior, not a special semantic mapping like code \u2192 name. Enforcing EVENT_ID \u2192 LOCATION as a separate functional dependency would add no real value beyond the primary key constraint and would create noise rather than meaningful validation."
       }
     },
     {
@@ -2914,8 +2914,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EVENT_ID \u2192 STATUS is meaningful as each event has a specific status (Open, Closed, Planning) that is directly related to its unique identifier. This relationship is consistent across the observed data and reflects a natural mapping. Enforcing this constraint would help ensure data integrity and verify query correctness regarding event statuses."
+        "should_constrain": 0,
+        "reasoning": "EVENT_ID is the unique identifier for each event, so by definition it functionally determines all other event attributes, including STATUS. That makes EVENT_ID \u2192 STATUS a trivial primary-key-based dependency rather than a special semantic mapping like code \u2192 name. Enforcing it as a separate constraint adds no real value beyond the primary key and would not meaningfully help with query verification, even though it holds for all 42 rows."
       }
     },
     {
@@ -2939,8 +2939,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency EVENT_NAME \u2192 TYPE is meaningful as it establishes a clear semantic relationship between event names and their types. The observed mapping is consistent across 42 rows, suggesting reliability. While EVENT_NAME is not a primary key, it provides valuable context for understanding the nature of events, which can enhance query correctness and data integrity."
+        "should_constrain": 0,
+        "reasoning": "EVENT_NAME \u2192 TYPE is not a robust semantic dependency. While the current 42 rows show a 1-to-1 mapping, event names are free-text labels and not guaranteed to be unique or stable over time. Different events with the same name (e.g., recurring 'March Meeting' in different years or contexts) could legitimately have different TYPE values, or the same name could be reused with a different type in the future. This looks coincidental to the current dataset rather than a natural code\u2192description style relationship, so enforcing it as a constraint would be brittle and not meaningfully improve data or query validation."
       }
     },
     {
@@ -2965,7 +2965,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While there is a consistent mapping observed between EVENT_NAME and NOTES, the relationship is not inherently meaningful as EVENT_NAME is not a unique identifier (it can be repeated for different events). Additionally, the presence of null values in NOTES suggests that the relationship is not reliable or necessary for enforcing data integrity. Therefore, this dependency does not warrant a constraint."
+        "reasoning": "EVENT_NAME \u2192 NOTES is not a stable semantic mapping. The same event name (e.g., recurring meetings or annual events with the same title) could reasonably have different notes in different years or instances, and different events with the same name might need distinct notes. The current 42-row consistency is likely coincidental to this dataset and not something that should be enforced as a constraint. It is also not a code/name-style relationship and would not reliably help with query verification in future data."
       }
     },
     {
@@ -2990,7 +2990,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While there is a consistent mapping observed between EVENT_NAME and LOCATION, the presence of null values for some events indicates that the relationship is not universally applicable. Additionally, EVENT_NAME is not a unique identifier, as multiple events can share the same name, making this dependency unreliable and potentially coincidental. Therefore, enforcing this as a functional dependency constraint would not add value."
+        "reasoning": "EVENT_NAME \u2192 LOCATION is not a robust semantic dependency. The same event name (e.g., 'March Meeting', 'Spring Elections') could reasonably occur in different years or semesters at different locations, so enforcing a one-to-one mapping from name to location would likely break with future data. EVENT_NAME is not a stable code-like identifier but a human-readable label that can be reused or changed. The current 42-row consistency is likely coincidental to this dataset and not a reliable business rule, so this constraint would be brittle rather than helpful."
       }
     },
     {
@@ -3015,7 +3015,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "While there is a consistent mapping observed between EVENT_DATE and NOTES, the relationship is not meaningful as EVENT_DATE is not a unique identifier for events. Multiple events can occur on the same date, leading to potential future violations of this dependency. Additionally, the presence of null values in NOTES suggests that the relationship is not reliable or significant enough to enforce as a constraint."
+        "reasoning": "EVENT_DATE \u2192 NOTES is not a meaningful semantic dependency. Multiple events could occur at the same date/time with different notes, or notes could be edited independently of the timestamp. EVENT_DATE is not guaranteed to be unique or a natural key; the true identifier is EVENT_ID. The current 100% consistency over 42 rows is likely coincidental and could easily break with future data, so enforcing this as a constraint would be brittle and not add reliable value for query verification."
       }
     },
     {
@@ -3040,7 +3040,7 @@
       ],
       "decision": {
         "should_constrain": 0,
-        "reasoning": "The relationship between NOTES and LOCATION does not represent a meaningful functional dependency. The NOTES field is not a unique identifier and can have multiple locations associated with it, indicating that the mapping is coincidental rather than a reliable semantic relationship. Additionally, the presence of null values in both columns suggests that this dependency is not consistent across all rows, further weakening the case for enforcing it as a constraint."
+        "reasoning": "NOTES is a free-text description of the event, not a stable code or identifier. The fact that each distinct NOTES value currently appears with only one LOCATION in 42 rows is almost certainly coincidental and could easily break if two events share the same description but occur in different places, or if wording changes slightly. This is not a semantic mapping like code \u2192 name or zip_code \u2192 city, and enforcing it would be brittle and not useful for query verification."
       }
     },
     {
@@ -3064,8 +3064,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "MAJOR_ID is a unique identifier for each major, and it consistently maps to a single MAJOR_NAME. This is a meaningful semantic relationship, as each major ID corresponds to exactly one major name, which is essential for maintaining data integrity and ensuring accurate queries."
+        "should_constrain": 0,
+        "reasoning": "MAJOR_ID is defined as a unique identifier for each major, so by design it functionally determines MAJOR_NAME (and all other columns in MAJOR). This is a primary-key-style dependency and thus semantically trivial rather than an additional business rule. While the mapping is reliable and meaningful (ID \u2192 name), enforcing it as a separate functional dependency adds little value beyond the existing uniqueness/PK constraint on MAJOR_ID and would mostly create noise rather than help with query verification."
       }
     },
     {
@@ -3089,8 +3089,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The MAJOR_ID uniquely determines the DEPARTMENT, as each major is associated with exactly one department. This is a meaningful semantic relationship, and enforcing this constraint would help ensure data integrity and verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "MAJOR_ID is a unique identifier for each major, so by design it functionally determines all other attributes in the MAJOR table, including DEPARTMENT. That makes MAJOR_ID \u2192 DEPARTMENT a trivial key-based dependency rather than a special semantic mapping like code \u2192 name. Enforcing this specific FD adds little value beyond the primary key constraint and does not provide extra semantic validation, so it is not worth encoding as a separate constraint."
       }
     },
     {
@@ -3114,8 +3114,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MAJOR_ID \u2192 COLLEGE is meaningful as each major is associated with exactly one college, which is a semantic relationship. The observed mapping is consistent across all rows, indicating reliability. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents the possibility of a major being incorrectly associated with multiple colleges."
+        "should_constrain": 0,
+        "reasoning": "MAJOR_ID is a unique identifier for each major, so by definition it functionally determines all other attributes in the MAJOR table, including COLLEGE. That makes MAJOR_ID \u2192 COLLEGE a trivial key-based dependency rather than an additional semantic rule like zip_code \u2192 city. Enforcing this specific FD adds no extra integrity beyond the primary-key/uniqueness constraint on MAJOR_ID and would not materially help with query verification."
       }
     },
     {
@@ -3140,7 +3140,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency MAJOR_NAME \u2192 DEPARTMENT is meaningful as each major is consistently associated with a specific department, indicating a clear semantic relationship. The observed mapping is 100% consistent across the current data, suggesting reliability. This constraint would help verify query correctness by ensuring that any given major name always corresponds to the correct department."
+        "reasoning": "Each academic major name is, by design, offered by exactly one department at a given institution, so MAJOR_NAME \u2192 DEPARTMENT is a natural semantic dependency, not just a coincidence. Although MAJOR_ID is the formal key, MAJOR_NAME is effectively a business key and not a trivial determinant like a surrogate ID. With 113 rows and 100% consistency, it is reasonable to enforce this as a constraint (or at least document it), and it can help catch data-entry errors (e.g., assigning a major to the wrong department) and validate query results. The main caveat is that if the university later reorganizes and moves a major to a different department over time, the model would need to represent history explicitly; but for a static catalog-style table, the dependency is appropriate."
       }
     },
     {
@@ -3165,7 +3165,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency MAJOR_NAME \u2192 COLLEGE is meaningful as each major is consistently associated with a specific college, indicating a reliable semantic relationship. This mapping is not coincidental, as it reflects the organizational structure of the academic institution. Enforcing this constraint would help ensure data integrity and verify query correctness regarding the relationship between majors and their respective colleges."
+        "reasoning": "Each major name is inherently offered by exactly one college at a given institution, so MAJOR_NAME \u2192 COLLEGE is a natural semantic dependency, not just a coincidence. MAJOR_NAME is not declared as the primary key (MAJOR_ID is), so this is not a trivial PK-based dependency. With 113 rows and 100% consistency, plus the real-world meaning of majors and colleges, it is reasonable to enforce this as a constraint to catch data-entry errors (e.g., assigning the same major name to two different colleges) and to support query validation. The only caveat is that if the institution\u2019s structure changes over time (a major moves colleges), you would need to model that temporally; but within the current design, the dependency is meaningful and appropriate to constrain."
       }
     },
     {
@@ -3190,7 +3190,7 @@
       ],
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The dependency DEPARTMENT \u2192 COLLEGE is meaningful as each department is consistently associated with a specific college, indicating a clear semantic relationship. This mapping is reliable with 100% consistency in the observed data, suggesting it is not coincidental. Enforcing this constraint would help ensure data integrity and verify query correctness regarding the relationship between departments and their respective colleges."
+        "reasoning": "In a university context, each academic department is housed in exactly one college, so DEPARTMENT \u2192 COLLEGE is a natural, semantic relationship rather than a coincidence. DEPARTMENT is not the primary key (MAJOR_ID is), so this is not a trivial PK-based dependency. With 113 rows and 100% consistency, plus strong domain knowledge, it is reasonable to enforce this as a constraint; it would help catch data-entry errors (e.g., assigning a department to the wrong college) and support query validation. The only caveat is organizational changes over time (departments moving between colleges), but if the table represents the current structure rather than historical states, the dependency is appropriate to enforce."
       }
     }
   ]

@@ -14,7 +14,7 @@
       "category_count": 3,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The BOND_TYPE column has a limited and known set of valid values ('-', '=', '#') representing bond types. Given that there are only 3 unique values across 12379 rows, it is reasonable to conclude that this is a complete enumeration of bond types, making an IN constraint appropriate."
+        "reasoning": "BOND_TYPE is explicitly described as the type of chemical bond with commonsense evidence listing '-' (single), '=' (double), and '#' (triple). Chemically, these are the standard covalent bond orders represented this way in such datasets, and the description presents them as the defined code set, not as examples. With 12,379 rows and only these 3 values, plus the domain semantics, this is a true enumerated type. New categories are unlikely without a schema/encoding change, so an IN constraint on ('-','=', '#') is appropriate and not overly limiting."
       }
     },
     {
@@ -28,7 +28,7 @@
       "category_count": 2,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LABEL column has only 2 unique values ('+' and '-') and represents a clear binary categorization of whether a molecule is carcinogenic or not. This indicates a controlled vocabulary, making it appropriate to enforce an IN constraint."
+        "reasoning": "LABEL is explicitly described as a binary indicator of carcinogenicity: '+' means carcinogenic and '-' means not carcinogenic. This is a true, closed enumeration (yes/no flag), not an open-ended category. The domain is conceptually limited to these two values, and adding more categories (e.g., 'unknown', 'suspected') would represent a schema change rather than natural data variation. With only 2 well-defined semantic states and documentation matching the observed values, an IN constraint (LABEL IN ('+','-')) is appropriate and not overly limiting."
       }
     },
     {
@@ -61,7 +61,7 @@
       "category_count": 21,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ELEMENT column contains a limited and defined set of chemical elements, which are well-known and unlikely to change. The unique values provided represent a comprehensive list of common elements in toxicology, making it a true categorical column suitable for an IN constraint."
+        "reasoning": "ELEMENT is inherently categorical (chemical element symbols). The description explicitly lists a controlled set of element codes used in this toxicology context (cl, c, h, o, s, n, p, na, br, f, i, sn, pb, te, ca). The data shows a small, plausible extension of that list (zn, si, b, k, cu, y), all of which are valid element symbols. While the periodic table has more elements, in this domain the set of allowed symbols is intentionally limited and well-defined. New arbitrary strings are not expected; any future additions would be other valid element symbols and could be handled by updating the IN list. Thus, treating ELEMENT as an enumerated domain with an IN (or CHECK) constraint over the known element symbols is appropriate and not just reflecting sparse data."
       }
     }
   ],
@@ -73,7 +73,7 @@
       "total_rows": 12379,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "BOND_ID serves as a unique identifier for bonds, which is essential for distinguishing between different bonds in the database. As a primary key-like field, it is logically required for every record to ensure data integrity and proper relationships between atoms and bonds. The column description indicates that it is a unique id representing bonds, further supporting the necessity of this field."
+        "reasoning": "BOND_ID is described as the unique id representing bonds and is used to identify each bond and link it from the CONNECTED table. As a logical primary key and foreign key target, every bond record must have a BOND_ID to be meaningful; a bond without an ID could not be referenced or distinguished. The 100% non-null data aligns with this design expectation, and there is no reasonable scenario where a bond row would intentionally omit its unique identifier. Therefore it should be constrained NOT NULL."
       }
     },
     {
@@ -83,7 +83,7 @@
       "total_rows": 12379,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The MOLECULE_ID is essential for identifying the molecule in which the bond appears, making it a required field for every record in the BOND table. The column description indicates its importance, and logically, a bond cannot exist without being associated with a molecule."
+        "reasoning": "MOLECULE_ID in BOND identifies the molecule in which the bond appears, effectively acting as a foreign key to MOLECULE.MOLECULE_ID. A bond without an associated molecule is not meaningful in this schema, and every bond must belong to exactly one molecule. The description and relational role both indicate this field is logically required for every bond record, so it should be constrained NOT NULL rather than treated as optionally empty."
       }
     },
     {
@@ -93,7 +93,7 @@
       "total_rows": 343,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The MOLECULE_ID serves as a unique identifier for each molecule, making it essential for distinguishing between different records. The column description indicates that it is a unique id of the molecule, which logically requires it to be present for every record. Future records would need this identifier to maintain data integrity and relationships with other tables."
+        "reasoning": "MOLECULE_ID is described as the unique id of the molecule and is referenced as a foreign key from ATOM and BOND. As the primary identifier of each molecule, every MOLECULE row must have a value for this column to be meaningful or linkable. Future records without a MOLECULE_ID would be unusable and break relationships, so this column should be enforced as NOT NULL rather than treating current completeness as coincidental."
       }
     },
     {
@@ -103,7 +103,7 @@
       "total_rows": 343,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The LABEL column indicates whether a molecule is carcinogenic or not, which is essential information for each molecule record. Given its significance in toxicology, it is logically required for every record, and future records should not reasonably omit this field."
+        "reasoning": "LABEL encodes the core property of each molecule\u2014whether it is carcinogenic or not\u2014and is effectively the target/label of the dataset. The description defines it as a categorical yes/no attribute (values '+' or '-'), with no indication that it is optional or unknown for some molecules. Since every molecule conceptually must either be carcinogenic or not, and all existing rows are labeled, future records without a label would be incomplete for the intended use of this table. Therefore LABEL should be required and constrained as NOT NULL."
       }
     },
     {
@@ -113,7 +113,7 @@
       "total_rows": 12333,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATOM_ID is the unique identifier for atoms, which logically makes it required for every record in the ATOM table. As a primary key, it should not allow null values to ensure each atom can be uniquely identified. The column description supports this requirement, indicating that it is essential for identifying atoms."
+        "reasoning": "ATOM_ID is described as the unique id of atoms and is used as a key reference in the CONNECTED table, so every atom logically must have an identifier. As a primary/foreign key-like field, it should never be missing, and future records without an ATOM_ID would be invalid. The 100% non-null data aligns with this logical requirement rather than being coincidental."
       }
     },
     {
@@ -123,7 +123,7 @@
       "total_rows": 12333,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The MOLECULE_ID field is logically required as it identifies the molecule to which the atom belongs. Given that it serves as a foreign key linking atoms to their respective molecules, it is essential for maintaining the integrity of the data. Future records would not make sense without this identifier, as each atom must be associated with a molecule."
+        "reasoning": "Each atom must belong to a molecule; the description explicitly says this column identifies the molecule to which the atom belongs, and ATOM.MOLECULE_ID is effectively a foreign key to MOLECULE.MOLECULE_ID. An atom without an associated molecule would be meaningless in this schema, so future records should not omit it. The 100% non-null data aligns with this logical requirement, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -133,7 +133,7 @@
       "total_rows": 12333,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ELEMENT column is logically required as it represents the specific element of the atom, which is essential for identifying the atom's properties. The column description indicates that it is a fundamental attribute of the atom, and it is unlikely that future records would be valid without this information."
+        "reasoning": "ELEMENT is the core attribute that defines what each ATOM record actually is; an atom without an element is meaningless in this schema. The description lists specific allowed elements and treats this as an inherent property of every atom, not an optional annotation. ATOM_ID and MOLECULE_ID identify where the atom is, while ELEMENT is required to describe what it is. Given the domain (chemical structures), there is no sensible case where an atom would exist without a known element, so future records should not omit this field. The fact that 100% of existing rows are non-null is consistent with this logical requirement rather than a coincidence, so a NOT NULL constraint is appropriate."
       }
     },
     {
@@ -143,7 +143,7 @@
       "total_rows": 24758,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATOM_ID column is essential for identifying the first atom in a connection, making it logically required for every record in the CONNECTED table. The column description indicates it is a key identifier, and the absence of this field would render the record incomplete. Therefore, a NOT NULL constraint is appropriate."
+        "reasoning": "CONNECTED represents a relationship between two atoms via a bond; ATOM_ID is the id of the first atom in that relationship. A connection without a first atom is meaningless, so every CONNECTED row logically requires this value. It also functions as a foreign key to ATOM. The 100% non-null data aligns with this logical requirement, and there is no reasonable future case where a connection record would omit ATOM_ID. Therefore it should be constrained NOT NULL."
       }
     },
     {
@@ -153,7 +153,7 @@
       "total_rows": 24758,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The ATOM_ID2 column represents the id of the second atom in a connection, which is essential for defining the relationship between two atoms. Since it is a foreign key that identifies a required entity in the context of the CONNECTED table, it should have a NOT NULL constraint to ensure data integrity and prevent future records from being created without this critical information."
+        "reasoning": "CONNECTED represents a bond between two atoms, and ATOM_ID2 is the id of the second atom in that bond. A bond without a second atom is not meaningful, so every CONNECTED row logically requires both ATOM_ID and ATOM_ID2. The description explicitly defines it as the id of the second atom in the bond, not as an optional attribute. Future valid records should always specify this, so a NOT NULL constraint is appropriate rather than the current completeness being coincidental."
       }
     },
     {
@@ -163,7 +163,7 @@
       "total_rows": 24758,
       "decision": {
         "should_constrain": 1,
-        "reasoning": "The BOND_ID column is essential as it represents the bond between two atoms, making it a critical identifier for the records in the CONNECTED table. Given that it serves as a foreign key linking to the BOND table, it is logically required for every record to maintain data integrity. Future records would not make sense without a valid BOND_ID, thus a NOT NULL constraint is warranted."
+        "reasoning": "CONNECTED represents relationships between two atoms via a specific bond. BOND_ID is the identifier of that bond and effectively acts as a foreign key to BOND.BOND_ID. A connection without a bond is not meaningful in this schema, and the description explicitly defines BOND_ID as 'bond id representing bond between two atoms'. Therefore every CONNECTED row logically requires a BOND_ID, and future records should not omit it; a NOT NULL constraint is appropriate."
       }
     }
   ],
@@ -189,8 +189,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BOND_ID \u2192 MOLECULE_ID is meaningful because each bond is uniquely associated with a specific molecule, as indicated by the consistent mapping observed in the data. This relationship is not trivial, as it provides semantic value by linking bonds to their respective molecules, which is crucial for understanding molecular structures in toxicology. Enforcing this constraint would enhance data integrity and help verify query correctness."
+        "should_constrain": 0,
+        "reasoning": "BOND_ID is already a unique identifier for a bond, and by design it encodes the molecule (TRXXX) plus atom indices, so it will always determine MOLECULE_ID. This is effectively a primary-key-style dependency (ID \u2192 attributes) rather than a higher-level semantic mapping like code \u2192 name. Enforcing BOND_ID \u2192 MOLECULE_ID adds little semantic value beyond the existing key design and is tightly coupled to the current encoding scheme of BOND_ID, which could change in the future. Therefore it is not a meaningful additional constraint to enforce at the schema level."
       }
     },
     {
@@ -214,8 +214,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency BOND_ID \u2192 BOND_TYPE is meaningful as each bond ID consistently maps to a specific bond type, indicating a clear semantic relationship. This mapping is reliable with 12379 rows and would help ensure data integrity and correctness in queries related to bond types."
+        "should_constrain": 0,
+        "reasoning": "BOND_ID is effectively a unique identifier for each bond (it encodes molecule and atom pair), so it will trivially determine all bond attributes, including BOND_TYPE. This is a primary-key-like relationship, not a separate semantic mapping like code \u2192 description. Enforcing BOND_ID \u2192 BOND_TYPE adds little value beyond the uniqueness of BOND_ID and is unlikely to catch meaningful data or query errors beyond what a primary key constraint already provides."
       }
     },
     {
@@ -239,8 +239,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency MOLECULE_ID \u2192 LABEL is meaningful as it indicates whether a molecule is carcinogenic or not, which is a significant semantic relationship. The observed mapping is consistent across all rows, suggesting reliability. Since MOLECULE_ID is a unique identifier for each molecule, enforcing this constraint would help ensure data integrity and verify query correctness regarding the carcinogenic status of molecules."
+        "should_constrain": 0,
+        "reasoning": "MOLECULE_ID is described as a unique id of the molecule, so it is (or should be) a primary/unique key. As such, MOLECULE_ID \u2192 LABEL is a trivial consequence of key uniqueness and does not add new semantic information beyond the primary key constraint. The mapping is reliable but not especially meaningful beyond the fact that each molecule has exactly one carcinogenicity label, which is already implied by treating MOLECULE_ID as the identifier. Enforcing this as a separate functional dependency would add little value for query verification and mostly duplicate key semantics."
       }
     },
     {
@@ -264,8 +264,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ATOM_ID \u2192 MOLECULE_ID is meaningful because each unique atom is consistently associated with a specific molecule, indicating a strong semantic relationship. This mapping is reliable given the total of 12333 rows and the observed consistency. Enforcing this constraint would help ensure data integrity and verify query correctness, as it prevents the possibility of an atom being incorrectly associated with multiple molecules."
+        "should_constrain": 0,
+        "reasoning": "ATOM_ID is described as a unique identifier for atoms, so it is (or should be) a key that already determines all other columns in ATOM, including MOLECULE_ID. The observed pattern (TRXXX_i \u2192 TRXXX) is consistent with the naming convention and not an independent semantic mapping like code \u2192 description; it is effectively part of the key design. Adding a separate functional dependency constraint ATOM_ID \u2192 MOLECULE_ID would be trivial and add little semantic value beyond the primary key constraint, even though it is very likely to hold in future data."
       }
     },
     {
@@ -289,8 +289,8 @@
         }
       ],
       "decision": {
-        "should_constrain": 1,
-        "reasoning": "The dependency ATOM_ID \u2192 ELEMENT is meaningful as each unique ATOM_ID consistently maps to a specific ELEMENT, indicating a clear semantic relationship. This mapping is reliable with 12333 rows and is not just a coincidence. Enforcing this constraint would help ensure data integrity and verify query correctness, as it guarantees that each atom is associated with exactly one element."
+        "should_constrain": 0,
+        "reasoning": "ATOM_ID is described as a unique identifier for atoms, so it is (or should be) a key. Any key functionally determines all other columns in its row, including ELEMENT, making ATOM_ID \u2192 ELEMENT a trivial key-based dependency rather than a separate semantic mapping like code \u2192 description. Enforcing this as an explicit FD adds little value beyond the primary key constraint and does not capture an additional business rule; it is simply restating that each row\u2019s non-key attributes are determined by its unique ID."
       }
     }
   ]

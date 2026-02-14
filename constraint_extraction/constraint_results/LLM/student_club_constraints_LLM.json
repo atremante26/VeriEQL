@@ -154,8 +154,8 @@
           {
             "value": "BUDGET__SPENT"
           },
-          0.0,
-          327.07
+          0,
+          1e+308
         ]
       },
       {
@@ -163,8 +163,8 @@
           {
             "value": "BUDGET__REMAINING"
           },
-          -1e+308,
-          0
+          -24.25,
+          150.0
         ]
       },
       {
@@ -172,8 +172,8 @@
           {
             "value": "BUDGET__AMOUNT"
           },
-          10,
-          350
+          0,
+          2147483647
         ]
       },
       {
@@ -181,7 +181,7 @@
           {
             "value": "ZIP_CODE__ZIP_CODE"
           },
-          10000,
+          0,
           99999
         ]
       },
@@ -199,35 +199,8 @@
           {
             "value": "MEMBER__ZIP"
           },
-          1000,
+          0,
           99999
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "INCOME__SOURCE"
-          },
-          [
-            "Dues",
-            "Fundraising",
-            "School Appropration",
-            "Sponsorship"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "BUDGET__CATEGORY"
-          },
-          [
-            "Advertisement",
-            "Food",
-            "Speaker Gifts",
-            "Parking",
-            "Club T-Shirts"
-          ]
         ]
       },
       {
@@ -285,46 +258,12 @@
       {
         "in": [
           {
-            "value": "EVENT__TYPE"
-          },
-          [
-            "Meeting",
-            "Election",
-            "Game",
-            "Guest Speaker",
-            "Social",
-            "Registration",
-            "Community Service",
-            "Budget"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "EVENT__STATUS"
           },
           [
             "Open",
             "Planning",
             "Closed"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MAJOR__COLLEGE"
-          },
-          [
-            "College of Agriculture and Applied Sciences",
-            "College of Natural Resources",
-            "School of Business",
-            "College of Engineering",
-            "College of Humanities and Social Sciences",
-            "College of Science",
-            "College of Education & Human Services",
-            "College of the Arts"
           ]
         ]
       },
@@ -460,21 +399,6 @@
       },
       {
         "not_null": {
-          "value": "MEMBER__POSITION"
-        }
-      },
-      {
-        "not_null": {
-          "value": "MEMBER__PHONE"
-        }
-      },
-      {
-        "not_null": {
-          "value": "MEMBER__ZIP"
-        }
-      },
-      {
-        "not_null": {
           "value": "ATTENDANCE__LINK_TO_EVENT"
         }
       },
@@ -531,78 +455,6 @@
       {
         "dependency": {
           "values": [
-            "INCOME__INCOME_ID",
-            "INCOME__DATE_RECEIVED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "INCOME__INCOME_ID",
-            "INCOME__LINK_TO_MEMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "INCOME__SOURCE",
-            "INCOME__NOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__CATEGORY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__SPENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__REMAINING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__EVENT_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__LINK_TO_EVENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "ZIP_CODE__ZIP_CODE",
             "ZIP_CODE__TYPE"
           ]
@@ -645,214 +497,6 @@
           "values": [
             "ZIP_CODE__STATE",
             "ZIP_CODE__SHORT_STATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__EXPENSE_DESCRIPTION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__EXPENSE_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__COST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__LINK_TO_MEMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__LINK_TO_BUDGET"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__FIRST_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__LAST_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__EMAIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__POSITION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__T_SHIRT_SIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__PHONE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__ZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__LINK_TO_MAJOR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__PHONE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__ZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__LINK_TO_MAJOR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__EVENT_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__EVENT_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__NOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_NAME",
-            "EVENT__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__MAJOR_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__DEPARTMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__COLLEGE"
           ]
         }
       },

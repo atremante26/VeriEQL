@@ -43,8 +43,8 @@
           {
             "value": "LABORATORY__ID"
           },
-          27654,
-          5452747
+          1,
+          2147483647
         ]
       },
       {
@@ -53,7 +53,7 @@
             "value": "LABORATORY__GOT"
           },
           0,
-          60
+          2147483647
         ]
       },
       {
@@ -62,7 +62,7 @@
             "value": "LABORATORY__GPT"
           },
           0,
-          60
+          2147483647
         ]
       },
       {
@@ -71,7 +71,7 @@
             "value": "LABORATORY__LDH"
           },
           0,
-          500
+          2147483647
         ]
       },
       {
@@ -80,7 +80,7 @@
             "value": "LABORATORY__ALP"
           },
           0,
-          300
+          2147483647
         ]
       },
       {
@@ -88,8 +88,8 @@
           {
             "value": "LABORATORY__TP"
           },
-          6.0,
-          8.5
+          0.0,
+          1e+308
         ]
       },
       {
@@ -97,8 +97,8 @@
           {
             "value": "LABORATORY__ALB"
           },
-          3.5,
-          5.5
+          0,
+          1e+308
         ]
       },
       {
@@ -106,7 +106,7 @@
           {
             "value": "LABORATORY__UA"
           },
-          6.5,
+          0,
           1e+308
         ]
       },
@@ -116,7 +116,7 @@
             "value": "LABORATORY__UN"
           },
           0,
-          152
+          2147483647
         ]
       },
       {
@@ -125,7 +125,7 @@
             "value": "LABORATORY__CRE"
           },
           0,
-          1.5
+          1e+308
         ]
       },
       {
@@ -134,7 +134,7 @@
             "value": "LABORATORY__T_BIL"
           },
           0,
-          2
+          1e+308
         ]
       },
       {
@@ -142,8 +142,8 @@
           {
             "value": "LABORATORY__T_CHO"
           },
-          -2147483648,
-          250
+          0,
+          2147483647
         ]
       },
       {
@@ -152,7 +152,7 @@
             "value": "LABORATORY__TG"
           },
           0,
-          200
+          2147483647
         ]
       },
       {
@@ -161,7 +161,7 @@
             "value": "LABORATORY__CPK"
           },
           0,
-          250
+          2147483647
         ]
       },
       {
@@ -170,7 +170,7 @@
             "value": "LABORATORY__GLU"
           },
           0,
-          180
+          2147483647
         ]
       },
       {
@@ -178,8 +178,8 @@
           {
             "value": "LABORATORY__WBC"
           },
-          3.5,
-          9.0
+          0,
+          1e+308
         ]
       },
       {
@@ -187,8 +187,8 @@
           {
             "value": "LABORATORY__RBC"
           },
-          3.5,
-          6.0
+          0,
+          1e+308
         ]
       },
       {
@@ -196,8 +196,8 @@
           {
             "value": "LABORATORY__HGB"
           },
-          10,
-          17
+          0,
+          1e+308
         ]
       },
       {
@@ -205,8 +205,8 @@
           {
             "value": "LABORATORY__HCT"
           },
-          29,
-          52
+          0,
+          100
         ]
       },
       {
@@ -214,8 +214,8 @@
           {
             "value": "LABORATORY__PLT"
           },
-          100,
-          400
+          0,
+          2147483647
         ]
       },
       {
@@ -223,8 +223,8 @@
           {
             "value": "LABORATORY__PT"
           },
-          -1e+308,
-          14
+          0,
+          1e+308
         ]
       },
       {
@@ -233,7 +233,7 @@
             "value": "LABORATORY__APTT"
           },
           0,
-          45
+          2147483647
         ]
       },
       {
@@ -241,8 +241,8 @@
           {
             "value": "LABORATORY__FG"
           },
-          150,
-          450
+          0,
+          1e+308
         ]
       },
       {
@@ -250,8 +250,8 @@
           {
             "value": "LABORATORY__PIC"
           },
-          114,
-          700
+          0,
+          1039
         ]
       },
       {
@@ -260,7 +260,7 @@
             "value": "LABORATORY__TAT"
           },
           0,
-          200
+          267
         ]
       },
       {
@@ -268,8 +268,8 @@
           {
             "value": "LABORATORY__TAT2"
           },
-          0,
-          200
+          22,
+          214
         ]
       },
       {
@@ -277,8 +277,8 @@
           {
             "value": "LABORATORY__IGG"
           },
-          900,
-          2000
+          0,
+          2147483647
         ]
       },
       {
@@ -286,8 +286,8 @@
           {
             "value": "LABORATORY__IGA"
           },
-          80,
-          500
+          0,
+          2147483647
         ]
       },
       {
@@ -295,8 +295,8 @@
           {
             "value": "LABORATORY__IGM"
           },
-          40,
-          400
+          0,
+          2147483647
         ]
       },
       {
@@ -304,7 +304,7 @@
           {
             "value": "LABORATORY__C3"
           },
-          35,
+          0,
           2147483647
         ]
       },
@@ -313,7 +313,7 @@
           {
             "value": "LABORATORY__C4"
           },
-          10,
+          0,
           2147483647
         ]
       },
@@ -331,8 +331,8 @@
           {
             "value": "EXAMINATION__ID"
           },
-          14872,
-          9334040
+          1,
+          2147483647
         ]
       },
       {
@@ -341,7 +341,7 @@
             "value": "EXAMINATION__ACL_IGG"
           },
           0,
-          2000
+          1e+308
         ]
       },
       {
@@ -350,7 +350,7 @@
             "value": "EXAMINATION__ACL_IGM"
           },
           0,
-          40
+          1e+308
         ]
       },
       {
@@ -359,7 +359,7 @@
             "value": "EXAMINATION__ANA"
           },
           0,
-          4096
+          2147483647
         ]
       },
       {
@@ -368,7 +368,7 @@
             "value": "EXAMINATION__ACL_IGA"
           },
           0,
-          500
+          2147483647
         ]
       },
       {
@@ -378,6 +378,31 @@
           },
           0,
           3
+        ]
+      },
+      {
+        "in": [
+          {
+            "value": "LABORATORY__U_PRO"
+          },
+          [
+            "-",
+            "0",
+            "TR",
+            "1",
+            "2",
+            "30",
+            "100",
+            "300",
+            ">=300",
+            "3",
+            "%%",
+            "-15",
+            "4",
+            ">=1000",
+            "+1(30)",
+            "+2(100)"
+          ]
         ]
       },
       {
@@ -422,36 +447,6 @@
             "negative",
             "2",
             "8"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LABORATORY__SC170"
-          },
-          [
-            "16",
-            "1",
-            "0",
-            "negative",
-            "4"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LABORATORY__SSA"
-          },
-          [
-            "0",
-            "negative",
-            "16",
-            "4",
-            "256",
-            "1",
-            "64"
           ]
         ]
       },
@@ -591,120 +586,7 @@
       },
       {
         "not_null": {
-          "value": "PATIENT__SEX"
-        }
-      },
-      {
-        "not_null": {
-          "value": "PATIENT__DIAGNOSIS"
-        }
-      },
-      {
-        "not_null": {
-          "value": "EXAMINATION__ACL_IGG"
-        }
-      },
-      {
-        "not_null": {
-          "value": "EXAMINATION__ACL_IGM"
-        }
-      },
-      {
-        "not_null": {
-          "value": "EXAMINATION__ACL_IGA"
-        }
-      },
-      {
-        "not_null": {
           "value": "EXAMINATION__THROMBOSIS"
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PATIENT__ID",
-            "PATIENT__SEX"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PATIENT__ID",
-            "PATIENT__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PATIENT__ID",
-            "PATIENT__FIRST_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PATIENT__ID",
-            "PATIENT__ADMISSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PATIENT__ID",
-            "PATIENT__DIAGNOSIS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__ID",
-            "EXAMINATION__KCT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__ID",
-            "EXAMINATION__RVVT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__ID",
-            "EXAMINATION__LAC"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__ID",
-            "EXAMINATION__SYMPTOMS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__ID",
-            "EXAMINATION__THROMBOSIS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXAMINATION__SYMPTOMS",
-            "EXAMINATION__THROMBOSIS"
-          ]
         }
       }
     ]
@@ -775,8 +657,8 @@
           {
             "value": "SCHOOLS__LATITUDE"
           },
-          32.547737,
-          44.219305
+          -90,
+          90
         ]
       },
       {
@@ -794,7 +676,7 @@
             "value": "SATSCORES__ENROLL12"
           },
           0,
-          43324
+          2147483647
         ]
       },
       {
@@ -803,7 +685,7 @@
             "value": "SATSCORES__NUMTSTTAKR"
           },
           0,
-          24305
+          2147483647
         ]
       },
       {
@@ -839,7 +721,7 @@
             "value": "SATSCORES__NUMGE1500"
           },
           0,
-          5837
+          2147483647
         ]
       },
       {
@@ -847,8 +729,8 @@
           {
             "value": "FRPM__DISTRICT_CODE"
           },
-          10000,
-          80000
+          10017,
+          76901
         ]
       },
       {
@@ -1300,27 +1182,17 @@
       },
       {
         "not_null": {
+          "value": "SCHOOLS__LASTUPDATE"
+        }
+      },
+      {
+        "not_null": {
           "value": "SATSCORES__CDS"
         }
       },
       {
         "not_null": {
           "value": "SATSCORES__RTYPE"
-        }
-      },
-      {
-        "not_null": {
-          "value": "SATSCORES__DNAME"
-        }
-      },
-      {
-        "not_null": {
-          "value": "SATSCORES__CNAME"
-        }
-      },
-      {
-        "not_null": {
-          "value": "SATSCORES__ENROLL12"
         }
       },
       {
@@ -1384,275 +1256,6 @@
         }
       },
       {
-        "not_null": {
-          "value": "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__NCESDIST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__NCESSCHOOL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__STATUSTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__COUNTY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__DISTRICT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__SCHOOL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__STREET"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__STREETABR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__CITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__ZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__STATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAILSTREET"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAILSTRABR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAILCITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAILZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAILSTATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__PHONE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__WEBSITE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__OPENDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__CLOSEDDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__CHARTER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__CHARTERNUM"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__DOC"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__DOCTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__SOCTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__EILCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__GSOFFERED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__GSSERVED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__VIRTUAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__MAGNET"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__LATITUDE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__LONGITUDE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__CDSCODE",
-            "SCHOOLS__ADMEMAIL1"
-          ]
-        }
-      },
-      {
         "dependency": {
           "values": [
             "SCHOOLS__NCESDIST",
@@ -1664,47 +1267,7 @@
         "dependency": {
           "values": [
             "SCHOOLS__NCESDIST",
-            "SCHOOLS__DOC"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__NCESDIST",
             "SCHOOLS__DOCTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__ZIP",
-            "SCHOOLS__STATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__ZIP",
-            "SCHOOLS__MAILSTATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__MAILCITY",
-            "SCHOOLS__MAILSTATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SCHOOLS__MAILZIP",
-            "SCHOOLS__MAILSTATE"
           ]
         }
       },
@@ -1743,22 +1306,6 @@
       {
         "dependency": {
           "values": [
-            "SCHOOLS__ADMLNAME3",
-            "SCHOOLS__ADMEMAIL3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__RTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "SATSCORES__CDS",
             "SATSCORES__SNAME"
           ]
@@ -1768,71 +1315,7 @@
         "dependency": {
           "values": [
             "SATSCORES__CDS",
-            "SATSCORES__DNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
             "SATSCORES__CNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__ENROLL12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__NUMTSTTAKR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__AVGSCRREAD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__AVGSCRMATH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__AVGSCRWRITE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SATSCORES__CDS",
-            "SATSCORES__NUMGE1500"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__ACADEMIC_YEAR"
           ]
         }
       },
@@ -1856,23 +1339,7 @@
         "dependency": {
           "values": [
             "FRPM__CDSCODE",
-            "FRPM__SCHOOL_CODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
             "FRPM__COUNTY_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__DISTRICT_NAME"
           ]
         }
       },
@@ -1888,63 +1355,7 @@
         "dependency": {
           "values": [
             "FRPM__CDSCODE",
-            "FRPM__DISTRICT_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__SCHOOL_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
             "FRPM__EDUCATIONAL_OPTION_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__CHARTER_SCHOOL_NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__CHARTER_FUNDING_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__LOW_GRADE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__HIGH_GRADE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CDSCODE",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
           ]
         }
       },
@@ -1960,6 +1371,14 @@
         "dependency": {
           "values": [
             "FRPM__DISTRICT_CODE",
+            "FRPM__COUNTY_NAME"
+          ]
+        }
+      },
+      {
+        "dependency": {
+          "values": [
+            "FRPM__DISTRICT_CODE",
             "FRPM__DISTRICT_NAME"
           ]
         }
@@ -1969,22 +1388,6 @@
           "values": [
             "FRPM__DISTRICT_CODE",
             "FRPM__DISTRICT_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__DISTRICT_CODE",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__SCHOOL_CODE",
-            "FRPM__SCHOOL_NAME"
           ]
         }
       },
@@ -2007,80 +1410,8 @@
       {
         "dependency": {
           "values": [
-            "FRPM__SCHOOL_CODE",
-            "FRPM__NSLP_PROVISION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__SCHOOL_CODE",
-            "FRPM__CHARTER_SCHOOL_NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__SCHOOL_CODE",
-            "FRPM__CHARTER_FUNDING_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__SCHOOL_CODE",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__DISTRICT_NAME",
-            "FRPM__DISTRICT_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__DISTRICT_TYPE",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__EDUCATIONAL_OPTION_TYPE",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__NSLP_PROVISION_STATUS",
-            "FRPM__2013_14_CALPADS_FALL_1_CERTIFICATION_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "FRPM__CHARTER_SCHOOL_NUMBER",
             "FRPM__CHARTER_FUNDING_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FRPM__CHARTER_SCHOOL_NUMBER",
-            "FRPM__IRC"
           ]
         }
       }
@@ -2141,8 +1472,8 @@
           {
             "value": "CUSTOMERS__CUSTOMERID"
           },
-          3,
-          53314
+          0,
+          123819
         ]
       },
       {
@@ -2150,8 +1481,8 @@
           {
             "value": "GASSTATIONS__GASSTATIONID"
           },
-          1,
-          2147483647
+          0,
+          12923
         ]
       },
       {
@@ -2159,8 +1490,8 @@
           {
             "value": "GASSTATIONS__CHAINID"
           },
-          1,
-          290
+          0,
+          123
         ]
       },
       {
@@ -2168,8 +1499,8 @@
           {
             "value": "PRODUCTS__PRODUCTID"
           },
-          1,
-          630
+          0,
+          1356
         ]
       },
       {
@@ -2186,17 +1517,8 @@
           {
             "value": "YEARMONTH__CONSUMPTION"
           },
-          -15040.792500000001,
-          21352.0325
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TRANSACTIONS_1K__TRANSACTIONID"
-          },
-          1,
-          2147483647
+          0,
+          1e+308
         ]
       },
       {
@@ -2204,8 +1526,8 @@
           {
             "value": "TRANSACTIONS_1K__CUSTOMERID"
           },
-          1,
-          2147483647
+          96,
+          49838
         ]
       },
       {
@@ -2213,8 +1535,8 @@
           {
             "value": "TRANSACTIONS_1K__CARDID"
           },
-          26228,
-          775970
+          12150,
+          1173565
         ]
       },
       {
@@ -2222,8 +1544,8 @@
           {
             "value": "TRANSACTIONS_1K__GASSTATIONID"
           },
-          1,
-          2147483647
+          0,
+          11667
         ]
       },
       {
@@ -2231,8 +1553,8 @@
           {
             "value": "TRANSACTIONS_1K__PRODUCTID"
           },
-          1,
-          2147483647
+          2,
+          352
         ]
       },
       {
@@ -2262,28 +1584,6 @@
             "SME",
             "LAM",
             "KAM"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CUSTOMERS__CURRENCY"
-          },
-          [
-            "EUR",
-            "CZK"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "GASSTATIONS__COUNTRY"
-          },
-          [
-            "CZE",
-            "SVK"
           ]
         ]
       },
@@ -2368,11 +1668,6 @@
       },
       {
         "not_null": {
-          "value": "TRANSACTIONS_1K__TIME"
-        }
-      },
-      {
-        "not_null": {
           "value": "TRANSACTIONS_1K__CUSTOMERID"
         }
       },
@@ -2404,112 +1699,8 @@
       {
         "dependency": {
           "values": [
-            "CUSTOMERS__CUSTOMERID",
-            "CUSTOMERS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CUSTOMERS__CUSTOMERID",
-            "CUSTOMERS__CURRENCY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__CHAINID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GASSTATIONS__GASSTATIONID",
-            "GASSTATIONS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "GASSTATIONS__CHAINID",
             "GASSTATIONS__SEGMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PRODUCTS__PRODUCTID",
-            "PRODUCTS__DESCRIPTION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__TIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__CUSTOMERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__CARDID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__GASSTATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__PRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANSACTIONS_1K__TRANSACTIONID",
-            "TRANSACTIONS_1K__PRICE"
           ]
         }
       }
@@ -2658,8 +1849,8 @@
           {
             "value": "LOAN__LOAN_ID"
           },
-          4959,
-          7308
+          1,
+          2147483647
         ]
       },
       {
@@ -2676,8 +1867,8 @@
           {
             "value": "LOAN__AMOUNT"
           },
-          4980,
-          590820
+          0,
+          2147483647
         ]
       },
       {
@@ -2685,7 +1876,7 @@
           {
             "value": "LOAN__DURATION"
           },
-          1,
+          0,
           2147483647
         ]
       },
@@ -2703,8 +1894,8 @@
           {
             "value": "CLIENT__CLIENT_ID"
           },
-          1,
-          2147483647
+          0,
+          12774
         ]
       },
       {
@@ -2739,8 +1930,8 @@
           {
             "value": "DISTRICT__A9"
           },
-          1,
-          11
+          0,
+          17
         ]
       },
       {
@@ -2757,8 +1948,8 @@
           {
             "value": "DISTRICT__A11"
           },
-          8110,
-          12541
+          0,
+          2147483647
         ]
       },
       {
@@ -2766,8 +1957,8 @@
           {
             "value": "DISTRICT__A12"
           },
-          0.2,
-          7.3
+          0,
+          100
         ]
       },
       {
@@ -2775,8 +1966,8 @@
           {
             "value": "DISTRICT__A13"
           },
-          0.43,
-          9.4
+          0,
+          100
         ]
       },
       {
@@ -2784,8 +1975,8 @@
           {
             "value": "DISTRICT__A14"
           },
-          81,
-          167
+          0,
+          2147483647
         ]
       },
       {
@@ -2802,8 +1993,8 @@
           {
             "value": "DISTRICT__A16"
           },
-          888,
-          99107
+          0,
+          2147483647
         ]
       },
       {
@@ -2812,7 +2003,7 @@
             "value": "TRANS__TRANS_ID"
           },
           1,
-          2147483647
+          3682987
         ]
       },
       {
@@ -2830,16 +2021,7 @@
             "value": "TRANS__AMOUNT"
           },
           0,
-          87400
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TRANS__BALANCE"
-          },
-          -41126,
-          209637
+          2147483647
         ]
       },
       {
@@ -2848,7 +2030,7 @@
             "value": "TRANS__ACCOUNT"
           },
           0,
-          99994199
+          2147483647
         ]
       },
       {
@@ -2874,8 +2056,8 @@
           {
             "value": "CARD__CARD_ID"
           },
-          1,
-          1247
+          0,
+          2047
         ]
       },
       {
@@ -2883,8 +2065,8 @@
           {
             "value": "CARD__DISP_ID"
           },
-          1,
-          2147483647
+          0,
+          13677
         ]
       },
       {
@@ -2910,8 +2092,8 @@
           {
             "value": "ORDER__ACCOUNT_TO"
           },
-          399,
-          99994199
+          0,
+          2147483647
         ]
       },
       {
@@ -2919,8 +2101,8 @@
           {
             "value": "ORDER__AMOUNT"
           },
-          1.0,
-          14882.0
+          0,
+          1e+308
         ]
       },
       {
@@ -2929,7 +2111,7 @@
             "value": "DISP__DISP_ID"
           },
           1,
-          2147483647
+          13690
         ]
       },
       {
@@ -2947,7 +2129,7 @@
             "value": "DISP__ACCOUNT_ID"
           },
           1,
-          2147483647
+          11382
         ]
       },
       {
@@ -3009,26 +2191,6 @@
       {
         "in": [
           {
-            "value": "DISTRICT__A9"
-          },
-          [
-            1,
-            5,
-            6,
-            4,
-            8,
-            7,
-            2,
-            9,
-            10,
-            11,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "TRANS__TYPE"
           },
           [
@@ -3072,28 +2234,6 @@
       {
         "in": [
           {
-            "value": "TRANS__BANK"
-          },
-          [
-            "AB",
-            "YZ",
-            "ST",
-            "QR",
-            "WX",
-            "CD",
-            "UV",
-            "KL",
-            "GH",
-            "OP",
-            "IJ",
-            "EF",
-            "MN"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "ACCOUNT__FREQUENCY"
           },
           [
@@ -3112,28 +2252,6 @@
             "gold",
             "classic",
             "junior"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "ORDER__BANK_TO"
-          },
-          [
-            "YZ",
-            "ST",
-            "QR",
-            "WX",
-            "CD",
-            "AB",
-            "UV",
-            "GH",
-            "IJ",
-            "KL",
-            "EF",
-            "MN",
-            "OP"
           ]
         ]
       },
@@ -3203,11 +2321,6 @@
       },
       {
         "not_null": {
-          "value": "CLIENT__GENDER"
-        }
-      },
-      {
-        "not_null": {
           "value": "CLIENT__BIRTH_DATE"
         }
       },
@@ -3238,12 +2351,27 @@
       },
       {
         "not_null": {
+          "value": "DISTRICT__A10"
+        }
+      },
+      {
+        "not_null": {
           "value": "DISTRICT__A11"
         }
       },
       {
         "not_null": {
+          "value": "DISTRICT__A13"
+        }
+      },
+      {
+        "not_null": {
           "value": "DISTRICT__A14"
+        }
+      },
+      {
+        "not_null": {
+          "value": "DISTRICT__A16"
         }
       },
       {
@@ -3364,624 +2492,8 @@
       {
         "dependency": {
           "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__DURATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__PAYMENTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__DURATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__PAYMENTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__GENDER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__BIRTH_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__DISTRICT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A4"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "DISTRICT__A2",
             "DISTRICT__A3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A4"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A9"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A9"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__OPERATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__BALANCE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__BANK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__ACCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ACCOUNT__ACCOUNT_ID",
-            "ACCOUNT__DISTRICT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ACCOUNT__ACCOUNT_ID",
-            "ACCOUNT__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__DISP_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__ISSUED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__DISP_ID",
-            "CARD__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__DISP_ID",
-            "CARD__ISSUED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__BANK_TO"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__ACCOUNT_TO"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__K_SYMBOL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__CLIENT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__CLIENT_ID",
-            "DISP__TYPE"
           ]
         }
       }
@@ -4296,8 +2808,8 @@
           {
             "value": "CIRCUITS__LAT"
           },
-          -34.9272,
-          57.2653
+          -90,
+          90
         ]
       },
       {
@@ -4315,7 +2827,7 @@
             "value": "STATUS__STATUSID"
           },
           1,
-          136
+          2147483647
         ]
       },
       {
@@ -4324,7 +2836,7 @@
             "value": "DRIVERS__DRIVERID"
           },
           1,
-          2147483647
+          841
         ]
       },
       {
@@ -4332,7 +2844,7 @@
           {
             "value": "DRIVERS__NUMBER"
           },
-          1,
+          0,
           99
         ]
       },
@@ -4351,7 +2863,7 @@
             "value": "DRIVERSTANDINGS__RACEID"
           },
           1,
-          2147483647
+          982
         ]
       },
       {
@@ -4360,7 +2872,7 @@
             "value": "DRIVERSTANDINGS__DRIVERID"
           },
           1,
-          2147483647
+          841
         ]
       },
       {
@@ -4368,8 +2880,8 @@
           {
             "value": "DRIVERSTANDINGS__POINTS"
           },
-          0.0,
-          397.0
+          0,
+          1e+308
         ]
       },
       {
@@ -4378,7 +2890,7 @@
             "value": "DRIVERSTANDINGS__POSITION"
           },
           1,
-          108
+          2147483647
         ]
       },
       {
@@ -4387,7 +2899,7 @@
             "value": "DRIVERSTANDINGS__WINS"
           },
           0,
-          13
+          2147483647
         ]
       },
       {
@@ -4396,7 +2908,7 @@
             "value": "RACES__RACEID"
           },
           1,
-          988
+          2147483647
         ]
       },
       {
@@ -4404,8 +2916,8 @@
           {
             "value": "RACES__YEAR"
           },
-          1950,
-          2023
+          0,
+          2147483647
         ]
       },
       {
@@ -4414,7 +2926,7 @@
             "value": "RACES__ROUND"
           },
           1,
-          22
+          2147483647
         ]
       },
       {
@@ -4422,8 +2934,8 @@
           {
             "value": "RACES__CIRCUITID"
           },
-          1,
-          73
+          0,
+          93
         ]
       },
       {
@@ -4486,7 +2998,7 @@
             "value": "LAPTIMES__DRIVERID"
           },
           1,
-          841
+          2147483647
         ]
       },
       {
@@ -4495,7 +3007,7 @@
             "value": "LAPTIMES__LAP"
           },
           1,
-          78
+          2147483647
         ]
       },
       {
@@ -4504,7 +3016,7 @@
             "value": "LAPTIMES__POSITION"
           },
           1,
-          24
+          2147483647
         ]
       },
       {
@@ -4512,8 +3024,8 @@
           {
             "value": "LAPTIMES__MILLISECONDS"
           },
-          67411,
-          7507547
+          0,
+          2147483647
         ]
       },
       {
@@ -4522,7 +3034,7 @@
             "value": "QUALIFYING__QUALIFYID"
           },
           1,
-          7419
+          2147483647
         ]
       },
       {
@@ -4540,7 +3052,7 @@
             "value": "QUALIFYING__DRIVERID"
           },
           1,
-          841
+          2147483647
         ]
       },
       {
@@ -4548,8 +3060,8 @@
           {
             "value": "QUALIFYING__CONSTRUCTORID"
           },
-          1,
-          210
+          0,
+          64
         ]
       },
       {
@@ -4567,7 +3079,7 @@
             "value": "QUALIFYING__POSITION"
           },
           1,
-          28
+          26
         ]
       },
       {
@@ -4575,8 +3087,8 @@
           {
             "value": "PITSTOPS__RACEID"
           },
-          841,
-          982
+          1,
+          2147483647
         ]
       },
       {
@@ -4585,7 +3097,7 @@
             "value": "PITSTOPS__DRIVERID"
           },
           1,
-          841
+          2147483647
         ]
       },
       {
@@ -4594,7 +3106,7 @@
             "value": "PITSTOPS__STOP"
           },
           1,
-          6
+          2147483647
         ]
       },
       {
@@ -4603,7 +3115,7 @@
             "value": "PITSTOPS__LAP"
           },
           1,
-          74
+          2147483647
         ]
       },
       {
@@ -4611,8 +3123,8 @@
           {
             "value": "PITSTOPS__MILLISECONDS"
           },
-          12897,
-          2011266
+          0,
+          2147483647
         ]
       },
       {
@@ -4620,7 +3132,7 @@
           {
             "value": "SEASONS__YEAR"
           },
-          1950,
+          0,
           2147483647
         ]
       },
@@ -4639,7 +3151,7 @@
             "value": "CONSTRUCTORSTANDINGS__RACEID"
           },
           1,
-          982
+          2147483647
         ]
       },
       {
@@ -4647,8 +3159,8 @@
           {
             "value": "CONSTRUCTORSTANDINGS__CONSTRUCTORID"
           },
-          1,
-          210
+          0,
+          206
         ]
       },
       {
@@ -4656,8 +3168,8 @@
           {
             "value": "CONSTRUCTORSTANDINGS__POINTS"
           },
-          0.0,
-          765.0
+          0,
+          1e+308
         ]
       },
       {
@@ -4666,7 +3178,7 @@
             "value": "CONSTRUCTORSTANDINGS__POSITION"
           },
           1,
-          22
+          2147483647
         ]
       },
       {
@@ -4675,7 +3187,7 @@
             "value": "CONSTRUCTORSTANDINGS__WINS"
           },
           0,
-          19
+          2147483647
         ]
       },
       {
@@ -4702,7 +3214,7 @@
             "value": "RESULTS__DRIVERID"
           },
           1,
-          841
+          2147483647
         ]
       },
       {
@@ -4720,7 +3232,7 @@
             "value": "RESULTS__NUMBER"
           },
           0,
-          208
+          2147483647
         ]
       },
       {
@@ -4729,7 +3241,7 @@
             "value": "RESULTS__GRID"
           },
           0,
-          34
+          2147483647
         ]
       },
       {
@@ -4738,7 +3250,7 @@
             "value": "RESULTS__POSITION"
           },
           1,
-          33
+          2147483647
         ]
       },
       {
@@ -4747,7 +3259,7 @@
             "value": "RESULTS__POSITIONORDER"
           },
           1,
-          39
+          2147483647
         ]
       },
       {
@@ -4755,8 +3267,8 @@
           {
             "value": "RESULTS__POINTS"
           },
-          0.0,
-          50.0
+          0,
+          1e+308
         ]
       },
       {
@@ -4773,8 +3285,8 @@
           {
             "value": "RESULTS__MILLISECONDS"
           },
-          1474899,
-          15090540
+          0,
+          2147483647
         ]
       },
       {
@@ -4782,8 +3294,8 @@
           {
             "value": "RESULTS__FASTESTLAP"
           },
-          2,
-          78
+          1,
+          2147483647
         ]
       },
       {
@@ -4791,7 +3303,7 @@
           {
             "value": "RESULTS__RANK"
           },
-          1,
+          0,
           24
         ]
       },
@@ -4800,243 +3312,8 @@
           {
             "value": "RESULTS__STATUSID"
           },
-          1,
-          136
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "DRIVERSTANDINGS__WINS"
-          },
-          [
-            1,
-            0,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "RACES__ROUND"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LAPTIMES__POSITION"
-          },
-          [
-            13,
-            12,
-            11,
-            10,
-            9,
-            8,
-            14,
-            15,
-            7,
-            6,
-            5,
-            3,
-            4,
-            17,
-            16,
-            18,
-            19,
-            1,
-            2,
-            20,
-            21,
-            22,
-            23,
-            24
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "QUALIFYING__POSITION"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            28
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "PITSTOPS__STOP"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CONSTRUCTORSTANDINGS__POSITION"
-          },
-          [
-            1,
-            3,
-            2,
-            4,
-            5,
-            6,
-            8,
-            7,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            22,
-            21
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CONSTRUCTORSTANDINGS__POSITIONTEXT"
-          },
-          [
-            "1",
-            "3",
-            "2",
-            "4",
-            "5",
-            "6",
-            "8",
-            "7",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "22",
-            "21",
-            "E"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "RESULTS__RANK"
-          },
-          [
-            2,
-            3,
-            5,
-            7,
-            1,
-            14,
-            12,
-            4,
-            9,
-            13,
-            15,
-            16,
-            6,
-            11,
-            10,
-            17,
-            8,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            0
-          ]
+          0,
+          61
         ]
       },
       {
@@ -5056,17 +3333,17 @@
       },
       {
         "not_null": {
-          "value": "CIRCUITS__LOCATION"
-        }
-      },
-      {
-        "not_null": {
           "value": "CIRCUITS__COUNTRY"
         }
       },
       {
         "not_null": {
           "value": "CIRCUITS__LAT"
+        }
+      },
+      {
+        "not_null": {
+          "value": "CIRCUITS__LNG"
         }
       },
       {
@@ -5097,11 +3374,6 @@
       {
         "not_null": {
           "value": "DRIVERS__SURNAME"
-        }
-      },
-      {
-        "not_null": {
-          "value": "DRIVERS__NATIONALITY"
         }
       },
       {
@@ -5177,11 +3449,6 @@
       {
         "not_null": {
           "value": "CONSTRUCTORS__NAME"
-        }
-      },
-      {
-        "not_null": {
-          "value": "CONSTRUCTORS__NATIONALITY"
         }
       },
       {
@@ -5382,62 +3649,6 @@
       {
         "dependency": {
           "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__CIRCUITREF"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__LAT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__LNG"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITID",
-            "CIRCUITS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "CIRCUITS__CIRCUITREF",
             "CIRCUITS__NAME"
           ]
@@ -5447,22 +3658,6 @@
         "dependency": {
           "values": [
             "CIRCUITS__CIRCUITREF",
-            "CIRCUITS__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITREF",
-            "CIRCUITS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITREF",
             "CIRCUITS__LAT"
           ]
         }
@@ -5472,142 +3667,6 @@
           "values": [
             "CIRCUITS__CIRCUITREF",
             "CIRCUITS__LNG"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__CIRCUITREF",
-            "CIRCUITS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__NAME",
-            "CIRCUITS__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__NAME",
-            "CIRCUITS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__NAME",
-            "CIRCUITS__LAT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__NAME",
-            "CIRCUITS__LNG"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__NAME",
-            "CIRCUITS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CIRCUITS__LOCATION",
-            "CIRCUITS__COUNTRY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "STATUS__STATUSID",
-            "STATUS__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__DRIVERREF"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__CODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__FORENAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__SURNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__DOB"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__NATIONALITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERID",
-            "DRIVERS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERREF",
-            "DRIVERS__CODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERREF",
-            "DRIVERS__FORENAME"
           ]
         }
       },
@@ -5630,184 +3689,8 @@
       {
         "dependency": {
           "values": [
-            "DRIVERS__DRIVERREF",
-            "DRIVERS__NATIONALITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__DRIVERREF",
-            "DRIVERS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERS__NUMBER",
-            "DRIVERS__CODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DRIVERSTANDINGS__DRIVERSTANDINGSID",
-            "DRIVERSTANDINGS__POINTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__YEAR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__ROUND"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__CIRCUITID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__TIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__RACEID",
-            "RACES__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__DATE",
-            "RACES__TIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACES__DATE",
-            "RACES__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORID",
-            "CONSTRUCTORS__CONSTRUCTORREF"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORID",
-            "CONSTRUCTORS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORID",
-            "CONSTRUCTORS__NATIONALITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORID",
-            "CONSTRUCTORS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "CONSTRUCTORS__CONSTRUCTORREF",
             "CONSTRUCTORS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORREF",
-            "CONSTRUCTORS__NATIONALITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__CONSTRUCTORREF",
-            "CONSTRUCTORS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__NAME",
-            "CONSTRUCTORS__NATIONALITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORS__NAME",
-            "CONSTRUCTORS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORRESULTS__CONSTRUCTORRESULTSID",
-            "CONSTRUCTORRESULTS__POINTS"
           ]
         }
       },
@@ -5816,214 +3699,6 @@
           "values": [
             "LAPTIMES__TIME",
             "LAPTIMES__MILLISECONDS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__RACEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__DRIVERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__CONSTRUCTORID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__POSITION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__Q1"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__Q2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "QUALIFYING__QUALIFYID",
-            "QUALIFYING__Q3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PITSTOPS__DURATION",
-            "PITSTOPS__MILLISECONDS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SEASONS__YEAR",
-            "SEASONS__URL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CONSTRUCTORSTANDINGS__CONSTRUCTORSTANDINGSID",
-            "CONSTRUCTORSTANDINGS__POINTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__DRIVERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__CONSTRUCTORID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__GRID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__POSITIONORDER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__POINTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__LAPS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__TIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__MILLISECONDS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__FASTESTLAP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__RANK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__FASTESTLAPTIME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__FASTESTLAPSPEED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__RESULTID",
-            "RESULTS__STATUSID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RESULTS__POSITION",
-            "RESULTS__POSITIONTEXT"
           ]
         }
       }
@@ -6128,7 +3803,7 @@
             "value": "CARDS__ID"
           },
           1,
-          2147483647
+          56832
         ]
       },
       {
@@ -6154,8 +3829,8 @@
           {
             "value": "CARDS__FACECONVERTEDMANACOST"
           },
-          0.0,
-          7.0
+          0,
+          1e+308
         ]
       },
       {
@@ -6299,7 +3974,7 @@
             "value": "RULINGS__ID"
           },
           1,
-          87769
+          2147483647
         ]
       },
       {
@@ -6326,7 +4001,7 @@
             "value": "SETS__BASESETSIZE"
           },
           0,
-          1694
+          2147483647
         ]
       },
       {
@@ -6379,8 +4054,8 @@
           {
             "value": "SETS__MCMID"
           },
-          4,
-          3660
+          1,
+          2147483647
         ]
       },
       {
@@ -6388,8 +4063,8 @@
           {
             "value": "SETS__MCMIDEXTRAS"
           },
-          2371,
-          3680
+          0,
+          6131
         ]
       },
       {
@@ -6398,7 +4073,7 @@
             "value": "SETS__TCGPLAYERGROUPID"
           },
           1,
-          2147483647
+          2778
         ]
       },
       {
@@ -6407,7 +4082,7 @@
             "value": "SETS__TOTALSETSIZE"
           },
           0,
-          1694
+          2147483647
         ]
       },
       {
@@ -6416,7 +4091,7 @@
             "value": "FOREIGN_DATA__ID"
           },
           1,
-          2147483647
+          229205
         ]
       },
       {
@@ -6424,32 +4099,8 @@
           {
             "value": "FOREIGN_DATA__MULTIVERSEID"
           },
-          73246,
-          507640
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEGALITIES__FORMAT"
-          },
-          [
-            "commander",
-            "duel",
-            "legacy",
-            "modern",
-            "penny",
-            "premodern",
-            "vintage",
-            "gladiator",
-            "historic",
-            "pauper",
-            "pioneer",
-            "brawl",
-            "future",
-            "standard",
-            "oldschool"
-          ]
+          0,
+          1191875
         ]
       },
       {
@@ -6499,46 +4150,11 @@
       {
         "in": [
           {
-            "value": "CARDS__COLORINDICATOR"
-          },
-          [
-            "U",
-            "G",
-            "R",
-            "B",
-            "G,R",
-            "W",
-            "G,R,W",
-            "B,G",
-            "B,R,U"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "CARDS__DUELDECK"
           },
           [
             "a",
             "b"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CARDS__FACECONVERTEDMANACOST"
-          },
-          [
-            4.0,
-            5.0,
-            6.0,
-            3.0,
-            2.0,
-            1.0,
-            7.0,
-            0.0
           ]
         ]
       },
@@ -6553,23 +4169,6 @@
             "2015",
             "1997",
             "future"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CARDS__HAND"
-          },
-          [
-            "1",
-            "0",
-            "-2",
-            "-1",
-            "2",
-            "3",
-            "-4",
-            "-3"
           ]
         ]
       },
@@ -6741,44 +4340,6 @@
       {
         "in": [
           {
-            "value": "CARDS__LAYOUT"
-          },
-          [
-            "normal",
-            "aftermath",
-            "split",
-            "flip",
-            "leveler",
-            "saga",
-            "vanguard",
-            "transform",
-            "adventure",
-            "meld",
-            "modal_dfc",
-            "scheme",
-            "planar",
-            "host",
-            "augment"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CARDS__LEADERSHIPSKILLS"
-          },
-          [
-            "{'brawl': False, 'commander': True, 'oathbreaker': False}",
-            "{'brawl': False, 'commander': False, 'oathbreaker': True}",
-            "{'brawl': False, 'commander': True, 'oathbreaker': True}",
-            "{'brawl': True, 'commander': True, 'oathbreaker': False}",
-            "{'brawl': True, 'commander': False, 'oathbreaker': True}"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "CARDS__RARITY"
           },
           [
@@ -6800,23 +4361,6 @@
             "c",
             "d",
             "e"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "CARDS__SUPERTYPES"
-          },
-          [
-            "Legendary",
-            "Basic",
-            "Legendary,Snow",
-            "World",
-            "Snow",
-            "Basic,Snow",
-            "Ongoing",
-            "Host"
           ]
         ]
       },
@@ -6924,31 +4468,6 @@
         ]
       },
       {
-        "in": [
-          {
-            "value": "FOREIGN_DATA__LANGUAGE"
-          },
-          [
-            "German",
-            "Spanish",
-            "French",
-            "Italian",
-            "Japanese",
-            "Portuguese (Brazil)",
-            "Russian",
-            "Chinese Simplified",
-            "Korean",
-            "Chinese Traditional",
-            "Phyrexian",
-            "Sanskrit",
-            "Latin",
-            "Hebrew",
-            "Arabic",
-            "Ancient Greek"
-          ]
-        ]
-      },
-      {
         "not_null": {
           "value": "LEGALITIES__ID"
         }
@@ -6971,11 +4490,6 @@
       {
         "not_null": {
           "value": "CARDS__ID"
-        }
-      },
-      {
-        "not_null": {
-          "value": "CARDS__BORDERCOLOR"
         }
       },
       {
@@ -7065,6 +4579,11 @@
       },
       {
         "not_null": {
+          "value": "CARDS__LAYOUT"
+        }
+      },
+      {
+        "not_null": {
           "value": "CARDS__NAME"
         }
       },
@@ -7081,11 +4600,6 @@
       {
         "not_null": {
           "value": "CARDS__RARITY"
-        }
-      },
-      {
-        "not_null": {
-          "value": "CARDS__SCRYFALLORACLEID"
         }
       },
       {
@@ -7165,6 +4679,11 @@
       },
       {
         "not_null": {
+          "value": "SETS__ISFOREIGNONLY"
+        }
+      },
+      {
+        "not_null": {
           "value": "SETS__ISNONFOILONLY"
         }
       },
@@ -7205,11 +4724,6 @@
       },
       {
         "not_null": {
-          "value": "FOREIGN_DATA__FLAVORTEXT"
-        }
-      },
-      {
-        "not_null": {
           "value": "FOREIGN_DATA__LANGUAGE"
         }
       },
@@ -7220,416 +4734,14 @@
       },
       {
         "not_null": {
-          "value": "FOREIGN_DATA__TEXT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "FOREIGN_DATA__TYPE"
-        }
-      },
-      {
-        "not_null": {
           "value": "FOREIGN_DATA__UUID"
         }
       },
       {
         "dependency": {
           "values": [
-            "LEGALITIES__ID",
-            "LEGALITIES__FORMAT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__ARTIST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__AVAILABILITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__BORDERCOLOR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__CARDKINGDOMFOILID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__CARDKINGDOMID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__COLORIDENTITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__COLORS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__CONVERTEDMANACOST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__EDHRECRANK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__FLAVORTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__HASALTERNATIVEDECKLIMIT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__HASFOIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__ISALTERNATIVE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__KEYWORDS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__MANACOST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__MTGJSONV4ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__MTGOFOILID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__MULTIVERSEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__ORIGINALTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__ORIGINALTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__POWER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__PURCHASEURLS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__SCRYFALLID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__SCRYFALLILLUSTRATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__SUBTYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__TOUGHNESS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__TYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__UUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__ID",
-            "CARDS__VARIATIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__AVAILABILITY",
-            "CARDS__ISONLINEONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__CARDKINGDOMID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__COLORIDENTITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__COLORS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__FLAVORTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__FRAMEVERSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "CARDS__CARDKINGDOMFOILID",
             "CARDS__HASFOIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__HASNONFOIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__ISALTERNATIVE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__MTGJSONV4ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__MTGOFOILID"
           ]
         }
       },
@@ -7645,70 +4757,6 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMFOILID",
-            "CARDS__ORIGINALTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__ORIGINALTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__PURCHASEURLS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__SCRYFALLID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__SCRYFALLILLUSTRATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
             "CARDS__SETCODE"
           ]
         }
@@ -7717,31 +4765,7 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMFOILID",
-            "CARDS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
-            "CARDS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMFOILID",
             "CARDS__UUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__COLORIDENTITY"
           ]
         }
       },
@@ -7757,70 +4781,6 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMID",
-            "CARDS__CONVERTEDMANACOST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__EDHRECRANK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__FLAVORTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__HASFOIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__HASNONFOIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__ISALTERNATIVE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__MANACOST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__MCMID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
             "CARDS__MTGJSONV4ID"
           ]
         }
@@ -7829,14 +4789,6 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMID",
-            "CARDS__MTGOFOILID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
             "CARDS__MTGOID"
           ]
         }
@@ -7845,55 +4797,7 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMID",
-            "CARDS__MULTIVERSEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
             "CARDS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__ORIGINALTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__ORIGINALTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__PURCHASEURLS"
           ]
         }
       },
@@ -7917,14 +4821,6 @@
         "dependency": {
           "values": [
             "CARDS__CARDKINGDOMID",
-            "CARDS__SCRYFALLILLUSTRATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
             "CARDS__SCRYFALLORACLEID"
           ]
         }
@@ -7934,38 +4830,6 @@
           "values": [
             "CARDS__CARDKINGDOMID",
             "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__TYPES"
           ]
         }
       },
@@ -7980,264 +4844,8 @@
       {
         "dependency": {
           "values": [
-            "CARDS__CARDKINGDOMID",
-            "CARDS__VARIATIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__COLORINDICATOR",
-            "CARDS__ISSTORYSPOTLIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__FLAVORTEXT",
-            "CARDS__HASCONTENTWARNING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__MTGOFOILID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__MTGOID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__MULTIVERSEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__ORIGINALTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__ORIGINALTYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__POWER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__PURCHASEURLS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SCRYFALLID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SCRYFALLILLUSTRATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SUBTYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__SUPERTYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__TOUGHNESS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__TYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__UUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGJSONV4ID",
-            "CARDS__VARIATIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOFOILID",
-            "CARDS__MTGOID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOFOILID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOFOILID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOFOILID",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "CARDS__MTGOFOILID",
             "CARDS__SCRYFALLID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOFOILID",
-            "CARDS__SCRYFALLORACLEID"
           ]
         }
       },
@@ -8253,30 +4861,6 @@
         "dependency": {
           "values": [
             "CARDS__MTGOID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOID",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOID",
             "CARDS__SCRYFALLID"
           ]
         }
@@ -8285,23 +4869,7 @@
         "dependency": {
           "values": [
             "CARDS__MTGOID",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOID",
             "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MTGOID",
-            "CARDS__TCGPLAYERPRODUCTID"
           ]
         }
       },
@@ -8317,22 +4885,6 @@
         "dependency": {
           "values": [
             "CARDS__MULTIVERSEID",
-            "CARDS__NUMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MULTIVERSEID",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MULTIVERSEID",
             "CARDS__RARITY"
           ]
         }
@@ -8349,119 +4901,7 @@
         "dependency": {
           "values": [
             "CARDS__MULTIVERSEID",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MULTIVERSEID",
             "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__MULTIVERSEID",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__NAME",
-            "CARDS__PRINTINGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__OTHERFACEIDS",
-            "CARDS__SIDE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__RARITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__SCRYFALLID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__SCRYFALLILLUSTRATIONID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__SCRYFALLORACLEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__TYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__UUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__PURCHASEURLS",
-            "CARDS__VARIATIONS"
           ]
         }
       },
@@ -8476,248 +4916,8 @@
       {
         "dependency": {
           "values": [
-            "CARDS__SCRYFALLID",
-            "CARDS__SETCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__SCRYFALLID",
-            "CARDS__TCGPLAYERPRODUCTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__TYPE",
-            "CARDS__TYPES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__UUID",
-            "CARDS__VARIATIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARDS__UUID",
-            "CARDS__WATERMARK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RULINGS__ID",
-            "RULINGS__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RULINGS__ID",
-            "RULINGS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SET_TRANSLATIONS__ID",
-            "SET_TRANSLATIONS__LANGUAGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SET_TRANSLATIONS__ID",
-            "SET_TRANSLATIONS__TRANSLATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__BASESETSIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__BLOCK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__BOOSTER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__CODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__ISFOREIGNONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__ISNONFOILONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__KEYRUNECODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__RELEASEDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__TCGPLAYERGROUPID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__TOTALSETSIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__ID",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__BOOSTER",
-            "SETS__ISFOILONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__BOOSTER",
-            "SETS__ISNONFOILONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "SETS__CODE",
-            "SETS__ISFOILONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__ISFOREIGNONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__ISNONFOILONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__ISONLINEONLY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__ISPARTIALPREVIEW"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__KEYRUNECODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__MCMID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__NAME"
+            "SETS__MCMNAME"
           ]
         }
       },
@@ -8734,22 +4934,6 @@
           "values": [
             "SETS__CODE",
             "SETS__TCGPLAYERGROUPID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__TOTALSETSIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__CODE",
-            "SETS__TYPE"
           ]
         }
       },
@@ -8765,135 +4949,7 @@
         "dependency": {
           "values": [
             "SETS__MCMID",
-            "SETS__MTGOCODE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__MCMID",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__MCMNAME",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__MTGOCODE",
             "SETS__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__MTGOCODE",
-            "SETS__RELEASEDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__MTGOCODE",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__NAME",
-            "SETS__RELEASEDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__NAME",
-            "SETS__TCGPLAYERGROUPID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__NAME",
-            "SETS__TOTALSETSIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__NAME",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SETS__TCGPLAYERGROUPID",
-            "SETS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__FLAVORTEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__LANGUAGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__MULTIVERSEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "FOREIGN_DATA__ID",
-            "FOREIGN_DATA__TYPE"
           ]
         }
       },
@@ -9042,17 +5098,8 @@
           {
             "value": "TEAM_ATTRIBUTES__TEAM_FIFA_API_ID"
           },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TEAM_ATTRIBUTES__TEAM_API_ID"
-          },
-          1,
-          2147483647
+          0,
+          7270
         ]
       },
       {
@@ -9142,7 +5189,7 @@
             "value": "PLAYER__ID"
           },
           1,
-          2147483647
+          11075
         ]
       },
       {
@@ -9150,17 +5197,8 @@
           {
             "value": "PLAYER__PLAYER_API_ID"
           },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "PLAYER__PLAYER_FIFA_API_ID"
-          },
-          1,
-          2147483647
+          0,
+          743215
         ]
       },
       {
@@ -9168,8 +5206,8 @@
           {
             "value": "PLAYER__HEIGHT"
           },
-          140,
-          250
+          0,
+          2147483647
         ]
       },
       {
@@ -9177,8 +5215,8 @@
           {
             "value": "PLAYER__WEIGHT"
           },
-          117,
-          243
+          0,
+          2147483647
         ]
       },
       {
@@ -9187,7 +5225,7 @@
             "value": "MATCH__ID"
           },
           1,
-          2147483647
+          25979
         ]
       },
       {
@@ -9196,7 +5234,7 @@
             "value": "MATCH__COUNTRY_ID"
           },
           1,
-          2147483647
+          24558
         ]
       },
       {
@@ -9204,8 +5242,8 @@
           {
             "value": "MATCH__LEAGUE_ID"
           },
-          1,
-          2147483647
+          0,
+          56261
         ]
       },
       {
@@ -9220,37 +5258,10 @@
       {
         "between": [
           {
-            "value": "MATCH__MATCH_API_ID"
-          },
-          483129,
-          2216672
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_TEAM_API_ID"
-          },
-          1601,
-          274581
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_TEAM_API_ID"
-          },
-          4125,
-          14275
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__HOME_TEAM_GOAL"
           },
           0,
-          10
+          2147483647
         ]
       },
       {
@@ -9259,7 +5270,7 @@
             "value": "MATCH__AWAY_TEAM_GOAL"
           },
           0,
-          9
+          2147483647
         ]
       },
       {
@@ -9294,8 +5305,8 @@
           {
             "value": "MATCH__HOME_PLAYER_X4"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9304,7 +5315,7 @@
             "value": "MATCH__HOME_PLAYER_X5"
           },
           1,
-          11
+          10
         ]
       },
       {
@@ -9313,7 +5324,7 @@
             "value": "MATCH__HOME_PLAYER_X6"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9322,7 +5333,7 @@
             "value": "MATCH__HOME_PLAYER_X7"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9331,7 +5342,7 @@
             "value": "MATCH__HOME_PLAYER_X8"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9340,7 +5351,7 @@
             "value": "MATCH__HOME_PLAYER_X9"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9349,7 +5360,7 @@
             "value": "MATCH__HOME_PLAYER_X10"
           },
           1,
-          11
+          10
         ]
       },
       {
@@ -9358,7 +5369,7 @@
             "value": "MATCH__HOME_PLAYER_X11"
           },
           1,
-          11
+          7
         ]
       },
       {
@@ -9367,7 +5378,7 @@
             "value": "MATCH__AWAY_PLAYER_X1"
           },
           1,
-          11
+          6
         ]
       },
       {
@@ -9384,8 +5395,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_X3"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9430,7 +5441,7 @@
             "value": "MATCH__AWAY_PLAYER_X8"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9448,7 +5459,7 @@
             "value": "MATCH__AWAY_PLAYER_X10"
           },
           1,
-          11
+          9
         ]
       },
       {
@@ -9456,8 +5467,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_X11"
           },
-          3,
-          8
+          0,
+          10
         ]
       },
       {
@@ -9475,7 +5486,7 @@
             "value": "MATCH__HOME_PLAYER_Y2"
           },
           0,
-          3
+          2147483647
         ]
       },
       {
@@ -9492,8 +5503,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y4"
           },
-          1,
-          11
+          3,
+          5
         ]
       },
       {
@@ -9501,8 +5512,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y5"
           },
-          1,
-          11
+          0,
+          2147483647
         ]
       },
       {
@@ -9510,8 +5521,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y6"
           },
-          1,
-          11
+          3,
+          9
         ]
       },
       {
@@ -9519,8 +5530,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y7"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9528,8 +5539,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y8"
           },
-          3,
-          10
+          1,
+          11
         ]
       },
       {
@@ -9546,8 +5557,8 @@
           {
             "value": "MATCH__HOME_PLAYER_Y10"
           },
-          1,
-          11
+          0,
+          100
         ]
       },
       {
@@ -9564,17 +5575,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y1"
           },
-          1,
-          3
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y2"
-          },
-          3,
-          3
+          0,
+          8
         ]
       },
       {
@@ -9582,8 +5584,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y3"
           },
-          1,
-          11
+          0,
+          100
         ]
       },
       {
@@ -9591,8 +5593,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y4"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9600,8 +5602,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y5"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9609,8 +5611,8 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y6"
           },
-          1,
-          11
+          0,
+          10
         ]
       },
       {
@@ -9618,7 +5620,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y7"
           },
-          3,
+          0,
           10
         ]
       },
@@ -9627,7 +5629,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y8"
           },
-          3,
+          0,
           10
         ]
       },
@@ -9636,7 +5638,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y9"
           },
-          5,
+          0,
           11
         ]
       },
@@ -9645,7 +5647,7 @@
           {
             "value": "MATCH__AWAY_PLAYER_Y10"
           },
-          6,
+          0,
           11
         ]
       },
@@ -9661,73 +5663,10 @@
       {
         "between": [
           {
-            "value": "MATCH__HOME_PLAYER_1"
-          },
-          0,
-          295538
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_2"
-          },
-          0,
-          541694
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__HOME_PLAYER_3"
           },
-          0,
-          420341
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_4"
-          },
-          0,
-          490363
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_5"
-          },
-          0,
-          540235
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_6"
-          },
-          0,
-          510665
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_7"
-          },
-          0,
-          474111
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__HOME_PLAYER_8"
-          },
-          0,
-          542719
+          2752,
+          705484
         ]
       },
       {
@@ -9735,8 +5674,8 @@
           {
             "value": "MATCH__HOME_PLAYER_9"
           },
-          0,
-          557919
+          2625,
+          730065
         ]
       },
       {
@@ -9744,8 +5683,8 @@
           {
             "value": "MATCH__HOME_PLAYER_10"
           },
-          0,
-          537737
+          2625,
+          742405
         ]
       },
       {
@@ -9753,8 +5692,8 @@
           {
             "value": "MATCH__HOME_PLAYER_11"
           },
-          0,
-          547283
+          2802,
+          726956
         ]
       },
       {
@@ -9769,91 +5708,10 @@
       {
         "between": [
           {
-            "value": "MATCH__AWAY_PLAYER_2"
-          },
-          0,
-          541791
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_3"
-          },
-          0,
-          392928
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_4"
-          },
-          0,
-          490363
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_5"
-          },
-          0,
-          543015
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_6"
-          },
-          0,
-          511205
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_7"
-          },
-          0,
-          487224
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "MATCH__AWAY_PLAYER_8"
           },
           0,
           555858
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_9"
-          },
-          0,
-          556531
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_10"
-          },
-          0,
-          547283
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "MATCH__AWAY_PLAYER_11"
-          },
-          0,
-          548399
         ]
       },
       {
@@ -9870,8 +5728,8 @@
           {
             "value": "MATCH__B365D"
           },
-          1.4,
-          17.0
+          1,
+          1e+308
         ]
       },
       {
@@ -9879,8 +5737,8 @@
           {
             "value": "MATCH__B365A"
           },
-          1.08,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9889,7 +5747,7 @@
             "value": "MATCH__BWH"
           },
           1.0,
-          34.0
+          1e+308
         ]
       },
       {
@@ -9897,8 +5755,8 @@
           {
             "value": "MATCH__BWD"
           },
-          1.65,
-          19.5
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9906,8 +5764,8 @@
           {
             "value": "MATCH__BWA"
           },
-          1.1,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9916,7 +5774,7 @@
             "value": "MATCH__IWH"
           },
           1.0,
-          20.0
+          1e+308
         ]
       },
       {
@@ -9924,8 +5782,8 @@
           {
             "value": "MATCH__IWD"
           },
-          1.5,
-          11.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9934,7 +5792,7 @@
             "value": "MATCH__IWA"
           },
           1.0,
-          25.0
+          1e+308
         ]
       },
       {
@@ -9942,8 +5800,8 @@
           {
             "value": "MATCH__LBH"
           },
-          1.04,
-          26.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9951,8 +5809,8 @@
           {
             "value": "MATCH__LBD"
           },
-          1.4,
-          19.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9960,8 +5818,8 @@
           {
             "value": "MATCH__LBA"
           },
-          1,
-          100
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9969,8 +5827,8 @@
           {
             "value": "MATCH__PSH"
           },
-          1.04,
-          36.0
+          1,
+          1e+308
         ]
       },
       {
@@ -9978,8 +5836,8 @@
           {
             "value": "MATCH__PSD"
           },
-          2.2,
-          29.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -9987,8 +5845,8 @@
           {
             "value": "MATCH__PSA"
           },
-          1.09,
-          47.5
+          1,
+          1e+308
         ]
       },
       {
@@ -10005,8 +5863,8 @@
           {
             "value": "MATCH__WHD"
           },
-          1,
-          17
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10014,8 +5872,8 @@
           {
             "value": "MATCH__WHA"
           },
-          1.08,
-          51.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10023,8 +5881,8 @@
           {
             "value": "MATCH__SJH"
           },
-          1.04,
-          23.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10032,8 +5890,8 @@
           {
             "value": "MATCH__SJD"
           },
-          1.4,
-          15.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10041,8 +5899,8 @@
           {
             "value": "MATCH__SJA"
           },
-          1.1,
-          41.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10050,8 +5908,8 @@
           {
             "value": "MATCH__VCH"
           },
-          1.03,
-          36.0
+          1,
+          1e+308
         ]
       },
       {
@@ -10059,8 +5917,8 @@
           {
             "value": "MATCH__VCD"
           },
-          1.62,
-          26.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10068,8 +5926,8 @@
           {
             "value": "MATCH__VCA"
           },
-          0,
-          100
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10077,8 +5935,8 @@
           {
             "value": "MATCH__GBH"
           },
-          1.0,
-          21.0
+          1,
+          1e+308
         ]
       },
       {
@@ -10086,8 +5944,8 @@
           {
             "value": "MATCH__GBD"
           },
-          1.45,
-          11.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10095,8 +5953,8 @@
           {
             "value": "MATCH__GBA"
           },
-          1.12,
-          34.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10105,7 +5963,7 @@
             "value": "MATCH__BSH"
           },
           1.0,
-          20.0
+          1e+308
         ]
       },
       {
@@ -10113,8 +5971,8 @@
           {
             "value": "MATCH__BSD"
           },
-          1.33,
-          13.0
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10122,35 +5980,8 @@
           {
             "value": "MATCH__BSA"
           },
-          1.12,
-          34.0
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "LEAGUE__ID"
-          },
-          1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "LEAGUE__COUNTRY_ID"
-          },
-          1,
-          24558
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "COUNTRY__ID"
-          },
-          1,
-          2147483647
+          1.0,
+          1e+308
         ]
       },
       {
@@ -10160,15 +5991,6 @@
           },
           1,
           183978
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "PLAYER_ATTRIBUTES__PLAYER_FIFA_API_ID"
-          },
-          1,
-          2147483647
         ]
       },
       {
@@ -10410,7 +6232,7 @@
           {
             "value": "PLAYER_ATTRIBUTES__VISION"
           },
-          1,
+          0,
           100
         ]
       },
@@ -10501,16 +6323,7 @@
             "value": "TEAM__ID"
           },
           1,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TEAM__TEAM_API_ID"
-          },
-          1,
-          2147483647
+          51606
         ]
       },
       {
@@ -10518,8 +6331,8 @@
           {
             "value": "TEAM__TEAM_FIFA_API_ID"
           },
-          1,
-          112513
+          0,
+          7106
         ]
       },
       {
@@ -10666,219 +6479,6 @@
       {
         "in": [
           {
-            "value": "MATCH__COUNTRY_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__LEAGUE_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__SEASON"
-          },
-          [
-            "2008/2009",
-            "2009/2010",
-            "2010/2011",
-            "2011/2012",
-            "2012/2013",
-            "2013/2014",
-            "2014/2015",
-            "2015/2016"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_TEAM_GOAL"
-          },
-          [
-            1,
-            0,
-            5,
-            2,
-            4,
-            3,
-            7,
-            6,
-            9,
-            8,
-            10
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_TEAM_GOAL"
-          },
-          [
-            1,
-            0,
-            3,
-            2,
-            4,
-            5,
-            6,
-            7,
-            9,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X1"
-          },
-          [
-            1,
-            2,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X2"
-          },
-          [
-            2,
-            4,
-            3,
-            1,
-            5,
-            6,
-            8,
-            7,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X3"
-          },
-          [
-            4,
-            6,
-            8,
-            5,
-            3,
-            7,
-            2,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X4"
-          },
-          [
-            6,
-            8,
-            4,
-            7,
-            5,
-            3,
-            2
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X5"
-          },
-          [
-            8,
-            6,
-            2,
-            7,
-            1,
-            3,
-            4,
-            9,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X6"
-          },
-          [
-            2,
-            6,
-            4,
-            1,
-            3,
-            9,
-            5,
-            7,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X7"
-          },
-          [
-            4,
-            8,
-            6,
-            5,
-            3,
-            7,
-            2,
-            9,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "MATCH__HOME_PLAYER_X8"
           },
           [
@@ -10890,108 +6490,6 @@
             5,
             4,
             9,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X9"
-          },
-          [
-            8,
-            4,
-            2,
-            6,
-            7,
-            3,
-            9,
-            5,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X10"
-          },
-          [
-            4,
-            6,
-            9,
-            5,
-            7,
-            8,
-            3,
-            2,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_X11"
-          },
-          [
-            6,
-            4,
-            5,
-            7,
-            3,
-            1
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X2"
-          },
-          [
-            2,
-            4,
-            3,
-            1,
-            6,
-            8,
-            5,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X3"
-          },
-          [
-            4,
-            6,
-            5,
-            3,
-            8,
-            2,
-            7,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X4"
-          },
-          [
-            6,
-            8,
-            2,
-            7,
-            5,
-            4,
-            3,
             1
           ]
         ]
@@ -11011,42 +6509,6 @@
             1,
             9,
             5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X6"
-          },
-          [
-            2,
-            4,
-            3,
-            9,
-            1,
-            5,
-            6,
-            7,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_X7"
-          },
-          [
-            4,
-            6,
-            5,
-            3,
-            7,
-            8,
-            2,
-            1,
-            9
           ]
         ]
       },
@@ -11089,110 +6551,6 @@
       {
         "in": [
           {
-            "value": "MATCH__AWAY_PLAYER_X11"
-          },
-          [
-            6,
-            4,
-            3,
-            7,
-            5,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y1"
-          },
-          [
-            1,
-            3,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y2"
-          },
-          [
-            3,
-            0
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y3"
-          },
-          [
-            3,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y4"
-          },
-          [
-            3,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y5"
-          },
-          [
-            3,
-            7,
-            6,
-            5,
-            8
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y6"
-          },
-          [
-            7,
-            3,
-            6,
-            5,
-            8,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y7"
-          },
-          [
-            7,
-            6,
-            8,
-            5,
-            3,
-            9
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "MATCH__HOME_PLAYER_Y10"
           },
           [
@@ -11203,193 +6561,6 @@
             6,
             11,
             3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__HOME_PLAYER_Y11"
-          },
-          [
-            10,
-            11,
-            1,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y1"
-          },
-          [
-            1,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y3"
-          },
-          [
-            3,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y4"
-          },
-          [
-            3,
-            5,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y8"
-          },
-          [
-            7,
-            8,
-            6,
-            5,
-            9,
-            3,
-            10
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y9"
-          },
-          [
-            7,
-            10,
-            8,
-            9,
-            6,
-            11,
-            5
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y10"
-          },
-          [
-            10,
-            7,
-            8,
-            9,
-            11,
-            6
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MATCH__AWAY_PLAYER_Y11"
-          },
-          [
-            10,
-            11,
-            8,
-            7
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__COUNTRY_ID"
-          },
-          [
-            1,
-            1729,
-            4769,
-            7809,
-            10257,
-            13274,
-            15722,
-            17642,
-            19694,
-            21518,
-            24558
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "LEAGUE__NAME"
-          },
-          [
-            "Belgium Jupiler League",
-            "England Premier League",
-            "France Ligue 1",
-            "Germany 1. Bundesliga",
-            "Italy Serie A",
-            "Netherlands Eredivisie",
-            "Poland Ekstraklasa",
-            "Portugal Liga ZON Sagres",
-            "Scotland Premier League",
-            "Spain LIGA BBVA",
-            "Switzerland Super League"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "COUNTRY__NAME"
-          },
-          [
-            "Belgium",
-            "England",
-            "France",
-            "Germany",
-            "Italy",
-            "Netherlands",
-            "Poland",
-            "Portugal",
-            "Scotland",
-            "Spain",
-            "Switzerland"
           ]
         ]
       },
@@ -11418,6 +6589,34 @@
             "norm",
             "stoc",
             "y"
+          ]
+        ]
+      },
+      {
+        "in": [
+          {
+            "value": "PLAYER_ATTRIBUTES__DEFENSIVE_WORK_RATE"
+          },
+          [
+            "medium",
+            "high",
+            "low",
+            "_0",
+            "5",
+            "ean",
+            "o",
+            "1",
+            "ormal",
+            "7",
+            "2",
+            "8",
+            "4",
+            "tocky",
+            "0",
+            "3",
+            "6",
+            "9",
+            "es"
           ]
         ]
       },
@@ -11473,22 +6672,22 @@
       },
       {
         "not_null": {
-          "value": "TEAM_ATTRIBUTES__CHANCECREATIONPASSING"
-        }
-      },
-      {
-        "not_null": {
           "value": "TEAM_ATTRIBUTES__CHANCECREATIONPASSINGCLASS"
         }
       },
       {
         "not_null": {
-          "value": "TEAM_ATTRIBUTES__CHANCECREATIONCROSSING"
+          "value": "TEAM_ATTRIBUTES__CHANCECREATIONCROSSINGCLASS"
         }
       },
       {
         "not_null": {
           "value": "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTING"
+        }
+      },
+      {
+        "not_null": {
+          "value": "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTINGCLASS"
         }
       },
       {
@@ -11554,16 +6753,6 @@
       {
         "not_null": {
           "value": "PLAYER__BIRTHDAY"
-        }
-      },
-      {
-        "not_null": {
-          "value": "PLAYER__HEIGHT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "PLAYER__WEIGHT"
         }
       },
       {
@@ -11682,195 +6871,6 @@
         }
       },
       {
-        "not_null": {
-          "value": "TEAM__TEAM_SHORT_NAME"
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__TEAM_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYSPEED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYSPEEDCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYDRIBBLINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPASSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__BUILDUPPLAYPOSITIONINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPASSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONCROSSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONCROSSINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONSHOOTINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__CHANCECREATIONPOSITIONINGCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEPRESSURE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEPRESSURECLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEAGGRESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEAGGRESSIONCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCETEAMWIDTH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCETEAMWIDTHCLASS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM_ATTRIBUTES__ID",
-            "TEAM_ATTRIBUTES__DEFENCEDEFENDERLINECLASS"
-          ]
-        }
-      },
-      {
         "dependency": {
           "values": [
             "TEAM_ATTRIBUTES__BUILDUPPLAYSPEED",
@@ -11945,1088 +6945,8 @@
       {
         "dependency": {
           "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__PLAYER_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__PLAYER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "PLAYER__PLAYER_API_ID",
             "PLAYER__PLAYER_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_API_ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__BIRTHDAY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__HEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER__PLAYER_FIFA_API_ID",
-            "PLAYER__WEIGHT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LEAGUE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__HOME_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__AWAY_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__HOME_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__AWAY_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__B365H"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__B365A"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__IWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__LBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__WHA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__SJH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__VCH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__VCA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__GBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BSD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__ID",
-            "MATCH__BSA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__HOME_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__AWAY_TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__HOME_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__AWAY_TEAM_GOAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365H"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365D"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__B365A"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__IWA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__LBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__WHA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__SJA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__VCA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__GBA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSD"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__MATCH_API_ID",
-            "MATCH__BSA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X2",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X3",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X4",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X5",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X6",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X7",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X9",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__HOME_PLAYER_X10",
-            "MATCH__HOME_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X1",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X2",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X4",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X5",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X6",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X7",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X8",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X9",
-            "MATCH__AWAY_PLAYER_Y2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X9",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X10",
-            "MATCH__AWAY_PLAYER_Y3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__AWAY_PLAYER_X11",
-            "MATCH__AWAY_PLAYER_Y1"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__SHOTON",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__SHOTOFF",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__CROSS",
-            "MATCH__CORNER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MATCH__CROSS",
-            "MATCH__POSSESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LEAGUE__ID",
-            "LEAGUE__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LEAGUE__COUNTRY_ID",
-            "LEAGUE__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COUNTRY__ID",
-            "COUNTRY__NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__OVERALL_RATING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__POTENTIAL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__PREFERRED_FOOT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__ATTACKING_WORK_RATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DEFENSIVE_WORK_RATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__CROSSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__FINISHING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__HEADING_ACCURACY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SHORT_PASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__VOLLEYS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__DRIBBLING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__CURVE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__FREE_KICK_ACCURACY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__LONG_PASSING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__BALL_CONTROL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__ACCELERATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SPRINT_SPEED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__AGILITY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__REACTIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__BALANCE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SHOT_POWER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__JUMPING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STAMINA"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STRENGTH"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__LONG_SHOTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__AGGRESSION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__INTERCEPTIONS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__POSITIONING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__VISION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__PENALTIES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__MARKING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__STANDING_TACKLE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__SLIDING_TACKLE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_DIVING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_HANDLING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PLAYER_ATTRIBUTES__ID",
-            "PLAYER_ATTRIBUTES__GK_POSITIONING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_FIFA_API_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_LONG_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TEAM__ID",
-            "TEAM__TEAM_SHORT_NAME"
           ]
         }
       },
@@ -13249,46 +7169,6 @@
         "not_null": {
           "value": "CONNECTED__BOND_ID"
         }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BOND__BOND_ID",
-            "BOND__MOLECULE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BOND__BOND_ID",
-            "BOND__BOND_TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MOLECULE__MOLECULE_ID",
-            "MOLECULE__LABEL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ATOM__ATOM_ID",
-            "ATOM__MOLECULE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ATOM__ATOM_ID",
-            "ATOM__ELEMENT"
-          ]
-        }
       }
     ]
   ],
@@ -13447,8 +7327,8 @@
           {
             "value": "BUDGET__SPENT"
           },
-          0.0,
-          327.07
+          0,
+          1e+308
         ]
       },
       {
@@ -13456,8 +7336,8 @@
           {
             "value": "BUDGET__REMAINING"
           },
-          -1e+308,
-          0
+          -24.25,
+          150.0
         ]
       },
       {
@@ -13465,8 +7345,8 @@
           {
             "value": "BUDGET__AMOUNT"
           },
-          10,
-          350
+          0,
+          2147483647
         ]
       },
       {
@@ -13474,7 +7354,7 @@
           {
             "value": "ZIP_CODE__ZIP_CODE"
           },
-          10000,
+          0,
           99999
         ]
       },
@@ -13492,35 +7372,8 @@
           {
             "value": "MEMBER__ZIP"
           },
-          1000,
+          0,
           99999
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "INCOME__SOURCE"
-          },
-          [
-            "Dues",
-            "Fundraising",
-            "School Appropration",
-            "Sponsorship"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "BUDGET__CATEGORY"
-          },
-          [
-            "Advertisement",
-            "Food",
-            "Speaker Gifts",
-            "Parking",
-            "Club T-Shirts"
-          ]
         ]
       },
       {
@@ -13578,46 +7431,12 @@
       {
         "in": [
           {
-            "value": "EVENT__TYPE"
-          },
-          [
-            "Meeting",
-            "Election",
-            "Game",
-            "Guest Speaker",
-            "Social",
-            "Registration",
-            "Community Service",
-            "Budget"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "EVENT__STATUS"
           },
           [
             "Open",
             "Planning",
             "Closed"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "MAJOR__COLLEGE"
-          },
-          [
-            "College of Agriculture and Applied Sciences",
-            "College of Natural Resources",
-            "School of Business",
-            "College of Engineering",
-            "College of Humanities and Social Sciences",
-            "College of Science",
-            "College of Education & Human Services",
-            "College of the Arts"
           ]
         ]
       },
@@ -13753,21 +7572,6 @@
       },
       {
         "not_null": {
-          "value": "MEMBER__POSITION"
-        }
-      },
-      {
-        "not_null": {
-          "value": "MEMBER__PHONE"
-        }
-      },
-      {
-        "not_null": {
-          "value": "MEMBER__ZIP"
-        }
-      },
-      {
-        "not_null": {
           "value": "ATTENDANCE__LINK_TO_EVENT"
         }
       },
@@ -13824,78 +7628,6 @@
       {
         "dependency": {
           "values": [
-            "INCOME__INCOME_ID",
-            "INCOME__DATE_RECEIVED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "INCOME__INCOME_ID",
-            "INCOME__LINK_TO_MEMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "INCOME__SOURCE",
-            "INCOME__NOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__CATEGORY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__SPENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__REMAINING"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__EVENT_STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "BUDGET__BUDGET_ID",
-            "BUDGET__LINK_TO_EVENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "ZIP_CODE__ZIP_CODE",
             "ZIP_CODE__TYPE"
           ]
@@ -13938,214 +7670,6 @@
           "values": [
             "ZIP_CODE__STATE",
             "ZIP_CODE__SHORT_STATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__EXPENSE_DESCRIPTION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__EXPENSE_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__COST"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__LINK_TO_MEMBER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EXPENSE__EXPENSE_ID",
-            "EXPENSE__LINK_TO_BUDGET"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__FIRST_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__LAST_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__EMAIL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__POSITION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__T_SHIRT_SIZE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__PHONE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__ZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__MEMBER_ID",
-            "MEMBER__LINK_TO_MAJOR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__PHONE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__ZIP"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MEMBER__EMAIL",
-            "MEMBER__LINK_TO_MAJOR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__EVENT_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__EVENT_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__NOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_ID",
-            "EVENT__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "EVENT__EVENT_NAME",
-            "EVENT__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__MAJOR_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__DEPARTMENT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "MAJOR__MAJOR_ID",
-            "MAJOR__COLLEGE"
           ]
         }
       },
@@ -14358,7 +7882,7 @@
             "value": "SUPERPOWER__ID"
           },
           1,
-          167
+          2147483647
         ]
       },
       {
@@ -14367,7 +7891,7 @@
             "value": "PUBLISHER__ID"
           },
           1,
-          25
+          2147483647
         ]
       },
       {
@@ -14384,8 +7908,8 @@
           {
             "value": "SUPERHERO__GENDER_ID"
           },
-          1,
-          3
+          0,
+          5
         ]
       },
       {
@@ -14393,8 +7917,8 @@
           {
             "value": "SUPERHERO__EYE_COLOUR_ID"
           },
-          1,
-          35
+          0,
+          33
         ]
       },
       {
@@ -14402,7 +7926,7 @@
           {
             "value": "SUPERHERO__HAIR_COLOUR_ID"
           },
-          1,
+          0,
           33
         ]
       },
@@ -14448,7 +7972,7 @@
             "value": "SUPERHERO__HEIGHT_CM"
           },
           0,
-          300
+          2147483647
         ]
       },
       {
@@ -14457,7 +7981,7 @@
             "value": "SUPERHERO__WEIGHT_KG"
           },
           0,
-          90000000
+          2147483647
         ]
       },
       {
@@ -14492,8 +8016,8 @@
           {
             "value": "HERO_POWER__POWER_ID"
           },
-          1,
-          167
+          0,
+          231
         ]
       },
       {
@@ -14544,186 +8068,12 @@
       {
         "in": [
           {
-            "value": "GENDER__ID"
-          },
-          [
-            1,
-            2,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "GENDER__GENDER"
           },
           [
             "Male",
             "Female",
             "N/A"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "PUBLISHER__ID"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "SUPERHERO__GENDER_ID"
-          },
-          [
-            1,
-            2,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "SUPERHERO__EYE_COLOUR_ID"
-          },
-          [
-            9,
-            33,
-            7,
-            14,
-            1,
-            23,
-            30,
-            31,
-            22,
-            4,
-            13,
-            28,
-            35,
-            12,
-            8,
-            16,
-            15,
-            2,
-            32,
-            17,
-            34
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "SUPERHERO__SKIN_COLOUR_ID"
-          },
-          [
-            1,
-            7,
-            23,
-            4,
-            13,
-            12,
-            14,
-            31,
-            21,
-            28,
-            24,
-            33,
-            22,
-            20,
-            8,
-            19
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "SUPERHERO__PUBLISHER_ID"
-          },
-          [
-            13,
-            3,
-            4,
-            15,
-            25,
-            10,
-            1,
-            8,
-            21,
-            6,
-            5,
-            22,
-            19,
-            7,
-            2,
-            24,
-            20,
-            9,
-            17,
-            18,
-            11,
-            23,
-            16,
-            14,
-            12
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "SUPERHERO__ALIGNMENT_ID"
-          },
-          [
-            1,
-            2,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "ATTRIBUTE__ID"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
           ]
         ]
       },
@@ -14745,19 +8095,6 @@
       {
         "in": [
           {
-            "value": "ALIGNMENT__ID"
-          },
-          [
-            1,
-            2,
-            3,
-            4
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "ALIGNMENT__ALIGNMENT"
           },
           [
@@ -14769,52 +8106,13 @@
         ]
       },
       {
-        "in": [
-          {
-            "value": "HERO_ATTRIBUTE__ATTRIBUTE_ID"
-          },
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "HERO_ATTRIBUTE__ATTRIBUTE_VALUE"
-          },
-          [
-            80,
-            75,
-            95,
-            85,
-            100,
-            60,
-            90,
-            55,
-            35,
-            65,
-            70,
-            50,
-            30,
-            10,
-            40,
-            45,
-            25,
-            20,
-            15,
-            5
-          ]
-        ]
+        "not_null": {
+          "value": "GENDER__ID"
+        }
       },
       {
         "not_null": {
-          "value": "GENDER__ID"
+          "value": "GENDER__GENDER"
         }
       },
       {
@@ -14854,22 +8152,12 @@
       },
       {
         "not_null": {
-          "value": "SUPERHERO__EYE_COLOUR_ID"
-        }
-      },
-      {
-        "not_null": {
-          "value": "SUPERHERO__HAIR_COLOUR_ID"
-        }
-      },
-      {
-        "not_null": {
-          "value": "SUPERHERO__SKIN_COLOUR_ID"
-        }
-      },
-      {
-        "not_null": {
           "value": "COLOUR__ID"
+        }
+      },
+      {
+        "not_null": {
+          "value": "COLOUR__COLOUR"
         }
       },
       {
@@ -14925,150 +8213,6 @@
       {
         "not_null": {
           "value": "HERO_ATTRIBUTE__ATTRIBUTE_VALUE"
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "GENDER__ID",
-            "GENDER__GENDER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERPOWER__ID",
-            "SUPERPOWER__POWER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "PUBLISHER__ID",
-            "PUBLISHER__PUBLISHER_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__SUPERHERO_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__FULL_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__GENDER_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__EYE_COLOUR_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__HAIR_COLOUR_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__SKIN_COLOUR_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__RACE_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__PUBLISHER_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__ALIGNMENT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__HEIGHT_CM"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ID",
-            "SUPERHERO__WEIGHT_KG"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COLOUR__ID",
-            "COLOUR__COLOUR"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ATTRIBUTE__ID",
-            "ATTRIBUTE__ATTRIBUTE_NAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "RACE__ID",
-            "RACE__RACE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ALIGNMENT__ID",
-            "ALIGNMENT__ALIGNMENT"
-          ]
         }
       }
     ]
@@ -15256,8 +8400,8 @@
           {
             "value": "POSTLINKS__ID"
           },
-          108,
-          3356789
+          1,
+          2147483647
         ]
       },
       {
@@ -15265,8 +8409,8 @@
           {
             "value": "POSTLINKS__POSTID"
           },
-          4,
-          115360
+          1,
+          2147483647
         ]
       },
       {
@@ -15302,7 +8446,7 @@
             "value": "POSTHISTORY__POSTHISTORYTYPEID"
           },
           1,
-          38
+          2147483647
         ]
       },
       {
@@ -15319,7 +8463,7 @@
           {
             "value": "POSTHISTORY__USERID"
           },
-          0,
+          -1,
           2147483647
         ]
       },
@@ -15329,7 +8473,7 @@
             "value": "BADGES__ID"
           },
           1,
-          2147483647
+          92240
         ]
       },
       {
@@ -15371,15 +8515,6 @@
       {
         "between": [
           {
-            "value": "POSTS__SCORE"
-          },
-          0,
-          2147483647
-        ]
-      },
-      {
-        "between": [
-          {
             "value": "POSTS__VIEWCOUNT"
           },
           0,
@@ -15391,7 +8526,7 @@
           {
             "value": "POSTS__OWNERUSERID"
           },
-          0,
+          -1,
           2147483647
         ]
       },
@@ -15427,7 +8562,7 @@
           {
             "value": "POSTS__LASTEDITORUSERID"
           },
-          0,
+          1,
           2147483647
         ]
       },
@@ -15436,8 +8571,8 @@
           {
             "value": "POSTS__PARENTID"
           },
-          -2147483648,
-          115375
+          1,
+          2147483647
         ]
       },
       {
@@ -15482,7 +8617,7 @@
             "value": "USERS__DOWNVOTES"
           },
           0,
-          1920
+          2147483647
         ]
       },
       {
@@ -15490,8 +8625,8 @@
           {
             "value": "USERS__ACCOUNTID"
           },
-          -1,
-          5027354
+          0,
+          2147483647
         ]
       },
       {
@@ -15499,7 +8634,7 @@
           {
             "value": "USERS__AGE"
           },
-          13,
+          0,
           120
         ]
       },
@@ -15526,8 +8661,8 @@
           {
             "value": "TAGS__EXCERPTPOSTID"
           },
-          2331,
-          114058
+          1,
+          2147483647
         ]
       },
       {
@@ -15535,8 +8670,8 @@
           {
             "value": "TAGS__WIKIPOSTID"
           },
-          2254,
-          114057
+          1,
+          2147483647
         ]
       },
       {
@@ -15563,7 +8698,7 @@
             "value": "VOTES__VOTETYPEID"
           },
           1,
-          16
+          2147483647
         ]
       },
       {
@@ -15571,7 +8706,7 @@
           {
             "value": "VOTES__USERID"
           },
-          1,
+          0,
           2147483647
         ]
       },
@@ -15581,7 +8716,7 @@
             "value": "VOTES__BOUNTYAMOUNT"
           },
           0,
-          200
+          2147483647
         ]
       },
       {
@@ -15590,7 +8725,7 @@
             "value": "COMMENTS__ID"
           },
           1,
-          221292
+          2147483647
         ]
       },
       {
@@ -15767,21 +8902,6 @@
       },
       {
         "not_null": {
-          "value": "POSTHISTORY__TEXT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "POSTHISTORY__COMMENT"
-        }
-      },
-      {
-        "not_null": {
-          "value": "POSTHISTORY__USERDISPLAYNAME"
-        }
-      },
-      {
-        "not_null": {
           "value": "BADGES__ID"
         }
       },
@@ -15852,6 +8972,21 @@
       },
       {
         "not_null": {
+          "value": "USERS__VIEWS"
+        }
+      },
+      {
+        "not_null": {
+          "value": "USERS__UPVOTES"
+        }
+      },
+      {
+        "not_null": {
+          "value": "USERS__DOWNVOTES"
+        }
+      },
+      {
+        "not_null": {
           "value": "USERS__ACCOUNTID"
         }
       },
@@ -15918,326 +9053,6 @@
       {
         "dependency": {
           "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__POSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__RELATEDPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__REVISIONGUID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__ID",
-            "POSTHISTORY__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__POSTTYPEID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__ACCEPTEDANSWERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__SCORE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__VIEWCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__BODY"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__OWNERUSERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__LASACTIVITYDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__TAGS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__ANSWERCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__COMMENTCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__FAVORITECOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__LASTEDITORUSERID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__COMMUNITYOWNEDDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ID",
-            "POSTS__PARENTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ACCEPTEDANSWERID",
-            "POSTS__ANSWERCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__REPUTATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__CREATIONDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__DISPLAYNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__LASTACCESSDATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__WEBSITEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__LOCATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__ABOUTME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__VIEWS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__UPVOTES"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__ACCOUNTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__AGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ID",
-            "USERS__PROFILEIMAGEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ACCOUNTID",
-            "USERS__AGE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "USERS__ACCOUNTID",
-            "USERS__PROFILEIMAGEURL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__TAGNAME"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__COUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__EXCERPTPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__TAGNAME",
-            "TAGS__COUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "TAGS__TAGNAME",
             "TAGS__EXCERPTPOSTID"
           ]
@@ -16248,46 +9063,6 @@
           "values": [
             "TAGS__TAGNAME",
             "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__EXCERPTPOSTID",
-            "TAGS__WIKIPOSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__POSTID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__SCORE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__TEXT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "COMMENTS__ID",
-            "COMMENTS__CREATIONDATE"
           ]
         }
       }

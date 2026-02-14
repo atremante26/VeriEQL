@@ -142,8 +142,8 @@
           {
             "value": "LOAN__LOAN_ID"
           },
-          4959,
-          7308
+          1,
+          2147483647
         ]
       },
       {
@@ -160,8 +160,8 @@
           {
             "value": "LOAN__AMOUNT"
           },
-          4980,
-          590820
+          0,
+          2147483647
         ]
       },
       {
@@ -169,7 +169,7 @@
           {
             "value": "LOAN__DURATION"
           },
-          1,
+          0,
           2147483647
         ]
       },
@@ -187,8 +187,8 @@
           {
             "value": "CLIENT__CLIENT_ID"
           },
-          1,
-          2147483647
+          0,
+          12774
         ]
       },
       {
@@ -223,8 +223,8 @@
           {
             "value": "DISTRICT__A9"
           },
-          1,
-          11
+          0,
+          17
         ]
       },
       {
@@ -241,8 +241,8 @@
           {
             "value": "DISTRICT__A11"
           },
-          8110,
-          12541
+          0,
+          2147483647
         ]
       },
       {
@@ -250,8 +250,8 @@
           {
             "value": "DISTRICT__A12"
           },
-          0.2,
-          7.3
+          0,
+          100
         ]
       },
       {
@@ -259,8 +259,8 @@
           {
             "value": "DISTRICT__A13"
           },
-          0.43,
-          9.4
+          0,
+          100
         ]
       },
       {
@@ -268,8 +268,8 @@
           {
             "value": "DISTRICT__A14"
           },
-          81,
-          167
+          0,
+          2147483647
         ]
       },
       {
@@ -286,8 +286,8 @@
           {
             "value": "DISTRICT__A16"
           },
-          888,
-          99107
+          0,
+          2147483647
         ]
       },
       {
@@ -296,7 +296,7 @@
             "value": "TRANS__TRANS_ID"
           },
           1,
-          2147483647
+          3682987
         ]
       },
       {
@@ -314,16 +314,7 @@
             "value": "TRANS__AMOUNT"
           },
           0,
-          87400
-        ]
-      },
-      {
-        "between": [
-          {
-            "value": "TRANS__BALANCE"
-          },
-          -41126,
-          209637
+          2147483647
         ]
       },
       {
@@ -332,7 +323,7 @@
             "value": "TRANS__ACCOUNT"
           },
           0,
-          99994199
+          2147483647
         ]
       },
       {
@@ -358,8 +349,8 @@
           {
             "value": "CARD__CARD_ID"
           },
-          1,
-          1247
+          0,
+          2047
         ]
       },
       {
@@ -367,8 +358,8 @@
           {
             "value": "CARD__DISP_ID"
           },
-          1,
-          2147483647
+          0,
+          13677
         ]
       },
       {
@@ -394,8 +385,8 @@
           {
             "value": "ORDER__ACCOUNT_TO"
           },
-          399,
-          99994199
+          0,
+          2147483647
         ]
       },
       {
@@ -403,8 +394,8 @@
           {
             "value": "ORDER__AMOUNT"
           },
-          1.0,
-          14882.0
+          0,
+          1e+308
         ]
       },
       {
@@ -413,7 +404,7 @@
             "value": "DISP__DISP_ID"
           },
           1,
-          2147483647
+          13690
         ]
       },
       {
@@ -431,7 +422,7 @@
             "value": "DISP__ACCOUNT_ID"
           },
           1,
-          2147483647
+          11382
         ]
       },
       {
@@ -493,26 +484,6 @@
       {
         "in": [
           {
-            "value": "DISTRICT__A9"
-          },
-          [
-            1,
-            5,
-            6,
-            4,
-            8,
-            7,
-            2,
-            9,
-            10,
-            11,
-            3
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "TRANS__TYPE"
           },
           [
@@ -556,28 +527,6 @@
       {
         "in": [
           {
-            "value": "TRANS__BANK"
-          },
-          [
-            "AB",
-            "YZ",
-            "ST",
-            "QR",
-            "WX",
-            "CD",
-            "UV",
-            "KL",
-            "GH",
-            "OP",
-            "IJ",
-            "EF",
-            "MN"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
             "value": "ACCOUNT__FREQUENCY"
           },
           [
@@ -596,28 +545,6 @@
             "gold",
             "classic",
             "junior"
-          ]
-        ]
-      },
-      {
-        "in": [
-          {
-            "value": "ORDER__BANK_TO"
-          },
-          [
-            "YZ",
-            "ST",
-            "QR",
-            "WX",
-            "CD",
-            "AB",
-            "UV",
-            "GH",
-            "IJ",
-            "KL",
-            "EF",
-            "MN",
-            "OP"
           ]
         ]
       },
@@ -687,11 +614,6 @@
       },
       {
         "not_null": {
-          "value": "CLIENT__GENDER"
-        }
-      },
-      {
-        "not_null": {
           "value": "CLIENT__BIRTH_DATE"
         }
       },
@@ -722,12 +644,27 @@
       },
       {
         "not_null": {
+          "value": "DISTRICT__A10"
+        }
+      },
+      {
+        "not_null": {
           "value": "DISTRICT__A11"
         }
       },
       {
         "not_null": {
+          "value": "DISTRICT__A13"
+        }
+      },
+      {
+        "not_null": {
           "value": "DISTRICT__A14"
+        }
+      },
+      {
+        "not_null": {
+          "value": "DISTRICT__A16"
         }
       },
       {
@@ -848,624 +785,8 @@
       {
         "dependency": {
           "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__DURATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__PAYMENTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__LOAN_ID",
-            "LOAN__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__DURATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__PAYMENTS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "LOAN__ACCOUNT_ID",
-            "LOAN__STATUS"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__GENDER"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__BIRTH_DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CLIENT__CLIENT_ID",
-            "CLIENT__DISTRICT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A2"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A4"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__DISTRICT_ID",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "DISTRICT__A2",
             "DISTRICT__A3"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A4"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A9"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A2",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A5"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A6"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A7"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A8"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A9"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A10"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A11"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A12"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A13"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A14"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A15"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISTRICT__A4",
-            "DISTRICT__A16"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__OPERATION"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__BALANCE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__BANK"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TRANS__TRANS_ID",
-            "TRANS__ACCOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ACCOUNT__ACCOUNT_ID",
-            "ACCOUNT__DISTRICT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ACCOUNT__ACCOUNT_ID",
-            "ACCOUNT__DATE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__DISP_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__CARD_ID",
-            "CARD__ISSUED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__DISP_ID",
-            "CARD__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "CARD__DISP_ID",
-            "CARD__ISSUED"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__BANK_TO"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__ACCOUNT_TO"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__AMOUNT"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "ORDER__ORDER_ID",
-            "ORDER__K_SYMBOL"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__CLIENT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__ACCOUNT_ID"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__DISP_ID",
-            "DISP__TYPE"
-          ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "DISP__CLIENT_ID",
-            "DISP__TYPE"
           ]
         }
       }
