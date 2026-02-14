@@ -1117,16 +1117,6 @@
       {
         "dependency": {
           "values": [
-            "BUDGET__AMOUNT",
-            "BUDGET__REMAINING"
-          ],
-          "type": "ordering",
-          "operator": ">="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "ZIP_CODE__ZIP_CODE",
             "ZIP_CODE__TYPE"
           ]

@@ -896,36 +896,6 @@
       {
         "dependency": {
           "values": [
-            "POSTLINKS__POSTID",
-            "POSTLINKS__LINKTYPEID"
-          ],
-          "type": "ordering",
-          "operator": ">="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__ID",
-            "POSTLINKS__LINKTYPEID"
-          ],
-          "type": "ordering",
-          "operator": ">="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTLINKS__LINKTYPEID",
-            "POSTLINKS__RELATEDPOSTID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "POSTHISTORY__ID",
             "POSTHISTORY__POSTHISTORYTYPEID"
           ]
@@ -985,16 +955,6 @@
             "POSTHISTORY__ID",
             "POSTHISTORY__USERDISPLAYNAME"
           ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTHISTORY__POSTID",
-            "POSTHISTORY__ID"
-          ],
-          "type": "ordering",
-          "operator": "<="
         }
       },
       {
@@ -1496,86 +1456,6 @@
       {
         "dependency": {
           "values": [
-            "POSTS__FAVORITECOUNT",
-            "POSTS__VIEWCOUNT"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__SCORE",
-            "POSTS__VIEWCOUNT"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__POSTTYPEID",
-            "POSTS__ACCEPTEDANSWERID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__POSTTYPEID",
-            "POSTS__ID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__POSTTYPEID",
-            "POSTS__VIEWCOUNT"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ACCEPTEDANSWERID",
-            "POSTS__ID"
-          ],
-          "type": "ordering",
-          "operator": ">="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ACCEPTEDANSWERID",
-            "POSTS__COMMENTCOUNT"
-          ],
-          "type": "ordering",
-          "operator": ">="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "POSTS__ANSWERCOUNT",
-            "POSTS__VIEWCOUNT"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "USERS__ID",
             "USERS__REPUTATION"
           ]
@@ -1808,36 +1688,6 @@
       {
         "dependency": {
           "values": [
-            "TAGS__ID",
-            "TAGS__WIKIPOSTID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__ID",
-            "TAGS__EXCERPTPOSTID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "TAGS__WIKIPOSTID",
-            "TAGS__EXCERPTPOSTID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "VOTES__ID",
             "VOTES__POSTID"
           ]
@@ -1881,26 +1731,6 @@
             "VOTES__POSTID",
             "VOTES__BOUNTYAMOUNT"
           ]
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "VOTES__BOUNTYAMOUNT",
-            "VOTES__POSTID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "VOTES__BOUNTYAMOUNT",
-            "VOTES__ID"
-          ],
-          "type": "ordering",
-          "operator": "<="
         }
       },
       {

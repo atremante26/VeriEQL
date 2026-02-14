@@ -952,26 +952,6 @@
       {
         "dependency": {
           "values": [
-            "SUPERHERO__GENDER_ID",
-            "SUPERHERO__ID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
-            "SUPERHERO__ALIGNMENT_ID",
-            "SUPERHERO__ID"
-          ],
-          "type": "ordering",
-          "operator": "<="
-        }
-      },
-      {
-        "dependency": {
-          "values": [
             "COLOUR__ID",
             "COLOUR__COLOUR"
           ]
