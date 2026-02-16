@@ -115,6 +115,12 @@ def execute_counterexample_(counterexample_path, column_name_mapping_path, dev_j
                 line = line.replace("WOMAN'S", "WOMAN''S")
             if "WOMEN'S" in line:
                 line = line.replace("WOMEN'S", "WOMEN''S")
+            if "Lim-Dul's" in line:
+                line = line.replace("Lim-Dul's", "Lim-Dul''s")
+            if "Ma'ruf" in line:
+                line = line.replace("Ma'ruf", "Ma''ruf")
+            if "Mothra's" in line:
+                line = line.replace("Mothra's", "Mothra''s")
             new_db_def.append(line)
     db_def = "\n".join(new_db_def)
     # Dump to sqlite database
